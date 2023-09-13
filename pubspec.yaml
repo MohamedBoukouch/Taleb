@@ -7,17 +7,16 @@ environment:
 
 dependencies: 
   cupertino_icons: ^1.0.2
-  flutter_spinkit:
-  modal_progress_hud_nsn:
-  get: ^4.6.5
-  flutter: 
-    sdk: flutter
+  flutter_spinkit: any
+  modal_progress_hud_nsn: any
   sqflite: ^2.3.0
   intl: ^0.18.1
   url_launcher: ^6.1.14
   shared_preferences: ^2.2.1
   share: ^2.0.4
-   
+  get: 4.6.6
+  flutter: 
+    sdk: flutter
 
 dev_dependencies: 
   flutter_lints: ^2.0.0
@@ -25,10 +24,8 @@ dev_dependencies:
     sdk: flutter
 
 flutter: 
-  uses-material-design: true
-  assets:
-    - assets/splashimg/
-    - assets/logo/
-    - assets/icons/
+  assets: 
+    - assets/splash/
 
+  uses-material-design: true
 
