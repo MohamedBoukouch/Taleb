@@ -1,0 +1,34 @@
+name: taleb
+version: 1.0.0+1
+publish_to: none
+description: A new Flutter project.
+environment: 
+  sdk: '>=2.12.0 <3.0.0'
+
+dependencies: 
+  cupertino_icons: ^1.0.2
+  flutter_spinkit:
+  modal_progress_hud_nsn:
+  get: ^4.6.5
+  flutter: 
+    sdk: flutter
+  sqflite: ^2.3.0
+  intl: ^0.18.1
+  url_launcher: ^6.1.14
+  shared_preferences: ^2.2.1
+  share: ^2.0.4
+   
+
+dev_dependencies: 
+  flutter_lints: ^2.0.0
+  flutter_test: 
+    sdk: flutter
+
+flutter: 
+  uses-material-design: true
+  assets:
+    - assets/splashimg/
+    - assets/logo/
+    - assets/icons/
+
+
