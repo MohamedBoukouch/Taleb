@@ -6,12 +6,14 @@ class Edittext extends StatefulWidget {
   final bool? ispassword;
   final bool? isemail;
   final Icon? icon;
+  final TextEditingController Controller;
   Edittext({
     // super.key,
     this.hint,
     this.ispassword,
     this.isemail,
     this.icon,
+    required this.Controller,
   });
 
   @override
@@ -25,6 +27,7 @@ class _EdittextState extends State<Edittext> {
   Widget build(BuildContext context) {
     return Container(
       child: TextField(
+        controller: widget.Controller,
         obscureText: widget.ispassword == true
             ? _eyeactive == true
                 ? false
