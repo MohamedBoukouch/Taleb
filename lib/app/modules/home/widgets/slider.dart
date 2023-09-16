@@ -37,18 +37,17 @@ class _SlidereState extends State<Slidere> {
               return SingleChildScrollView(
                 child: Card(
                     shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(20))),
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
                     elevation: 2,
                     child: Column(children: <Widget>[
                       Stack(
                         children: <Widget>[
                           ClipRRect(
                             borderRadius:
-                                const BorderRadius.all(Radius.circular(20)),
+                                const BorderRadius.all(Radius.circular(10)),
                             child: Image.network(
                               urlImage,
                               fit: BoxFit.cover,
-                              width: AppConstant.screenWidth * 0.8,
                               height: AppConstant.screenHeight * 0.28,
                             ),
                           ),
@@ -58,7 +57,7 @@ class _SlidereState extends State<Slidere> {
                               width: AppConstant.screenWidth * 0.8,
                               height: AppConstant.screenHeight * 0.28,
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
+                                borderRadius: BorderRadius.circular(10),
                                 color: const Color.fromARGB(255, 14, 13, 13),
                               ),
                             ),
@@ -79,28 +78,6 @@ class _SlidereState extends State<Slidere> {
                               ),
                             ),
                           ),
-                          // FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
-                          //     future: controllers.getCities(),
-                          //     builder: (context,
-                          //         AsyncSnapshot<
-                          //                 QuerySnapshot<Map<String, dynamic>>>
-                          //             snapshot) {
-                          //       if (snapshot.hasError) return SizedBox();
-                          //       if (!snapshot.hasData ||
-                          //           snapshot.data == null) {
-                          //         // Handle the case when snapshot.data is null or not yet available
-                          //         return const Center(
-                          //             child:
-                          //                 CircularProgressIndicator()); // or any other widget indicating loading state
-                          //       }
-                          //       final List<
-                          //               QueryDocumentSnapshot<
-                          //                   Map<String, dynamic>>> response =
-                          //           snapshot.data!.docs;
-                          //       Cities cities = Cities.fromMap(
-                          //           snapshot.data!.docs[index].data());
-                          //       print(cities.name);
-                          //       return
                           Positioned(
                             left: AppConstant.screenWidth * 0.077,
                             top: AppConstant.screenHeight * 0.09,
