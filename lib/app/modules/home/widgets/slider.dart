@@ -29,99 +29,101 @@ class _SlidereState extends State<Slidere> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        CarouselSlider.builder(
-            carouselController: controller,
-            itemCount: urlImages.length,
-            itemBuilder: (BuildContext context, int index, int realIndex) {
-              final String urlImage = urlImages[index];
-              return SingleChildScrollView(
-                child: Card(
-                    shape: const RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(10))),
-                    elevation: 2,
-                    child: Column(children: <Widget>[
-                      Stack(
-                        children: <Widget>[
-                          ClipRRect(
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(10)),
-                            child: Image.network(
-                              urlImage,
-                              fit: BoxFit.cover,
-                              height: AppConstant.screenHeight * 0.28,
-                            ),
-                          ),
-                          Opacity(
-                            opacity: 0.3,
-                            child: Container(
-                              width: AppConstant.screenWidth * 0.8,
-                              height: AppConstant.screenHeight * 0.28,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: const Color.fromARGB(255, 14, 13, 13),
+        Stack(
+          children: [
+            CarouselSlider.builder(
+              carouselController: controller,
+              itemCount: urlImages.length,
+              itemBuilder: (BuildContext context, int index, int realIndex) {
+                final String urlImage = urlImages[index];
+                return SingleChildScrollView(
+                  child: Card(
+                      shape: const RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(Radius.circular(10))),
+                      elevation: 2,
+                      child: Column(children: <Widget>[
+                        Stack(
+                          children: <Widget>[
+                            ClipRRect(
+                              borderRadius:
+                                  const BorderRadius.all(Radius.circular(10)),
+                              child: Image.network(
+                                urlImage,
+                                fit: BoxFit.cover,
+                                height: AppConstant.screenHeight * 0.28,
                               ),
                             ),
-                          ),
-                          Container(
-                              alignment: Alignment.center,
-                              margin: EdgeInsets.only(
-                                  top: AppConstant.screenHeight * 0.26),
-                              child: buildIndicator()),
-                          Positioned(
-                            left: AppConstant.screenWidth * 0.077,
-                            top: AppConstant.screenHeight * 0.06,
-                            child: const Text(
-                              "Bonjour",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 17.70,
+                            Opacity(
+                              opacity: 0.3,
+                              child: Container(
+                                width: AppConstant.screenWidth * 0.8,
+                                height: AppConstant.screenHeight * 0.28,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: const Color.fromARGB(255, 14, 13, 13),
+                                ),
                               ),
                             ),
-                          ),
-                          Positioned(
-                            left: AppConstant.screenWidth * 0.077,
-                            top: AppConstant.screenHeight * 0.09,
-                            child: Text(
-                              "Explorez ${villes[index]}",
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 26.08,
-                                fontFamily: "Poppins",
-                                fontWeight: FontWeight.w600,
+                            Container(
+                                alignment: Alignment.center,
+                                margin: EdgeInsets.only(
+                                    top: AppConstant.screenHeight * 0.26),
+                                child: buildIndicator()),
+                            Positioned(
+                              left: AppConstant.screenWidth * 0.077,
+                              top: AppConstant.screenHeight * 0.06,
+                              child: const Text(
+                                "Bonjour",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 17.70,
+                                ),
                               ),
                             ),
-                          ),
-                          // }),
-                          Positioned(
-                            child: Container(
-                              margin: EdgeInsets.only(
-                                  left: AppConstant.screenWidth * 0.08,
-                                  top: AppConstant.screenHeight * 0.14),
-                              width: AppConstant.screenWidth * 0.3,
-                              height: AppConstant.screenHeight * 0.035,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(32.36),
-                                color: const Color(0xfffebd2a),
+                            Positioned(
+                              left: AppConstant.screenWidth * 0.077,
+                              top: AppConstant.screenHeight * 0.09,
+                              child: Text(
+                                "Explorez ${villes[index]}",
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 26.08,
+                                  fontFamily: "Poppins",
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
-                              child: const Center(
-                                child: Text(
-                                  "Decouvrir la visite",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 10.25,
-                                    fontFamily: "Poppins",
-                                    fontWeight: FontWeight.w500,
+                            ),
+                            // }),
+                            Positioned(
+                              child: Container(
+                                margin: EdgeInsets.only(
+                                    left: AppConstant.screenWidth * 0.08,
+                                    top: AppConstant.screenHeight * 0.14),
+                                width: AppConstant.screenWidth * 0.3,
+                                height: AppConstant.screenHeight * 0.035,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(32.36),
+                                  color: const Color(0xfffebd2a),
+                                ),
+                                child: const Center(
+                                  child: Text(
+                                    "Decouvrir la visite",
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 10.25,
+                                      fontFamily: "Poppins",
+                                      fontWeight: FontWeight.w500,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ])),
-              );
-            },
-            options: CarouselOptions(
+                          ],
+                        ),
+                      ])),
+                );
+              },
+              options: CarouselOptions(
                 height: AppConstant.screenHeight * 0.3,
                 /////
                 autoPlay: true,
@@ -129,16 +131,13 @@ class _SlidereState extends State<Slidere> {
                 autoPlayAnimationDuration: const Duration(seconds: 2),
                 enlargeCenterPage: false,
                 onPageChanged: (int index, CarouselPageChangedReason reason) =>
-                    setState(() => activeIndex = index))),
-        const SizedBox(
-          height: 8,
-        ),
-        Container(
-          margin: EdgeInsets.only(right: AppConstant.screenWidth * 0.07),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              InkWell(
+                    setState(() => activeIndex = index),
+              ),
+            ),
+            Positioned(
+              top: AppConstant.screenHeight * .1,
+              left: AppConstant.screenWidth * .05,
+              child: InkWell(
                 onTap: () => controller.previousPage(),
                 child: Container(
                   width: AppConstant.screenWidth * 0.09,
@@ -149,8 +148,11 @@ class _SlidereState extends State<Slidere> {
                     boxShadow: [
                       BoxShadow(
                         color: Colors.grey.withOpacity(0.5),
+
                         spreadRadius: 0.2,
+
                         blurRadius: 11,
+
                         offset:
                             const Offset(0, 3), // changes position of shadow
                       ),
@@ -166,10 +168,11 @@ class _SlidereState extends State<Slidere> {
                   ),
                 ),
               ),
-              SizedBox(
-                width: AppConstant.screenWidth * 0.02,
-              ),
-              InkWell(
+            ),
+            Positioned(
+              top: AppConstant.screenHeight * .1,
+              right: AppConstant.screenWidth * .05,
+              child: InkWell(
                 onTap: () => controller.nextPage(),
                 child: Container(
                   width: AppConstant.screenWidth * 0.09,
@@ -196,6 +199,48 @@ class _SlidereState extends State<Slidere> {
                     ),
                   ),
                 ),
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(
+          height: 8,
+        ),
+        Container(
+          margin: EdgeInsets.only(right: AppConstant.screenWidth * 0.07),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              // InkWell(
+              //   onTap: () => controller.previousPage(),
+              //   child: Container(
+              //     width: AppConstant.screenWidth * 0.09,
+              //     height: AppConstant.screenHeight * 0.045,
+              //     decoration: BoxDecoration(
+              //       color: Colors.white,
+              //       shape: BoxShape.circle,
+              //       boxShadow: [
+              //         BoxShadow(
+              //           color: Colors.grey.withOpacity(0.5),
+              //           spreadRadius: 0.2,
+              //           blurRadius: 11,
+              //           offset:
+              //               const Offset(0, 3), // changes position of shadow
+              //         ),
+              //       ],
+              //     ),
+              //     child: Container(
+              //       margin:
+              //           EdgeInsets.only(left: AppConstant.screenWidth * 0.01),
+              //       child: const Icon(
+              //         Icons.arrow_back_ios,
+              //         size: 13,
+              //       ),
+              //     ),
+              //   ),
+              // ),
+              SizedBox(
+                width: AppConstant.screenWidth * 0.02,
               ),
             ],
           ),

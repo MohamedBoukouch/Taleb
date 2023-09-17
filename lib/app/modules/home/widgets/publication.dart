@@ -20,7 +20,7 @@ class PostCard extends StatefulWidget {
 }
 
 class _PostCardState extends State<PostCard> {
-  bool _read = false;
+  bool _isExpanded = false;
 
   @override
   Widget build(BuildContext context) {
@@ -56,38 +56,67 @@ class _PostCardState extends State<PostCard> {
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: Row(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(widget.postText),
+                _isExpanded
+                    ? Text(
+                        widget.postText,
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      )
+                    : Text(
+                        widget.postText,
+                        maxLines: 2, // Change the number of lines to display
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      ),
                 InkWell(
                   onTap: () {
                     setState(() {
-                      _read = !_read;
+                      _isExpanded = !_isExpanded;
                     });
                   },
-                  child: _read == false
-                      ? Text(
-                          "  Read More...",
-                          style: TextStyle(
-                              color: Colors.grey, fontWeight: FontWeight.bold),
-                        )
-                      : null,
+                  child: Text(
+                    _isExpanded ? "" : "  Read More...",
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 )
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: _read == true ? Text('''fddggggggggggggggggggggggggg
-            ggggggggggggggggg
-            rrrrrrrrrrrrrrrr
-            vvvvvvvvvvvvvvvvvvvvvvv
-            ddddddddddddddddddv
-            v''') : null,
+          _isExpanded
+              ? Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    "dddddddddddddddddddddddddddddddddddddddddddzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzcccccccccccccccc",
+                    style: TextStyle(fontSize: 16),
+                  ),
+                )
+              : SizedBox.shrink(),
+          InkWell(
+            onTap: () {
+              setState(() {
+                _isExpanded = !_isExpanded;
+              });
+            },
+            child: Text(
+              _isExpanded ? "... Read Less" : "",
+              style: TextStyle(
+                color: Colors.grey,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
           ),
           Image.network(widget.postImage), // Display the post image
           Padding(
-            padding: const EdgeInsets.all(1.0),
+            padding: const EdgeInsets.all(0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

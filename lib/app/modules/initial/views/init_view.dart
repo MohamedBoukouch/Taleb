@@ -14,7 +14,7 @@ class InitialView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: AppBar(),
+      // appBar: AppBar(),
       body: body,
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.red,
@@ -25,7 +25,7 @@ class InitialView extends StatelessWidget {
               Get.off(() => const SettingView());
               break;
             case 1:
-              Get.off(() => const SearchView());
+              Get.off(() => SearchView());
               break;
 
             case 2:
