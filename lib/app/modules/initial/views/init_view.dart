@@ -22,17 +22,17 @@ class InitialView extends StatelessWidget {
         onTap: (int index) {
           switch (index) {
             case 0:
-              Get.off(() => const HomeView());
+              Get.off(() => const SettingView());
               break;
             case 1:
-              Get.off(() => const NotificationView());
+              Get.off(() => const SearchView());
               break;
 
             case 2:
-              Get.off(() => const SearchView());
+              Get.off(() => const NotificationView());
               break;
             case 3:
-              Get.off(() => const SettingView());
+              Get.off(() => const HomeView());
               break;
             default:
               Get.off(() => const HomeView());

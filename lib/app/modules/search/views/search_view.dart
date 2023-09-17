@@ -7,7 +7,7 @@ class SearchView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InitialView(
-      selectedindex: 2,
+      selectedindex: 1,
       body: Container(),
     );
   }

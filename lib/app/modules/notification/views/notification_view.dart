@@ -10,7 +10,7 @@ class NotificationView extends GetView<NotificationController> {
   @override
   Widget build(BuildContext context) {
     return  InitialView(
-      selectedindex: 1,
+      selectedindex: 2,
       body: Container(),
     );
   }

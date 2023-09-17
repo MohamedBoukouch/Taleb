@@ -10,7 +10,7 @@ class SettingView extends GetView<SettingController> {
   @override
   Widget build(BuildContext context) {
     return InitialView(
-      selectedindex: 3,
+      selectedindex: 0,
       body: Container(),
     );
   }
