@@ -1,12 +1,15 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+typedef StringValidator = String? Function(String?);
+
 class Edittext extends StatefulWidget {
   final String? hint;
   final bool? ispassword;
   final bool? isemail;
   final Icon? icon;
   final TextEditingController Controller;
+  final StringValidator? validator;
   Edittext({
     // super.key,
     this.hint,
@@ -14,6 +17,7 @@ class Edittext extends StatefulWidget {
     this.isemail,
     this.icon,
     required this.Controller,
+    this.validator,
   });
 
   @override
@@ -25,47 +29,48 @@ class _EdittextState extends State<Edittext> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: TextField(
-        controller: widget.Controller,
-        obscureText: widget.ispassword == true
-            ? _eyeactive == true
-                ? false
-                : true
-            : false,
-        keyboardType:
-            widget.isemail == true ? TextInputType.emailAddress : null,
-        decoration: InputDecoration(
-          hintText: widget.hint,
-          prefixIcon: widget.icon,
-          suffixIcon: InkWell(
-            onTap: () {
-              setState(() {
-                _eyeactive = !_eyeactive;
-              });
-            },
-            child: Icon(
-              widget.ispassword == false
-                  ? null
-                  : _eyeactive == true
-                      ? Icons.visibility_off
-                      : Icons.visibility,
-            ),
+    return TextFormField(
+      controller: widget.Controller,
+      validator: widget.validator,
+      obscureText: widget.ispassword == true
+          ? _eyeactive == true
+              ? false
+              : true
+          : false,
+      keyboardType: widget.isemail == true ? TextInputType.emailAddress : null,
+      decoration: InputDecoration(
+        hintText: widget.hint,
+        prefixIcon: widget.icon,
+        suffixIcon: InkWell(
+          onTap: () {
+            setState(() {
+              _eyeactive = !_eyeactive;
+            });
+          },
+          child: Icon(
+            widget.ispassword == false
+                ? null
+                : _eyeactive == true
+                    ? Icons.visibility_off
+                    : Icons.visibility,
           ),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              width: 3, //<-- SEE HERE
-              color: const Color.fromARGB(255, 240, 177, 105),
-            ),
-            borderRadius: BorderRadius.circular(20),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            width: 3, //<-- SEE HERE
+            color: const Color.fromARGB(255, 240, 177, 105),
           ),
-          focusedBorder: OutlineInputBorder(
-            borderSide: BorderSide(
-              width: 2, //<-- SEE HERE
-              color: Color.fromARGB(255, 7, 199, 225),
-            ),
-            borderRadius: BorderRadius.circular(20.0),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        errorBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(50),
+            borderSide: const BorderSide(color: Colors.red)),
+        focusedBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            width: 2, //<-- SEE HERE
+            color: Color.fromARGB(255, 7, 199, 225),
           ),
+          borderRadius: BorderRadius.circular(20.0),
         ),
       ),
     );

@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
 import 'package:taleb/app/config/messages/app_message.dart';
 import 'package:taleb/app/modules/login/views/login_view.dart';
+import 'package:taleb/app/modules/signup/controllers/signup_controller.dart';
 import 'package:taleb/app/modules/signup/views/signup_view.dart';
 import 'package:taleb/app/shared/bottun.dart';
 import 'package:taleb/app/shared/edittext.dart';
@@ -21,8 +22,10 @@ class _SignupViewState extends State<SignupView> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _nomController = TextEditingController();
   final TextEditingController _prenomController = TextEditingController();
-  final TextEditingController _confirmpasswordController =
-      TextEditingController();
+  // final TextEditingController _confirmpasswordController =
+  // TextEditingController();
+
+  final SignupController controller = Get.put(SignupController());
 
   @override
   Widget build(BuildContext context) {
@@ -41,6 +44,12 @@ class _SignupViewState extends State<SignupView> {
                       hint: "Nom",
                       icon: Icon(Icons.person_2_outlined),
                       Controller: _nomController,
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return "Vide";
+                        }
+                        return null;
+                      },
                     ),
                     SizedBox(
                       height: AppConstant.screenHeight * .03,
@@ -50,6 +59,12 @@ class _SignupViewState extends State<SignupView> {
                       isemail: true,
                       icon: Icon(Icons.person_2_outlined),
                       Controller: _prenomController,
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return "Vide";
+                        }
+                        return null;
+                      },
                     ),
                     SizedBox(
                       height: AppConstant.screenHeight * .03,
@@ -59,6 +74,15 @@ class _SignupViewState extends State<SignupView> {
                       isemail: true,
                       icon: Icon(Icons.email_outlined),
                       Controller: _emailController,
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return "Vide";
+                        } else if (!value.contains("@") ||
+                            !value.contains(".")) {
+                          return "Invalid Email";
+                        }
+                        return null;
+                      },
                     ),
                     SizedBox(
                       height: AppConstant.screenHeight * .03,
@@ -68,20 +92,38 @@ class _SignupViewState extends State<SignupView> {
                       ispassword: true,
                       icon: const Icon(Icons.lock),
                       Controller: _passwordController,
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return "Vide";
+                        } else if (value.length < 6) {
+                          return "Entrez un mot de passe supérieur à 6 caractères";
+                        }
+
+                        return null; // Input is valid
+                      },
                     ),
                     SizedBox(
                       height: AppConstant.screenHeight * .03,
                     ),
-                    Edittext(
-                      hint: "Confirme password",
-                      icon: const Icon(Icons.lock),
-                      Controller: _confirmpasswordController,
-                    ),
+                    // Edittext(
+                    //   hint: "Confirme password",
+                    //   icon: const Icon(Icons.lock),
+                    //   Controller: _confirmpasswordController,
+                    // ),
                     SizedBox(
                       height: AppConstant.screenHeight * .03,
                     ),
-                    Button(
-                      txt: "Connexion",
+                    InkWell(
+                      onTap: () async {
+                        await controller.signup(
+                            _nomController.text,
+                            _prenomController.text,
+                            _emailController.text,
+                            _passwordController.text);
+                      },
+                      child: Button(
+                        txt: "Connexion",
+                      ),
                     ),
                     Container(
                       margin:
