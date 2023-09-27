@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 typedef StringValidator = String? Function(String?);
 
@@ -39,9 +40,14 @@ class _EdittextState extends State<Edittext> {
           : false,
       keyboardType: widget.isemail == true ? TextInputType.emailAddress : null,
       decoration: InputDecoration(
+        errorStyle: GoogleFonts.poppins(
+          color: Colors.red,
+          fontWeight: FontWeight.bold,
+          letterSpacing: .5,
+        ),
         hintText: widget.hint,
         prefixIcon: widget.icon,
-        suffixIcon: InkWell(
+        suffixIcon: widget.ispassword == true? InkWell(
           onTap: () {
             setState(() {
               _eyeactive = !_eyeactive;
@@ -54,21 +60,25 @@ class _EdittextState extends State<Edittext> {
                     ? Icons.visibility_off
                     : Icons.visibility,
           ),
-        ),
+        ):null,
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
             width: 3, //<-- SEE HERE
-            color: const Color.fromARGB(255, 240, 177, 105),
+            color: Colors.grey,
           ),
           borderRadius: BorderRadius.circular(20),
         ),
         errorBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(50),
-            borderSide: const BorderSide(color: Colors.red)),
+          borderSide: BorderSide(
+            width: 3, //<-- SEE HERE
+            color: Colors.red,
+          ),
+          borderRadius: BorderRadius.circular(20),
+        ),
         focusedBorder: OutlineInputBorder(
           borderSide: BorderSide(
             width: 2, //<-- SEE HERE
-            color: Color.fromARGB(255, 7, 199, 225),
+            color: Colors.orange,
           ),
           borderRadius: BorderRadius.circular(20.0),
         ),

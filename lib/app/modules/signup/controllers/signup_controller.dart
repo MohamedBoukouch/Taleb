@@ -35,7 +35,7 @@ class SignupController extends GetxController {
       "password": password,
     });
     if (response['status'] == "success") {
-      Get.to(() => HomeView());
+      Get.to(() => const HomeView());
     } else {
       print("signup fail");
     }

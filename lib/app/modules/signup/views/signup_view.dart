@@ -72,6 +72,7 @@ class _SignupViewState extends State<SignupView> {
                     Edittext(
                       hint: "Adress Email",
                       isemail: true,
+                      ispassword: false,
                       icon: Icon(Icons.email_outlined),
                       Controller: _emailController,
                       validator: (String? value) {
@@ -114,13 +115,20 @@ class _SignupViewState extends State<SignupView> {
                       height: AppConstant.screenHeight * .03,
                     ),
                     InkWell(
-                      onTap: () async {
-                        await controller.signup(
+                      onTap: ()async {
+                            if (_signupKey.currentState!.validate()) {
+                              FocusScope.of(context).unfocus();
+                              try {
+                                  await controller.signup(
                             _nomController.text,
                             _prenomController.text,
                             _emailController.text,
                             _passwordController.text);
-                      },
+                              }  catch (e) {
+                               
+                              }
+                            }
+                          },
                       child: Button(
                         txt: "Connexion",
                       ),

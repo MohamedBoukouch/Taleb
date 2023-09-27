@@ -32,10 +32,10 @@ class InitialView extends StatelessWidget {
               Get.off(() => const NotificationView());
               break;
             case 3:
-              Get.off(() => const HomeView());
+              Get.off(() =>  const HomeView());
               break;
             default:
-              Get.off(() => const HomeView());
+              Get.off(() =>  const HomeView());
           }
         },
         selectedItemColor: const Color.fromARGB(255, 247, 134, 6),

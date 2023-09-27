@@ -1,7 +1,10 @@
 import 'package:get/get.dart';
+import 'package:taleb/app/data/Crud.dart';
+import 'package:taleb/app/data/const_lik.dart';
 
 class HomeController extends GetxController {
   //TODO: Implement HomeController
+  Crud _crud = Crud();
 
   final count = 0.obs;
   @override
@@ -20,4 +23,9 @@ class HomeController extends GetxController {
   }
 
   void increment() => count.value++;
+
+  getpublication() async {
+    var response = await _crud.getRequest(linkshowpubli);
+    return response;
+  }
 }

@@ -2,8 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
-import 'package:taleb/app/config/messages/app_message.dart';
-import 'package:taleb/app/modules/home/views/home_view.dart';
+import 'package:taleb/app/modules/login/controllers/login_controller.dart';
 import 'package:taleb/app/modules/signup/views/signup_view.dart';
 import 'package:taleb/app/shared/bottun.dart';
 import 'package:taleb/app/shared/edittext.dart';
@@ -19,6 +18,8 @@ class _LoginViewState extends State<LoginView> {
   final GlobalKey<FormState> _loginKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final LoginController controller = Get.put(LoginController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -37,6 +38,15 @@ class _LoginViewState extends State<LoginView> {
                       isemail: true,
                       icon: Icon(Icons.email_outlined),
                       Controller: _emailController,
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return "Vide";
+                        } else if (!value.contains("@") ||
+                            !value.contains(".")) {
+                          return "Invalid Email";
+                        }
+                        return null;
+                      },
                     ),
                     SizedBox(
                       height: AppConstant.screenHeight * .03,
@@ -46,6 +56,15 @@ class _LoginViewState extends State<LoginView> {
                       ispassword: true,
                       icon: const Icon(Icons.lock),
                       Controller: _passwordController,
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return "Vide";
+                        } else if (value.length < 6) {
+                          return "Voter mot de passe est incorrect";
+                        }
+
+                        return null; // Input is valid
+                      },
                     ),
                     Container(
                       margin: EdgeInsets.only(
@@ -61,7 +80,18 @@ class _LoginViewState extends State<LoginView> {
                       ),
                     ),
                     InkWell(
-                      onTap: () => Get.to(() => HomeView()),
+                      onTap: ()async {
+                            if (_loginKey.currentState!.validate()) {
+                              FocusScope.of(context).unfocus();
+                              try {
+                                  await controller.login(
+                            _emailController.text,
+                            _passwordController.text);
+                              }  catch (e) {
+                               
+                              }
+                            }
+                          },
                       child: Button(
                         txt: "Connexion",
                       ),
