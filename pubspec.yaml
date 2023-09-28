@@ -22,6 +22,7 @@ dependencies:
   flutter_typeahead: ^4.7.0
   http: ^1.1.0
   google_fonts: ^6.1.0
+  either_dart: ^1.0.0
 
 dev_dependencies: 
   flutter_lints: ^2.0.0

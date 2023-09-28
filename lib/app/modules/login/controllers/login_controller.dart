@@ -33,7 +33,7 @@ class LoginController extends GetxController {
       "email": email,
       "password": password,
     });
-    if (response['status'] == "success") {
+    if (response == "success") {
       Get.to(() => const HomeView());
     } else {
       print("signup fail");
