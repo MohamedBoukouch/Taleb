@@ -28,17 +28,18 @@ class LoginController extends GetxController {
 
   void increment() => count.value++;
 
-  login( String email, String password) async {
+  login(String email, String password) async {
     var response = await _crud.postRequest(linklogin, {
       "email": email,
       "password": password,
     });
-    if (response == "success") {
+    if (response['status'] == "success") {
+      print(response['status']);
       Get.to(() => const HomeView());
     } else {
       print("signup fail");
     }
   }
 
-  getpublication() {}
+ 
 }

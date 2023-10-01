@@ -1,5 +1,4 @@
 import 'package:get/get.dart';
-
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/initial/bindings/init_binding.dart';
@@ -16,7 +15,6 @@ import '../modules/signup/bindings/signup_binding.dart';
 import '../modules/signup/views/signup_view.dart';
 import '../modules/splash/bindings/splash_binding.dart';
 import '../modules/splash/views/splash_view.dart';
-
 part 'app_routes.dart';
 
 class AppPages {

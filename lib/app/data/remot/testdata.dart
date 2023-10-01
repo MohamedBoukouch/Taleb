@@ -6,7 +6,8 @@ class TestData {
   TestData(this.crud);
 
   getData() async {
-    var response = await crud.postRequest(linkshowpubli, {});
-    return response.fold((left) => left, (right) => right);
+    var response = await crud.getRequest(linkshowpubli);
+    // return response.fold((left) => left, (right) => right);
+    return response;
   }
 }

@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
 
 class PostCard extends StatefulWidget {
-  final String userName;
-  final String userImage;
-  final String postText;
-  final String postImage;
+  final String localisation;
   final String timeAgo;
+  final String titel;
+  final String description;
+  final String postImage;
+  
 
   PostCard({
-    required this.userName,
-    required this.userImage,
-    required this.postText,
-    required this.postImage,
+    required this.localisation,
     required this.timeAgo,
+    required this.titel,
+    required this.description,
+    required this.postImage,
   });
 
   @override
@@ -40,7 +41,7 @@ class _PostCardState extends State<PostCard> {
                   Icons.map_sharp,
                   color: Colors.red,
                 ),
-                Text(widget.userName),
+                Text(widget.localisation),
               ],
             ),
             subtitle: Row(
@@ -61,13 +62,13 @@ class _PostCardState extends State<PostCard> {
               children: [
                 _isExpanded
                     ? Text(
-                        widget.postText,
+                        widget.titel,
                         style: TextStyle(
                           fontSize: 16,
                         ),
                       )
                     : Text(
-                        widget.postText,
+                        widget.titel,
                         maxLines: 2, // Change the number of lines to display
                         overflow: TextOverflow.ellipsis,
                         style: TextStyle(
@@ -94,8 +95,7 @@ class _PostCardState extends State<PostCard> {
           _isExpanded
               ? Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "dddddddddddddddddddddddddddddddddddddddddddzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzcccccccccccccccc",
+                  child: Text(widget.description,
                     style: TextStyle(fontSize: 16),
                   ),
                 )
@@ -107,7 +107,7 @@ class _PostCardState extends State<PostCard> {
               });
             },
             child: Text(
-              _isExpanded ? "... Read Less" : "",
+              _isExpanded ? "Read Less" : "",
               style: TextStyle(
                 color: Colors.grey,
                 fontWeight: FontWeight.bold,
