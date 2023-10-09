@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
 import 'package:taleb/app/modules/login/controllers/login_controller.dart';
+import 'package:taleb/app/modules/login/pages/checkemail.dart';
 import 'package:taleb/app/modules/signup/views/signup_view.dart';
 import 'package:taleb/app/shared/bottun.dart';
 import 'package:taleb/app/shared/edittext.dart';
@@ -70,28 +71,28 @@ class _LoginViewState extends State<LoginView> {
                       margin: EdgeInsets.only(
                           top: AppConstant.screenHeight * .015, left: 10),
                       alignment: Alignment.centerLeft,
-                      child: const Text(
-                        'mote de pass oublie ?',
-                        style: TextStyle(
-                          color: Color.fromARGB(255, 158, 158, 158),
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
+                      child: InkWell(
+                        onTap: () => Get.to(() => CheckEmail()),
+                        child: Text(
+                          'motedepassoublie ?',
+                          style: TextStyle(
+                            color: Color.fromARGB(255, 158, 158, 158),
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
                         ),
                       ),
                     ),
                     InkWell(
-                      onTap: ()async {
-                            if (_loginKey.currentState!.validate()) {
-                              FocusScope.of(context).unfocus();
-                              try {
-                                  await controller.login(
-                            _emailController.text,
-                            _passwordController.text);
-                              }  catch (e) {
-                               
-                              }
-                            }
-                          },
+                      onTap: () async {
+                        if (_loginKey.currentState!.validate()) {
+                          FocusScope.of(context).unfocus();
+                          try {
+                            await controller.login(_emailController.text,
+                                _passwordController.text);
+                          } catch (e) {}
+                        }
+                      },
                       child: Button(
                         txt: "Connexion",
                       ),

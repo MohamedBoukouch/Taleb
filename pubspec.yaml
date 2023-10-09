@@ -23,6 +23,8 @@ dependencies:
   http: ^1.1.0
   google_fonts: ^6.1.0
   either_dart: ^1.0.0
+  flutter_otp_text_field: ^1.1.1
+  flutter_svg: ^2.0.7
 
 dev_dependencies: 
   flutter_lints: ^2.0.0
@@ -32,6 +34,7 @@ dev_dependencies:
 flutter: 
   assets: 
     - assets/splash/
+    - assets/icons/
 
   uses-material-design: true
 

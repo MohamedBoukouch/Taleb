@@ -1,11 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
-import 'package:taleb/app/config/messages/app_message.dart';
 import 'package:taleb/app/modules/login/views/login_view.dart';
 import 'package:taleb/app/modules/signup/controllers/signup_controller.dart';
-import 'package:taleb/app/modules/signup/views/signup_view.dart';
 import 'package:taleb/app/shared/bottun.dart';
 import 'package:taleb/app/shared/edittext.dart';
 
@@ -42,7 +39,7 @@ class _SignupViewState extends State<SignupView> {
                   children: [
                     Edittext(
                       hint: "Nom",
-                      icon: Icon(Icons.person_2_outlined),
+                      icon: const Icon(Icons.person_2_outlined),
                       Controller: _nomController,
                       validator: (String? value) {
                         if (value == null || value.isEmpty) {
@@ -57,7 +54,7 @@ class _SignupViewState extends State<SignupView> {
                     Edittext(
                       hint: "Prenom",
                       isemail: true,
-                      icon: Icon(Icons.person_2_outlined),
+                      icon: const Icon(Icons.person_2_outlined),
                       Controller: _prenomController,
                       validator: (String? value) {
                         if (value == null || value.isEmpty) {
@@ -73,7 +70,7 @@ class _SignupViewState extends State<SignupView> {
                       hint: "Adress Email",
                       isemail: true,
                       ispassword: false,
-                      icon: Icon(Icons.email_outlined),
+                      icon: const Icon(Icons.email_outlined),
                       Controller: _emailController,
                       validator: (String? value) {
                         if (value == null || value.isEmpty) {
@@ -115,21 +112,21 @@ class _SignupViewState extends State<SignupView> {
                       height: AppConstant.screenHeight * .03,
                     ),
                     InkWell(
-                      onTap: ()async {
-                            if (_signupKey.currentState!.validate()) {
-                              FocusScope.of(context).unfocus();
-                              try {
-                                  await controller.signup(
-                            _nomController.text,
-                            _prenomController.text,
-                            _emailController.text,
-                            _passwordController.text);
-                              }  catch (e) {
-                               
-                              }
-                            }
-                          },
-                      child: Button(
+                      onTap: () async {
+                        if (_signupKey.currentState!.validate()) {
+                          FocusScope.of(context).unfocus();
+                          try {
+                            await controller.signup(
+                                _nomController.text,
+                                _prenomController.text,
+                                _emailController.text,
+                                _passwordController.text);
+                          } catch (e) {
+                            print("error");
+                          }
+                        }
+                      },
+                      child: const Button(
                         txt: "Connexion",
                       ),
                     ),
@@ -148,14 +145,12 @@ class _SignupViewState extends State<SignupView> {
                               ),
                             ),
                           ),
-                          Container(
-                            child: InkWell(
-                              onTap: () => Get.to(() => LoginView()),
-                              child: Text(
-                                "Se connecter.",
-                                style: TextStyle(
-                                    color: Color.fromARGB(255, 255, 132, 0)),
-                              ),
+                          InkWell(
+                            onTap: () => Get.to(() => const LoginView()),
+                            child: const Text(
+                              "Se connecter.",
+                              style: TextStyle(
+                                  color: Color.fromARGB(255, 255, 132, 0)),
                             ),
                           ),
                         ],
