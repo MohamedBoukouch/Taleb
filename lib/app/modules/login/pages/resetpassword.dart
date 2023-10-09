@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
 import 'package:taleb/app/modules/home/views/home_view.dart';
+import 'package:taleb/app/modules/login/controllers/login_controller.dart';
 import 'package:taleb/app/modules/login/pages/verifycompte.dart';
 import 'package:taleb/app/shared/bottun.dart';
 import 'package:taleb/app/shared/edittext.dart';
 
 class ResetPassword extends StatefulWidget {
-  const ResetPassword({Key? key}) : super(key: key);
+  final String email;
+  const ResetPassword({Key? key, required this.email}) : super(key: key);
 
   @override
   State<ResetPassword> createState() => _ResetPasswordState();
@@ -18,6 +20,8 @@ class _ResetPasswordState extends State<ResetPassword> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmpasswordController =
       TextEditingController();
+  final LoginController controller = Get.put(LoginController());
+  late String _password;
 
   @override
   Widget build(BuildContext context) {
@@ -72,6 +76,9 @@ class _ResetPasswordState extends State<ResetPassword> {
 
                           return null; // Input is valid
                         },
+                        onSaved: (value) {
+                          _password = value;
+                        },
                       ),
                     ),
                     Container(
@@ -97,9 +104,9 @@ class _ResetPasswordState extends State<ResetPassword> {
                             return "Vide";
                           } else if (value.length < 6) {
                             return "Entrez un mot de passe supérieur à 6 caractères";
+                          } else {
+                            return null;
                           }
-
-                          return null; // Input is valid
                         },
                       ),
                     ),
@@ -107,7 +114,15 @@ class _ResetPasswordState extends State<ResetPassword> {
                 ),
               ),
               InkWell(
-                onTap: () => Get.off(() => HomeView()),
+                onTap: () async {
+                  if (_resetpasswordlKey.currentState!.validate()) {
+                    FocusScope.of(context).unfocus();
+                    try {
+                      await controller.resetpassword(
+                          widget.email, _passwordController.text, context);
+                    } catch (e) {}
+                  }
+                },
                 child: Button(
                   txt: "Send",
                 ),

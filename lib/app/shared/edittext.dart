@@ -11,6 +11,7 @@ class Edittext extends StatefulWidget {
   final Icon? icon;
   final TextEditingController Controller;
   final StringValidator? validator;
+  final Function(dynamic value)? onSaved;
   Edittext({
     // super.key,
     this.hint,
@@ -19,6 +20,7 @@ class Edittext extends StatefulWidget {
     this.icon,
     required this.Controller,
     this.validator,
+    this.onSaved,
   });
 
   @override
@@ -47,20 +49,22 @@ class _EdittextState extends State<Edittext> {
         ),
         hintText: widget.hint,
         prefixIcon: widget.icon,
-        suffixIcon: widget.ispassword == true? InkWell(
-          onTap: () {
-            setState(() {
-              _eyeactive = !_eyeactive;
-            });
-          },
-          child: Icon(
-            widget.ispassword == false
-                ? null
-                : _eyeactive == true
-                    ? Icons.visibility_off
-                    : Icons.visibility,
-          ),
-        ):null,
+        suffixIcon: widget.ispassword == true
+            ? InkWell(
+                onTap: () {
+                  setState(() {
+                    _eyeactive = !_eyeactive;
+                  });
+                },
+                child: Icon(
+                  widget.ispassword == false
+                      ? null
+                      : _eyeactive == true
+                          ? Icons.visibility_off
+                          : Icons.visibility,
+                ),
+              )
+            : null,
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
             width: 3, //<-- SEE HERE

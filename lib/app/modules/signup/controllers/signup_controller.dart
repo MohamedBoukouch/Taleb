@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
+import 'package:taleb/app/config/function/functions.dart';
 import 'package:taleb/app/data/Crud.dart';
 import 'package:taleb/app/data/const_lik.dart';
 import 'package:taleb/app/modules/home/views/home_view.dart';
@@ -26,19 +27,6 @@ class SignupController extends GetxController {
   void onClose() {
     super.onClose();
   }
-
-  Widget cancelButton = TextButton(
-    child: const Text(
-      "Cancel",
-      style: TextStyle(
-        color: Colors.red,
-        fontWeight: FontWeight.bold,
-      ),
-    ),
-    onPressed: () {
-      Get.back();
-    },
-  );
 
   void increment() => count.value++;
 
@@ -79,14 +67,8 @@ class SignupController extends GetxController {
                 ),
                 content: const Text("Your code is invalid Try Again"),
                 actions: [
-                  cancelButton,
+                  AppFunction.cancel(),
                 ]);
-
-            // return AlertDialog(
-            //   backgroundColor: Colors.red,
-            //   title: Text("Verification Code"),
-            //   content: Text("Your code is invalid Try Again"),
-            // );
           });
     }
     update();

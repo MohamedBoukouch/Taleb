@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
+import 'package:taleb/app/modules/login/controllers/login_controller.dart';
 import 'package:taleb/app/modules/login/pages/verifycompte.dart';
 import 'package:taleb/app/shared/bottun.dart';
 import 'package:taleb/app/shared/edittext.dart';
@@ -13,6 +14,7 @@ class CheckEmail extends StatefulWidget {
 }
 
 class _CheckEmailState extends State<CheckEmail> {
+  final LoginController controller = Get.put(LoginController());
   final GlobalKey<FormState> _checkemailKey = GlobalKey<FormState>();
   final TextEditingController _emailController = TextEditingController();
 
@@ -74,7 +76,14 @@ class _CheckEmailState extends State<CheckEmail> {
               ),
             ),
             InkWell(
-              onTap: () => Get.to(() => VerifyCompte()),
+              onTap: () async {
+                if (_checkemailKey.currentState!.validate()) {
+                  FocusScope.of(context).unfocus();
+                  try {
+                    await controller.checkemail(_emailController.text, context);
+                  } catch (e) {}
+                }
+              },
               child: Button(
                 txt: "Send",
               ),

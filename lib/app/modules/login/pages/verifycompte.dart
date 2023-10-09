@@ -2,17 +2,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:get/get.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
+import 'package:taleb/app/modules/login/controllers/login_controller.dart';
 import 'package:taleb/app/modules/login/pages/ResetPassword.dart';
 import 'package:taleb/app/shared/bottun.dart';
 
 class VerifyCompte extends StatefulWidget {
-  const VerifyCompte({Key? key}) : super(key: key);
+  final String email;
+  const VerifyCompte({
+    Key? key,
+    required this.email,
+  }) : super(key: key);
 
   @override
   State<VerifyCompte> createState() => _VerifyCompteState();
 }
 
 class _VerifyCompteState extends State<VerifyCompte> {
+  late String verificationCode;
+  LoginController controller = Get.put(LoginController());
+  // final TextEditingController _otpcontroller = TextEditingController();
+  late String otpcontroller;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,8 +57,14 @@ class _VerifyCompteState extends State<VerifyCompte> {
             disabledBorderColor: Colors.red,
             focusedBorderColor: Colors.orange,
             showFieldAsBox: true,
-            onCodeChanged: (String code) {},
+
+            onCodeChanged: (String code) {
+              // verificationCode = code;
+            },
+
             onSubmit: (String verificationCode) async {
+              otpcontroller = verificationCode;
+              //   Text("hello");
               // try {
               //   await controller.verifyemail(
               //       widget.email, verificationCode, context);
@@ -70,7 +85,15 @@ class _VerifyCompteState extends State<VerifyCompte> {
             height: AppConstant.screenHeight * .04,
           ),
           InkWell(
-              onTap: () => Get.to(ResetPassword()),
+              onTap: () async {
+                print(otpcontroller);
+                try {
+                  await controller.verifycompte(
+                      widget.email, otpcontroller, context);
+                } catch ($e) {
+                  print("error");
+                }
+              },
               child: Button(txt: "Verify")),
         ],
       ),

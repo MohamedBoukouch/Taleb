@@ -69,7 +69,7 @@ class _SplashViewState extends State<SplashView>
                       style: TextStyle(
                         color: AppTheme.whit_color,
                         fontSize: 36,
-                        fontFamily: "Poppins",
+                        fontFamily: 'Inspiration',
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -85,6 +85,7 @@ class _SplashViewState extends State<SplashView>
                           style: TextStyle(
                             color: AppTheme.whit_color,
                             fontSize: 15,
+                            fontFamily: 'Inspiration',
                           ),
                         )),
                   ],

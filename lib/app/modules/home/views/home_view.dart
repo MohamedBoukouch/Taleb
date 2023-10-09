@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart'; // Import Flutter Material package
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
+import 'package:taleb/app/config/constants/app_constant.dart';
 import 'package:taleb/app/config/function/checkInternet.dart';
 import 'package:taleb/app/data/Crud.dart';
 import 'package:taleb/app/data/const_lik.dart';
@@ -45,9 +47,19 @@ class _HomeViewState extends State<HomeView> {
               future: controller.Showpub(),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return CircularProgressIndicator(); // Display a loading indicator while waiting for data.
+                  return const Center(
+                    child: SpinKitCircle(
+                      color: Color.fromARGB(255, 246, 154, 7),
+                      size: 60,
+                    ),
+                  );
                 } else if (snapshot.hasError) {
-                  return Center(child: Text("Error: ${snapshot.error}"));
+                  return Text("fff");
+                  // return Center(
+                  //     child: Image.asset(
+                  //   "assets/icons/error.png",
+                  //   width: AppConstant.screenHeight * .2,
+                  // ));
                 } else if (!snapshot.hasData) {
                   return const Center(
                     child: Text("No data available"),

@@ -73,12 +73,13 @@ class _LoginViewState extends State<LoginView> {
                       alignment: Alignment.centerLeft,
                       child: InkWell(
                         onTap: () => Get.to(() => CheckEmail()),
-                        child: Text(
-                          'motedepassoublie ?',
+                        child: const Text(
+                          'Forget_password?',
                           style: TextStyle(
                             color: Color.fromARGB(255, 158, 158, 158),
                             fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                            fontFamily: 'Inspiration',
+                            fontSize: 18,
                           ),
                         ),
                       ),
@@ -93,7 +94,7 @@ class _LoginViewState extends State<LoginView> {
                           } catch (e) {}
                         }
                       },
-                      child: Button(
+                      child: const Button(
                         txt: "Connexion",
                       ),
                     ),
@@ -107,19 +108,23 @@ class _LoginViewState extends State<LoginView> {
                             child: Text(
                               "je n'ai pas de compte ?  ",
                               style: TextStyle(
+                                fontFamily: 'Inspiration',
+                                fontSize: 19,
+                                fontWeight: FontWeight.bold,
                                 color: Color.fromARGB(255, 158, 158, 158),
                                 // fontSize: 16,
                               ),
                             ),
                           ),
-                          Container(
-                            child: InkWell(
-                              onTap: () => Get.to(() => SignupView()),
-                              child: Text(
-                                "S'inscrire.",
-                                style: TextStyle(
-                                    color: Color.fromARGB(255, 255, 132, 0)),
-                              ),
+                          InkWell(
+                            onTap: () => Get.to(() => const SignupView()),
+                            child: const Text(
+                              "S'inscrire.",
+                              style: TextStyle(
+                                  fontFamily: 'Inspiration',
+                                  fontSize: 19,
+                                  fontWeight: FontWeight.bold,
+                                  color: Color.fromARGB(255, 255, 132, 0)),
                             ),
                           ),
                         ],

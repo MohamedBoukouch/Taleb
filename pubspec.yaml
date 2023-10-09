@@ -6,28 +6,28 @@ environment:
   sdk: '>=2.12.0 <3.0.0'
 
 dependencies: 
-  cupertino_icons: ^1.0.2
-  flutter_spinkit: any
+  cupertino_icons: 
+  flutter_spinkit: 
   modal_progress_hud_nsn: any
-  sqflite: ^2.3.0
-  intl: ^0.18.1
-  url_launcher: ^6.1.14
-  shared_preferences: ^2.2.1
-  share: ^2.0.4
-  get: 4.6.6
+  sqflite: 
+  intl: 
+  url_launcher: 
+  shared_preferences: 
+  share: 
+  get: 
   flutter: 
     sdk: flutter
-  carousel_slider: ^4.2.1
-  smooth_page_indicator: ^1.1.0
-  flutter_typeahead: ^4.7.0
-  http: ^1.1.0
-  google_fonts: ^6.1.0
-  either_dart: ^1.0.0
-  flutter_otp_text_field: ^1.1.1
-  flutter_svg: ^2.0.7
+  carousel_slider: 
+  smooth_page_indicator: 
+  flutter_typeahead: 
+  http: 
+  google_fonts: 
+  either_dart: 
+  flutter_otp_text_field: 
+  flutter_svg: 
 
 dev_dependencies: 
-  flutter_lints: ^2.0.0
+  flutter_lints: 
   flutter_test: 
     sdk: flutter
 
@@ -37,4 +37,9 @@ flutter:
     - assets/icons/
 
   uses-material-design: true
+
+  fonts:
+    - family: Inspiration
+      fonts:
+        - asset: fonts/JosefinSans-VariableFont_wght.ttf
 
