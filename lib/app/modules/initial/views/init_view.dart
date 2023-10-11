@@ -15,6 +15,7 @@ class InitialView extends StatelessWidget {
     return Scaffold(
       // extendBodyBehindAppBar: true,
       // appBar: AppBar(),
+      backgroundColor: Colors.white,
       body: body,
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.red,

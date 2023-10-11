@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:taleb/app/config/constants/app_constant.dart';
+import 'package:taleb/app/modules/home/pages/commentaires.dart';
 
 class PostCard extends StatefulWidget {
   final String localisation;
@@ -6,7 +9,8 @@ class PostCard extends StatefulWidget {
   final String titel;
   final String description;
   final String postImage;
-  
+  final int? id_publication;
+  bool? forcomment = false;
 
   PostCard({
     required this.localisation,
@@ -14,6 +18,8 @@ class PostCard extends StatefulWidget {
     required this.titel,
     required this.description,
     required this.postImage,
+    this.id_publication,
+    this.forcomment,
   });
 
   @override
@@ -22,12 +28,15 @@ class PostCard extends StatefulWidget {
 
 class _PostCardState extends State<PostCard> {
   bool _isExpanded = false;
+  bool _isfavorit = false;
+  int _like = 0;
+  int comment = 0;
 
   @override
   Widget build(BuildContext context) {
     return Card(
       margin: EdgeInsets.all(8.0),
-      elevation: 10,
+      elevation: widget.forcomment == false ? 10 : 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
@@ -37,19 +46,20 @@ class _PostCardState extends State<PostCard> {
           ListTile(
             title: Row(
               children: [
-                Icon(
-                  Icons.map_sharp,
+                const Icon(
+                  Icons.pin_drop,
                   color: Colors.red,
+                  size: 20,
                 ),
                 Text(widget.localisation),
               ],
             ),
             subtitle: Row(
               children: [
-                Icon(
+                const Icon(
                   Icons.timer,
                   color: Colors.blue,
-                  size: 17,
+                  size: 19,
                 ),
                 Text(widget.timeAgo),
               ],
@@ -95,7 +105,8 @@ class _PostCardState extends State<PostCard> {
           _isExpanded
               ? Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(widget.description,
+                  child: Text(
+                    widget.description,
                     style: TextStyle(fontSize: 16),
                   ),
                 )
@@ -108,7 +119,7 @@ class _PostCardState extends State<PostCard> {
             },
             child: Text(
               _isExpanded ? "Read Less" : "",
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.grey,
                 fontWeight: FontWeight.bold,
               ),
@@ -116,27 +127,94 @@ class _PostCardState extends State<PostCard> {
           ),
           Image.network(widget.postImage), // Display the post image
           Padding(
-            padding: const EdgeInsets.all(0),
+            padding: const EdgeInsets.all(10),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                IconButton(
-                  icon: Icon(Icons.favorite),
-                  onPressed: () {
-                    // Add like functionality here
-                  },
+                Container(
+                  width: AppConstant.screenWidth * .29,
+                  height: AppConstant.screenHeight * .06,
+                  decoration: BoxDecoration(
+                      color: const Color.fromARGB(64, 158, 158, 158),
+                      borderRadius: BorderRadius.circular(50)),
+                  child: Row(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(
+                            left: AppConstant.screenWidth * .055),
+                        child: IconButton(
+                          icon: _isfavorit == false
+                              ? const Icon(
+                                  Icons.favorite_border,
+                                  size: 25,
+                                )
+                              : const Icon(
+                                  Icons.favorite,
+                                  color: Colors.red,
+                                  size: 25,
+                                ),
+                          onPressed: () {
+                            setState(() {
+                              _isfavorit = !_isfavorit;
+                            });
+                          },
+                        ),
+                      ),
+                      Text(
+                        "$_like",
+                        style: TextStyle(),
+                      ),
+                    ],
+                  ),
                 ),
-                IconButton(
-                  icon: Icon(Icons.comment),
-                  onPressed: () {
-                    // Add comment functionality here
-                  },
-                ),
-                IconButton(
-                  icon: Icon(Icons.share),
-                  onPressed: () {
-                    // Add share functionality here
-                  },
+                Container(
+                    width: AppConstant.screenWidth * .29,
+                    height: AppConstant.screenHeight * .06,
+                    decoration: BoxDecoration(
+                        color: Color.fromARGB(64, 158, 158, 158),
+                        borderRadius: BorderRadius.circular(50)),
+                    child: Row(
+                      children: [
+                        Container(
+                          margin: EdgeInsets.only(
+                              left: AppConstant.screenWidth * .055),
+                          child: IconButton(
+                            icon: const Icon(
+                              Icons.chat_bubble_outline,
+                              size: 25,
+                            ),
+                            onPressed: () {
+                              Get.to(() => Commentaire(
+                                    localisation: widget.localisation,
+                                    timeAgo: widget.timeAgo,
+                                    description: widget.description,
+                                    titel: widget.titel,
+                                    postImage: widget.postImage,
+                                  ));
+                            },
+                          ),
+                        ),
+                        Text(
+                          "$_like",
+                          style: TextStyle(),
+                        ),
+                      ],
+                    )),
+                Container(
+                  width: AppConstant.screenWidth * .29,
+                  height: AppConstant.screenHeight * .06,
+                  decoration: BoxDecoration(
+                      color: const Color.fromARGB(64, 158, 158, 158),
+                      borderRadius: BorderRadius.circular(50)),
+                  child: IconButton(
+                    icon: const Icon(
+                      Icons.share,
+                      size: 25,
+                    ),
+                    onPressed: () {
+                      // Add share functionality here
+                    },
+                  ),
                 ),
               ],
             ),

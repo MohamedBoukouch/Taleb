@@ -12,7 +12,7 @@ dependencies:
   sqflite: 
   intl: 
   url_launcher: 
-  shared_preferences: 
+  shared_preferences: ^2.2.2 
   share: 
   get: 
   flutter: 
@@ -38,8 +38,8 @@ flutter:
 
   uses-material-design: true
 
-  fonts:
-    - family: Inspiration
-      fonts:
-        - asset: fonts/JosefinSans-VariableFont_wght.ttf
+  # fonts:
+  #   - family: Inspiration
+  #     fonts:
+  #       - asset: fonts/JosefinSans-VariableFont_wght.ttf
 

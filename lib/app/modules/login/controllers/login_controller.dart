@@ -10,6 +10,7 @@ import 'package:taleb/app/data/const_lik.dart';
 import 'package:taleb/app/modules/home/views/home_view.dart';
 import 'package:taleb/app/modules/login/pages/resetpassword.dart';
 import 'package:taleb/app/modules/login/pages/verifycompte.dart';
+import 'package:taleb/main.dart';
 
 class LoginController extends GetxController {
   //TODO: Implement LoginController
@@ -39,6 +40,7 @@ class LoginController extends GetxController {
       "password": password,
     });
     if (response['status'] == "success") {
+      sharedpref.setString("id", response['data']['id'].toString());
       print(response['status']);
       Get.to(() => const HomeView());
     } else {

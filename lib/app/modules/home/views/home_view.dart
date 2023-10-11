@@ -41,7 +41,7 @@ class _HomeViewState extends State<HomeView> {
       selectedindex: 3,
       body: Column(
         children: [
-          Slidere(),
+          // Slidere(),
           Expanded(
             child: FutureBuilder(
               future: controller.Showpub(),
@@ -54,12 +54,10 @@ class _HomeViewState extends State<HomeView> {
                     ),
                   );
                 } else if (snapshot.hasError) {
-                  return Text("fff");
-                  // return Center(
-                  //     child: Image.asset(
-                  //   "assets/icons/error.png",
-                  //   width: AppConstant.screenHeight * .2,
-                  // ));
+                  return Image.asset(
+                    "assets/icons/error.png",
+                    width: AppConstant.screenWidth * .8,
+                  );
                 } else if (!snapshot.hasData) {
                   return const Center(
                     child: Text("No data available"),
@@ -70,8 +68,11 @@ class _HomeViewState extends State<HomeView> {
                     itemBuilder: (context, index) {
                       // return Center(child: Text("${snapshot.data[index]['id']}"));
                       return PostCard(
-                        localisation: "${snapshot.data[index]['localisation']}",
-                        timeAgo: "${snapshot.data[index]['date']}",
+                        forcomment: false,
+                        id_publication: snapshot.data[index]['id'],
+                        localisation:
+                            " ${snapshot.data[index]['localisation']}",
+                        timeAgo: "  ${snapshot.data[index]['date']}",
                         titel: "${snapshot.data[index]['titel']}",
                         description: "${snapshot.data[index]['description']}",
                         postImage:
