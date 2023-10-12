@@ -7,7 +7,15 @@ class TestData {
 
   getData() async {
     var response = await crud.getRequest(linkshowpubli);
-    // return response.fold((left) => left, (right) => right);
     return response;
   }
+
+  // Addcomment(int id_user, int id_publication, String text) async {
+  //   var response = await crud.postRequest(linkaddcomment, {
+  //     "id_user": id_user,
+  //     "id_publication": id_publication,
+  //     "text": text,
+  //   });
+  //   return response;
+  // }
 }

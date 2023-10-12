@@ -4,12 +4,9 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
 import 'package:taleb/app/config/function/checkInternet.dart';
-import 'package:taleb/app/data/Crud.dart';
 import 'package:taleb/app/data/const_lik.dart';
-import 'package:taleb/app/data/statusRequest.dart';
 import 'package:taleb/app/modules/home/controllers/home_controller.dart';
 import 'package:taleb/app/modules/home/widgets/publication.dart';
-import 'package:taleb/app/modules/home/widgets/slider.dart';
 import 'package:taleb/app/modules/initial/views/init_view.dart';
 
 class HomeView extends StatefulWidget {
@@ -22,6 +19,7 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   final HomeController controller = Get.put(HomeController());
   var res;
+
   initialdata() async {
     res = await chekInternet();
 
@@ -31,7 +29,7 @@ class _HomeViewState extends State<HomeView> {
   @override
   void initState() {
     initialdata();
-    controller.Showpub();
+    // controller.Showpub();
     super.initState();
   }
 
@@ -54,9 +52,11 @@ class _HomeViewState extends State<HomeView> {
                     ),
                   );
                 } else if (snapshot.hasError) {
-                  return Image.asset(
-                    "assets/icons/error.png",
-                    width: AppConstant.screenWidth * .8,
+                  return Center(
+                    child: Image.asset(
+                      "assets/icons/error.png",
+                      width: AppConstant.screenWidth * .8,
+                    ),
                   );
                 } else if (!snapshot.hasData) {
                   return const Center(
@@ -68,8 +68,10 @@ class _HomeViewState extends State<HomeView> {
                     itemBuilder: (context, index) {
                       // return Center(child: Text("${snapshot.data[index]['id']}"));
                       return PostCard(
-                        forcomment: false,
+                        numberlike: snapshot.data[index]['numberlike'],
+                        numbercomment: snapshot.data[index]['numbercomment'],
                         id_publication: snapshot.data[index]['id'],
+                        forcomment: false,
                         localisation:
                             " ${snapshot.data[index]['localisation']}",
                         timeAgo: "  ${snapshot.data[index]['date']}",

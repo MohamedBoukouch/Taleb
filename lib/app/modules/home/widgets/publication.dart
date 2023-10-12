@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
+import 'package:taleb/app/config/function/numbercomment.dart';
+import 'package:taleb/app/modules/home/controllers/home_controller.dart';
 import 'package:taleb/app/modules/home/pages/commentaires.dart';
+import 'package:taleb/app/modules/home/pages/test.dart';
 
 class PostCard extends StatefulWidget {
   final String localisation;
@@ -9,8 +12,10 @@ class PostCard extends StatefulWidget {
   final String titel;
   final String description;
   final String postImage;
-  final int? id_publication;
+  final int id_publication;
   bool? forcomment = false;
+  final int numberlike;
+  final int numbercomment;
 
   PostCard({
     required this.localisation,
@@ -18,7 +23,9 @@ class PostCard extends StatefulWidget {
     required this.titel,
     required this.description,
     required this.postImage,
-    this.id_publication,
+    required this.id_publication,
+    required this.numberlike,
+    required this.numbercomment,
     this.forcomment,
   });
 
@@ -31,12 +38,44 @@ class _PostCardState extends State<PostCard> {
   bool _isfavorit = false;
   int _like = 0;
   int comment = 0;
+  var nbr_cmt;
+  final HomeController controller = Get.put(HomeController());
+  // numbercomment() async {
+  //   // try {
+  //   //   nbr_cmt = controller.Numbercomment(widget.id_publication);
+  //   //   print(nbr_cmt);
+  //   // } catch (e) {
+  //   //   print("error hhhhhh");
+  //   // }
+  //   nbr_cmt = await Numbercemment(widget.id_publication);
+  //   print("number des comment ${nbr_cmt}");
+  // }
+
+  // @override
+  // void initState() {
+  //   numbercomment();
+  //   super.initState();
+  // }
+
+  //   initialdata() async {
+  //   res = await chekInternet();
+
+  //   print(res);
+  // }
+
+  // @override
+  // void initState() {
+  //   initialdata();
+  //   controller.Showpub();
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.all(8.0),
+      margin: const EdgeInsets.all(8.0),
       elevation: widget.forcomment == false ? 10 : 0,
+      // elevation: 10,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
@@ -73,7 +112,7 @@ class _PostCardState extends State<PostCard> {
                 _isExpanded
                     ? Text(
                         widget.titel,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 16,
                         ),
                       )
@@ -81,7 +120,7 @@ class _PostCardState extends State<PostCard> {
                         widget.titel,
                         maxLines: 2, // Change the number of lines to display
                         overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 16,
                         ),
                       ),
@@ -93,7 +132,7 @@ class _PostCardState extends State<PostCard> {
                   },
                   child: Text(
                     _isExpanded ? "" : "  Read More...",
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.grey,
                       fontWeight: FontWeight.bold,
                     ),
@@ -161,7 +200,7 @@ class _PostCardState extends State<PostCard> {
                         ),
                       ),
                       Text(
-                        "$_like",
+                        "${widget.numberlike}",
                         style: TextStyle(),
                       ),
                     ],
@@ -185,17 +224,13 @@ class _PostCardState extends State<PostCard> {
                             ),
                             onPressed: () {
                               Get.to(() => Commentaire(
-                                    localisation: widget.localisation,
-                                    timeAgo: widget.timeAgo,
-                                    description: widget.description,
-                                    titel: widget.titel,
-                                    postImage: widget.postImage,
+                                    id_publication: widget.id_publication,
                                   ));
                             },
                           ),
                         ),
                         Text(
-                          "$_like",
+                          "${widget.numbercomment}",
                           style: TextStyle(),
                         ),
                       ],

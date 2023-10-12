@@ -103,11 +103,6 @@ class _SignupViewState extends State<SignupView> {
                     SizedBox(
                       height: AppConstant.screenHeight * .03,
                     ),
-                    // Edittext(
-                    //   hint: "Confirme password",
-                    //   icon: const Icon(Icons.lock),
-                    //   Controller: _confirmpasswordController,
-                    // ),
                     SizedBox(
                       height: AppConstant.screenHeight * .03,
                     ),

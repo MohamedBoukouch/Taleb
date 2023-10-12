@@ -11,3 +11,11 @@ const linkresertpassword = "$linkservername/ResetPassword/resetpassword.php";
 
 //Publication
 const linkshowpubli = "$linkservername/publication/showpub.php";
+
+//Comments
+const linkaddcomment = "$linkservername/publication/comment/Add_comment.php";
+const linkshowcomment = "$linkservername/publication/comment/Show_comment.php";
+const linkdeletcomment =
+    "$linkservername/publication/comment/delete_comment.php";
+const linkNumbercomment =
+    "$linkservername/publication/comment/Number_comment.php";

@@ -2,6 +2,8 @@ import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:get/get.dart";
 import "package:google_fonts/google_fonts.dart";
+import "package:taleb/app/modules/home/pages/commentaires.dart";
+import "package:taleb/app/modules/home/views/home_view.dart";
 
 import "../constants/app_constant.dart";
 import "../themes/app_theme.dart";
@@ -26,18 +28,34 @@ class AppFunction {
 
   static cancel() {
     return TextButton(
-    child: const Text(
-      "Cancel",
-      style: TextStyle(
-        color: Colors.red,
-        fontWeight: FontWeight.bold,
+      child: const Text(
+        "Cancel",
+        style: TextStyle(
+          color: Colors.red,
+          fontWeight: FontWeight.bold,
+        ),
       ),
-    ),
-    onPressed: () {
-      Get.back();
-    },
-  );
+      onPressed: () {
+        Get.back();
+      },
+    );
   }
+
+  static delet(int id_publication) {
+    return TextButton(
+      child: const Text(
+        "Yes",
+        style: TextStyle(
+          color: Color.fromARGB(255, 44, 40, 40),
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      onPressed: () {
+        Get.to(const HomeView());
+      },
+    );
+  }
+
   static snackBar({required String label, Color color = AppTheme.red_color}) {
     return SnackBar(
       content: Text(

@@ -1,23 +1,30 @@
+import 'package:comment_box/comment/comment.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:get/get.dart';
+import 'package:taleb/app/config/constants/app_constant.dart';
+import 'package:taleb/app/modules/home/controllers/home_controller.dart';
+import 'package:taleb/app/modules/home/widgets/comment_form.dart';
 import 'package:taleb/app/modules/home/widgets/publication.dart';
 import 'package:taleb/app/shared/edittext.dart';
+import 'package:taleb/main.dart';
 
 class Commentaire extends StatefulWidget {
-  // final int? id_publication;
-  final String localisation;
-  final String timeAgo;
-  final String titel;
-  final String description;
-  final String postImage;
+  final int id_publication;
+  // final String localisation;
+  // final String timeAgo;
+  // final String titel;
+  // final String description;
+  // final String postImage;
   const Commentaire({
     Key? key,
-    // this.id_publication,
-    required this.localisation,
-    required this.timeAgo,
-    required this.titel,
-    required this.description,
-    required this.postImage,
+    required this.id_publication,
+    // required this.localisation,
+    // required this.timeAgo,
+    // required this.titel,
+    // required this.description,
+    // required this.postImage,
   }) : super(key: key);
 
   @override
@@ -26,118 +33,99 @@ class Commentaire extends StatefulWidget {
 
 class _CommentaireState extends State<Commentaire> {
   final TextEditingController _commentController = TextEditingController();
-  List _messages = ['fff', 'gggg'];
+  final HomeController controller = Get.put(HomeController());
+  final formKey = GlobalKey<FormState>();
+  @override
+  void initState() {
+    // TODO: implement initState
+    setState(() {});
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Comments"),
       ),
-      // body: SingleChildScrollView(
-      //   child: Column(
-      //     children: [
-      //       PostCard(
-      //         forcomment: true,
-      //         localisation: widget.localisation,
-      //         timeAgo: widget.timeAgo,
-      //         titel: widget.titel,
-      //         description: widget.description,
-      //         postImage: widget.postImage,
-      //       ),
-      //       Container(
-      //         padding: EdgeInsets.all(15),
-      //         child: Row(
-      //           children: [
-      //             const CircleAvatar(
-      //               backgroundImage: NetworkImage(
-      //                 "https://th.bing.com/th/id/OIP.ysdd9pBlwnNdnxQoC8y4KQHaHa?pid=ImgDet&rs=1",
-      //               ),
-      //               radius: 30,
-      //             ),
-      //             const SizedBox(
-      //               width: 8,
-      //             ),
-      //             Container(
-      //               padding: const EdgeInsets.all(15),
-      //               decoration: BoxDecoration(
-      //                   borderRadius: BorderRadius.circular(20),
-      //                   color: const Color.fromARGB(139, 158, 158, 158)),
-      //               child: Text("ffffff"),
-      //             )
-      //           ],
-      //         ),
-      //       ),
-      //       Padding(
-      //         padding: const EdgeInsets.all(16.0),
-      //         child: TextField(
-      //           controller: _commentController,
-      //           decoration: InputDecoration(
-      //             hintText: 'Write a comment',
-      //           ),
-      //         ),
-      //       ),
-      //     ],
-      //   ),
-      // ),
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            child: PostCard(
-              forcomment: true,
-              localisation: widget.localisation,
-              timeAgo: widget.timeAgo,
-              titel: widget.titel,
-              description: widget.description,
-              postImage: widget.postImage,
-            ),
-          ),
-          Expanded(
-            child: Container(
-              padding: EdgeInsets.all(15),
-              child: Row(
-                children: [
-                  const CircleAvatar(
-                    backgroundImage: NetworkImage(
-                      "https://th.bing.com/th/id/OIP.ysdd9pBlwnNdnxQoC8y4KQHaHa?pid=ImgDet&rs=1",
-                    ),
-                    radius: 30,
+      body: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(70),
+        ),
+        child: CommentBox(
+          userImage: CommentBox.commentImageParser(
+              imageURLorPath:
+                  "https://th.bing.com/th/id/OIP.ysdd9pBlwnNdnxQoC8y4KQHaHa?pid=ImgDet&rs=1"),
+
+          // ignore: sort_child_properties_last
+          child: FutureBuilder(
+            future: controller.Showcomment("${widget.id_publication}"),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: SpinKitCircle(
+                    color: Color.fromARGB(255, 246, 154, 7),
+                    size: 40,
                   ),
-                  const SizedBox(
-                    width: 8,
+                );
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Image.asset(
+                    "assets/icons/error.png",
+                    width: AppConstant.screenWidth * .8,
                   ),
-                  Container(
-                    padding: const EdgeInsets.all(15),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: const Color.fromARGB(139, 158, 158, 158)),
-                    child: Text("ffffff"),
-                  )
-                ],
-              ),
-            ),
+                );
+              } else if (!snapshot.hasData) {
+                return const Center(
+                  child: Text("No data available"),
+                );
+              } else {
+                return ListView.builder(
+                  itemCount: snapshot.data.length,
+                  itemBuilder: (context, index) {
+                    // return Center(child: Text("${snapshot.data[index]['id']}"));
+                    return Container(
+                      padding: EdgeInsets.all(5),
+                      child: CommentForm(
+                        id_publication: widget.id_publication,
+                        firstname: "${snapshot.data[index]['firstname']}",
+                        lastname: "${snapshot.data[index]['lastname']}",
+                        text: " ${snapshot.data[index]['text']}",
+                        id_user: "${snapshot.data[index]['id_user']}",
+                        id_comment: "${snapshot.data[index]['id_comment']}",
+                      ),
+                    );
+                  },
+                );
+              }
+            },
           ),
-          Divider(),
-          ListTile(
-            title: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: TextField(
-                      controller: _commentController,
-                      // onSubmitted: _handleSubmitted,
-                      decoration: InputDecoration(hintText: 'Type a message'),
-                    ),
-                  ),
-                  // IconButton(
-                  //   icon: Icon(Icons.send),
-                  //   onPressed: () => _handleSubmitted(_textController.text),
-                  // ),
-                ],
-              ),
-            ),
-          ),
-        ],
+
+          labelText:
+              _commentController.text.length > 0 ? "" : 'Write a comment...',
+          withBorder: false,
+          sendButtonMethod: () async {
+            if (formKey.currentState!.validate()) {
+              FocusScope.of(context).unfocus();
+              try {
+                await controller.Addcommentaire("${sharedpref.getString('id')}",
+                    "${widget.id_publication}", _commentController.text);
+              } catch (e) {
+                print(e);
+              }
+              _commentController.clear();
+              FocusScope.of(context).unfocus();
+              setState(() {});
+            } else {
+              print("Not validat:ed");
+            }
+          },
+          formKey: formKey,
+          commentController: _commentController,
+          backgroundColor: Color.fromARGB(148, 158, 158, 158),
+          textColor: Colors.black,
+          sendWidget: Icon(Icons.send_sharp, size: 30, color: Colors.white),
+        ),
       ),
     );
   }
