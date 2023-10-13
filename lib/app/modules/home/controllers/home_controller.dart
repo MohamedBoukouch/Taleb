@@ -62,14 +62,18 @@ class HomeController extends GetxController {
   }
 
   //Addcomment
-  Addcommentaire(String id_user, String id_publication, String text) async {
+  Addcommentaire(String id_user, String id_publication, String text,
+      String number_comment) async {
     var response = await _crud.postRequest(linkaddcomment, {
       "id_user": id_user,
       "id_publication": id_publication,
+      "numbercomment": number_comment,
       "text": text,
     });
     if (response['status'] == "success") {
       print("coment add successfull");
+      // Get.to(Commentaire(
+      //     id_publication: id_publication, number_comment: number_comment));
     } else {
       print("signup fail");
     }
@@ -89,13 +93,16 @@ class HomeController extends GetxController {
   }
 
   // Detel_comment
-  Deletcomment(String id_comment, int id_publication, context) async {
+  Deletcomment(String id_comment, String id_publication, String numbercomment,
+      context) async {
     var response = await _crud.postRequest(linkdeletcomment, {
       "id_comment": id_comment,
+      "id_publication": id_publication,
+      "numbercomment": numbercomment,
     });
     if (response['status'] == "success") {
-      print("comment delete succeful");
-      Get.off(Commentaire(id_publication: id_publication));
+      print("comment delete succeful => ${id_comment}");
+      // Get.off(Commentaire(id_publication: id_publication));
       showDialog(
           context: context,
           builder: (context) {
@@ -104,7 +111,7 @@ class HomeController extends GetxController {
                 content: const Text("Do you want really delet this comment"),
                 actions: [
                   AppFunction.cancel(),
-                  AppFunction.delet(id_publication),
+                  AppFunction.delet(),
                 ]);
           });
     } else {
@@ -112,17 +119,17 @@ class HomeController extends GetxController {
     }
   }
 
-//Number_comment
-  Numbercomment(int id_publication) async {
-    var response = await _crud.postRequest(linkNumbercomment, {
+//Like
+  Likepublication(String id_publication, String numberlike) async {
+    var response = await _crud.postRequest(linkLike, {
       "id_publication": id_publication,
+      "numberlike": numberlike,
     });
     if (response['status'] == "success") {
-      // print("comment delete succeful");
-      print(" number of coment est ${response['data']['Number_comment']}");
-      return response['data']['Number_comment'];
+      print("Good Like");
+      return response['data'];
     } else {
-      print("error");
+      print("sfail like");
     }
   }
 }

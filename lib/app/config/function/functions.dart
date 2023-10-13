@@ -41,7 +41,7 @@ class AppFunction {
     );
   }
 
-  static delet(int id_publication) {
+  static delet() {
     return TextButton(
       child: const Text(
         "Yes",

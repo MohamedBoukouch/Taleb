@@ -69,9 +69,10 @@ class _HomeViewState extends State<HomeView> {
                       // return Center(child: Text("${snapshot.data[index]['id']}"));
                       return PostCard(
                         numberlike: snapshot.data[index]['numberlike'],
-                        numbercomment: snapshot.data[index]['numbercomment'],
-                        id_publication: snapshot.data[index]['id'],
-                        forcomment: false,
+                        numbercomment:
+                            "${snapshot.data[index]['numbercomment']}",
+                        id_publication: "${snapshot.data[index]['id']}",
+                        // forcomment: false,
                         localisation:
                             " ${snapshot.data[index]['localisation']}",
                         timeAgo: "  ${snapshot.data[index]['date']}",

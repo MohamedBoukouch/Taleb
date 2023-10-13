@@ -19,3 +19,6 @@ const linkdeletcomment =
     "$linkservername/publication/comment/delete_comment.php";
 const linkNumbercomment =
     "$linkservername/publication/comment/Number_comment.php";
+
+//Like_publication
+const linkLike = "$linkservername/publication/Like/like.php";

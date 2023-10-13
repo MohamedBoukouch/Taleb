@@ -5,26 +5,20 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
 import 'package:taleb/app/modules/home/controllers/home_controller.dart';
+import 'package:taleb/app/modules/home/views/home_view.dart';
 import 'package:taleb/app/modules/home/widgets/comment_form.dart';
 import 'package:taleb/app/modules/home/widgets/publication.dart';
 import 'package:taleb/app/shared/edittext.dart';
 import 'package:taleb/main.dart';
 
 class Commentaire extends StatefulWidget {
-  final int id_publication;
-  // final String localisation;
-  // final String timeAgo;
-  // final String titel;
-  // final String description;
-  // final String postImage;
+  final String id_publication;
+  final String number_comment;
+
   const Commentaire({
     Key? key,
     required this.id_publication,
-    // required this.localisation,
-    // required this.timeAgo,
-    // required this.titel,
-    // required this.description,
-    // required this.postImage,
+    required this.number_comment,
   }) : super(key: key);
 
   @override
@@ -35,6 +29,7 @@ class _CommentaireState extends State<Commentaire> {
   final TextEditingController _commentController = TextEditingController();
   final HomeController controller = Get.put(HomeController());
   final formKey = GlobalKey<FormState>();
+
   @override
   void initState() {
     // TODO: implement initState
@@ -47,6 +42,10 @@ class _CommentaireState extends State<Commentaire> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Comments"),
+        leading: IconButton(
+          icon: const Icon(Icons.ac_unit),
+          onPressed: () => Get.to(() => const HomeView()),
+        ),
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -87,7 +86,9 @@ class _CommentaireState extends State<Commentaire> {
                     return Container(
                       padding: EdgeInsets.all(5),
                       child: CommentForm(
-                        id_publication: widget.id_publication,
+                        id_publication: "${widget.id_publication}",
+                        numbercomment:
+                            "${snapshot.data[index]['numbercomment']}",
                         firstname: "${snapshot.data[index]['firstname']}",
                         lastname: "${snapshot.data[index]['lastname']}",
                         text: " ${snapshot.data[index]['text']}",
@@ -108,8 +109,11 @@ class _CommentaireState extends State<Commentaire> {
             if (formKey.currentState!.validate()) {
               FocusScope.of(context).unfocus();
               try {
-                await controller.Addcommentaire("${sharedpref.getString('id')}",
-                    "${widget.id_publication}", _commentController.text);
+                await controller.Addcommentaire(
+                    "${sharedpref.getString('id')}",
+                    "${widget.id_publication}",
+                    _commentController.text,
+                    "${widget.number_comment}");
               } catch (e) {
                 print(e);
               }

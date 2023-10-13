@@ -11,7 +11,8 @@ class CommentForm extends StatefulWidget {
   final String lastname;
   final String id_user;
   final String id_comment;
-  final int id_publication;
+  final String id_publication;
+  final String numbercomment;
   const CommentForm({
     Key? key,
     required this.text,
@@ -20,6 +21,7 @@ class CommentForm extends StatefulWidget {
     required this.id_user,
     required this.id_comment,
     required this.id_publication,
+    required this.numbercomment,
   }) : super(key: key);
 
   @override
@@ -57,8 +59,8 @@ class _CommentFormState extends State<CommentForm> {
                 onTap: () {
                   try {
                     setState(() async {
-                      await controller.Deletcomment(
-                          widget.id_comment, widget.id_publication, context);
+                      await controller.Deletcomment(widget.id_comment,
+                          widget.id_publication, widget.numbercomment, context);
                     });
                   } catch (e) {
                     print("eroor to delet");

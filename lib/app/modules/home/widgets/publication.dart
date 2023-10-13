@@ -1,7 +1,7 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
-import 'package:taleb/app/config/function/numbercomment.dart';
 import 'package:taleb/app/modules/home/controllers/home_controller.dart';
 import 'package:taleb/app/modules/home/pages/commentaires.dart';
 import 'package:taleb/app/modules/home/pages/test.dart';
@@ -12,12 +12,12 @@ class PostCard extends StatefulWidget {
   final String titel;
   final String description;
   final String postImage;
-  final int id_publication;
+  final String id_publication;
   bool? forcomment = false;
   final int numberlike;
-  final int numbercomment;
-
+  final String numbercomment;
   PostCard({
+    Key? key,
     required this.localisation,
     required this.timeAgo,
     required this.titel,
@@ -26,8 +26,7 @@ class PostCard extends StatefulWidget {
     required this.id_publication,
     required this.numberlike,
     required this.numbercomment,
-    this.forcomment,
-  });
+  }) : super(key: key);
 
   @override
   State<PostCard> createState() => _PostCardState();
@@ -40,36 +39,6 @@ class _PostCardState extends State<PostCard> {
   int comment = 0;
   var nbr_cmt;
   final HomeController controller = Get.put(HomeController());
-  // numbercomment() async {
-  //   // try {
-  //   //   nbr_cmt = controller.Numbercomment(widget.id_publication);
-  //   //   print(nbr_cmt);
-  //   // } catch (e) {
-  //   //   print("error hhhhhh");
-  //   // }
-  //   nbr_cmt = await Numbercemment(widget.id_publication);
-  //   print("number des comment ${nbr_cmt}");
-  // }
-
-  // @override
-  // void initState() {
-  //   numbercomment();
-  //   super.initState();
-  // }
-
-  //   initialdata() async {
-  //   res = await chekInternet();
-
-  //   print(res);
-  // }
-
-  // @override
-  // void initState() {
-  //   initialdata();
-  //   controller.Showpub();
-  //   super.initState();
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -182,20 +151,34 @@ class _PostCardState extends State<PostCard> {
                         margin: EdgeInsets.only(
                             left: AppConstant.screenWidth * .055),
                         child: IconButton(
-                          icon: _isfavorit == false
-                              ? const Icon(
-                                  Icons.favorite_border,
-                                  size: 25,
-                                )
-                              : const Icon(
-                                  Icons.favorite,
-                                  color: Colors.red,
-                                  size: 25,
-                                ),
-                          onPressed: () {
-                            setState(() {
-                              _isfavorit = !_isfavorit;
-                            });
+                          // icon: _isfavorit == false
+                          //     ? const Icon(
+                          //         Icons.favorite_border,
+                          //         size: 25,
+                          //       )
+                          //     : const Icon(
+                          //         Icons.favorite,
+                          //         color: Colors.red,
+                          //         size: 25,
+                          //       ),
+                          icon: const Icon(
+                            Icons.favorite_border,
+                            size: 25,
+                          ),
+                          onPressed: () async {
+                            // setState(() async {
+                            // _isfavorit = !_isfavorit;
+                            // setState(() {});
+                            try {
+                              await controller.Likepublication(
+                                  widget.id_publication,
+                                  "${widget.numberlike}");
+                              setState(() {});
+                            } catch (e) {
+                              print("saba hhh");
+                            }
+
+                            // });
                           },
                         ),
                       ),
@@ -224,7 +207,8 @@ class _PostCardState extends State<PostCard> {
                             ),
                             onPressed: () {
                               Get.to(() => Commentaire(
-                                    id_publication: widget.id_publication,
+                                    id_publication: "${widget.id_publication}",
+                                    number_comment: "${widget.numbercomment}",
                                   ));
                             },
                           ),
@@ -257,5 +241,6 @@ class _PostCardState extends State<PostCard> {
         ],
       ),
     );
+    ;
   }
 }
