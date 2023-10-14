@@ -15,7 +15,7 @@ class PostCard extends StatefulWidget {
   final String id_publication;
   bool? forcomment = false;
   final int numberlike;
-  final String numbercomment;
+  final int numbercomment;
   PostCard({
     Key? key,
     required this.localisation,
@@ -38,6 +38,7 @@ class _PostCardState extends State<PostCard> {
   int _like = 0;
   int comment = 0;
   var nbr_cmt;
+  late int nbr_like = widget.numberlike;
   final HomeController controller = Get.put(HomeController());
   @override
   Widget build(BuildContext context) {
@@ -151,39 +152,33 @@ class _PostCardState extends State<PostCard> {
                         margin: EdgeInsets.only(
                             left: AppConstant.screenWidth * .055),
                         child: IconButton(
-                          // icon: _isfavorit == false
-                          //     ? const Icon(
-                          //         Icons.favorite_border,
-                          //         size: 25,
-                          //       )
-                          //     : const Icon(
-                          //         Icons.favorite,
-                          //         color: Colors.red,
-                          //         size: 25,
-                          //       ),
-                          icon: const Icon(
-                            Icons.favorite_border,
-                            size: 25,
-                          ),
+                          icon: _isfavorit == false
+                              ? const Icon(
+                                  Icons.favorite_border,
+                                  size: 25,
+                                )
+                              : const Icon(
+                                  Icons.favorite,
+                                  color: Colors.red,
+                                  size: 25,
+                                ),
                           onPressed: () async {
-                            // setState(() async {
-                            // _isfavorit = !_isfavorit;
-                            // setState(() {});
+                            setState(() {
+                              _isfavorit = !_isfavorit;
+                              _isfavorit == false ? nbr_like-- : nbr_like++;
+                              // nbr_like++;
+                            });
                             try {
                               await controller.Likepublication(
-                                  widget.id_publication,
-                                  "${widget.numberlike}");
-                              setState(() {});
+                                  widget.id_publication, "$nbr_like");
                             } catch (e) {
                               print("saba hhh");
                             }
-
-                            // });
                           },
                         ),
                       ),
                       Text(
-                        "${widget.numberlike}",
+                        "$nbr_like",
                         style: TextStyle(),
                       ),
                     ],
@@ -208,7 +203,7 @@ class _PostCardState extends State<PostCard> {
                             onPressed: () {
                               Get.to(() => Commentaire(
                                     id_publication: "${widget.id_publication}",
-                                    number_comment: "${widget.numbercomment}",
+                                    number_comment: widget.numbercomment,
                                   ));
                             },
                           ),

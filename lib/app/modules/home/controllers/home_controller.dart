@@ -6,6 +6,8 @@ import 'package:taleb/app/data/Crud.dart';
 import 'package:taleb/app/data/const_lik.dart';
 import 'package:taleb/app/data/remot/testdata.dart';
 import 'package:taleb/app/modules/home/pages/commentaires.dart';
+import 'package:taleb/app/modules/home/views/home_view.dart';
+import 'package:taleb/app/modules/home/widgets/publication.dart';
 import 'package:taleb/app/modules/login/views/login_view.dart';
 
 class HomeController extends GetxController {
@@ -95,27 +97,21 @@ class HomeController extends GetxController {
   // Detel_comment
   Deletcomment(String id_comment, String id_publication, String numbercomment,
       context) async {
+    var nb_comment = int.parse(numbercomment);
+    assert(nb_comment is int);
+
     var response = await _crud.postRequest(linkdeletcomment, {
       "id_comment": id_comment,
       "id_publication": id_publication,
       "numbercomment": numbercomment,
     });
     if (response['status'] == "success") {
-      print("comment delete succeful => ${id_comment}");
-      // Get.off(Commentaire(id_publication: id_publication));
-      showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-                title: Text("Delete Comment"),
-                content: const Text("Do you want really delet this comment"),
-                actions: [
-                  AppFunction.cancel(),
-                  AppFunction.delet(),
-                ]);
-          });
+      print("comment delete succeful => ${nb_comment}");
+      // Get.back();
+      Get.to(HomeView());
+      // Get.off(Commentaire(id_publication: id_publication, number_comment: 17));
     } else {
-      print("signup fail");
+      print("Error in delet a comment");
     }
   }
 
@@ -127,7 +123,6 @@ class HomeController extends GetxController {
     });
     if (response['status'] == "success") {
       print("Good Like");
-      return response['data'];
     } else {
       print("sfail like");
     }

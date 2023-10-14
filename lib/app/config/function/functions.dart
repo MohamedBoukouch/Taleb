@@ -2,11 +2,14 @@ import "package:flutter/material.dart";
 import "package:flutter/services.dart";
 import "package:get/get.dart";
 import "package:google_fonts/google_fonts.dart";
+import "package:taleb/app/modules/home/controllers/home_controller.dart";
 import "package:taleb/app/modules/home/pages/commentaires.dart";
 import "package:taleb/app/modules/home/views/home_view.dart";
 
 import "../constants/app_constant.dart";
 import "../themes/app_theme.dart";
+
+final HomeController controller = Get.put(HomeController());
 
 class AppFunction {
   AppFunction._();
@@ -41,7 +44,9 @@ class AppFunction {
     );
   }
 
-  static delet() {
+//delet comment
+  static deletcomment(String id_comment, String id_publication,
+      String nbr_comment, dynamic context) {
     return TextButton(
       child: const Text(
         "Yes",
@@ -50,8 +55,9 @@ class AppFunction {
           fontWeight: FontWeight.bold,
         ),
       ),
-      onPressed: () {
-        Get.to(const HomeView());
+      onPressed: () async {
+        await controller.Deletcomment(
+            id_comment, id_publication, nbr_comment, context);
       },
     );
   }

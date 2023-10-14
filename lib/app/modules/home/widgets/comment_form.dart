@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
+import 'package:taleb/app/config/function/functions.dart';
 import 'package:taleb/app/modules/home/controllers/home_controller.dart';
 import 'package:taleb/main.dart';
 
@@ -12,7 +13,7 @@ class CommentForm extends StatefulWidget {
   final String id_user;
   final String id_comment;
   final String id_publication;
-  final String numbercomment;
+  final int numbercomment;
   const CommentForm({
     Key? key,
     required this.text,
@@ -30,6 +31,7 @@ class CommentForm extends StatefulWidget {
 
 class _CommentFormState extends State<CommentForm> {
   final HomeController controller = Get.put(HomeController());
+  late int _nbr_comment = widget.numbercomment;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -57,15 +59,25 @@ class _CommentFormState extends State<CommentForm> {
             children: [
               InkWell(
                 onTap: () {
-                  try {
-                    setState(() async {
-                      await controller.Deletcomment(widget.id_comment,
-                          widget.id_publication, widget.numbercomment, context);
-                    });
-                  } catch (e) {
-                    print("eroor to delet");
-                  }
-                  // setState(() {});
+                  setState(() {
+                    _nbr_comment--;
+                  });
+                  showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                            title: Text("Delete Comment"),
+                            content: const Text(
+                                "Do you want really delet this comment"),
+                            actions: [
+                              AppFunction.cancel(),
+                              AppFunction.deletcomment(
+                                  widget.id_comment,
+                                  widget.id_publication,
+                                  "$_nbr_comment",
+                                  context),
+                            ]);
+                      });
                 },
                 child: Icon(
                   widget.id_user == "${sharedpref.getString("id")}"

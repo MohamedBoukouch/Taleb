@@ -13,7 +13,7 @@ import 'package:taleb/main.dart';
 
 class Commentaire extends StatefulWidget {
   final String id_publication;
-  final String number_comment;
+  final int number_comment;
 
   const Commentaire({
     Key? key,
@@ -29,6 +29,7 @@ class _CommentaireState extends State<Commentaire> {
   final TextEditingController _commentController = TextEditingController();
   final HomeController controller = Get.put(HomeController());
   final formKey = GlobalKey<FormState>();
+  late int _nbr_comment = widget.number_comment;
 
   @override
   void initState() {
@@ -43,9 +44,8 @@ class _CommentaireState extends State<Commentaire> {
       appBar: AppBar(
         title: const Text("Comments"),
         leading: IconButton(
-          icon: const Icon(Icons.ac_unit),
-          onPressed: () => Get.to(() => const HomeView()),
-        ),
+            icon: const Icon(Icons.ac_unit),
+            onPressed: () => Navigator.pop(context, true)),
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -87,8 +87,7 @@ class _CommentaireState extends State<Commentaire> {
                       padding: EdgeInsets.all(5),
                       child: CommentForm(
                         id_publication: "${widget.id_publication}",
-                        numbercomment:
-                            "${snapshot.data[index]['numbercomment']}",
+                        numbercomment: snapshot.data[index]['numbercomment'],
                         firstname: "${snapshot.data[index]['firstname']}",
                         lastname: "${snapshot.data[index]['lastname']}",
                         text: " ${snapshot.data[index]['text']}",
@@ -108,12 +107,15 @@ class _CommentaireState extends State<Commentaire> {
           sendButtonMethod: () async {
             if (formKey.currentState!.validate()) {
               FocusScope.of(context).unfocus();
+              setState(() {
+                _nbr_comment++;
+              });
               try {
                 await controller.Addcommentaire(
                     "${sharedpref.getString('id')}",
                     "${widget.id_publication}",
                     _commentController.text,
-                    "${widget.number_comment}");
+                    "$_nbr_comment");
               } catch (e) {
                 print(e);
               }
