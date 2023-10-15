@@ -1,23 +1,24 @@
 import 'package:get/get.dart';
 
-class SplashController extends GetxController {
-  //TODO: Implement SplashController
+abstract class SplashController extends GetxController {
+  // TODO: Implement SplashController
 
-  final count = 0.obs;
+  next();
+  onPageChanged(int index);
+}
+
+class SplashControllerImp extends SplashController {
+  int currentpage = 0;
+
   @override
-  void onInit() {
-    super.onInit();
+  void next() {
+    // Implement your next() logic here.
   }
 
   @override
-  void onReady() {
-    super.onReady();
+  void onPageChanged(int index) {
+    currentpage = index;
+    update();
+    // super.onPageChanged(index);
   }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
 }

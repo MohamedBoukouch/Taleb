@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
 import 'package:taleb/app/config/themes/app_theme.dart';
+import 'package:taleb/app/data/datasource/static/splash_List.dart';
 import 'package:taleb/app/modules/login/views/login_view.dart';
 
 class SplashView2 extends StatefulWidget {
@@ -25,7 +26,7 @@ class _SplashView2State extends State<SplashView2>
           Container(
               margin: EdgeInsets.only(top: AppConstant.screenHeight * .15),
               width: AppConstant.screenWidth * .9,
-              child: Image.asset("assets/splash/SL3.jpg")),
+              child: Image.asset(SplashList[1].image!)),
           Stack(
             children: [
               Container(
@@ -38,9 +39,9 @@ class _SplashView2State extends State<SplashView2>
                     const SizedBox(
                       height: 12,
                     ),
-                    const Text(
-                      "Découvrez",
-                      style: TextStyle(
+                    Text(
+                      SplashList[1].titel!,
+                      style: const TextStyle(
                         color: AppTheme.whit_color,
                         fontSize: 36,
                         fontFamily: 'Inspiration',
@@ -53,8 +54,8 @@ class _SplashView2State extends State<SplashView2>
                     Container(
                         padding: EdgeInsets.only(
                             bottom: AppConstant.screenHeight * 0.058),
-                        child: const Text(
-                          "Publier toutes les annonces des lycées, des universités, et même des instituts pour résoudre le problème du manque d'information.",
+                        child: Text(
+                          SplashList[1].text!,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: AppTheme.whit_color,

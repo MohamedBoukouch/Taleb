@@ -4,7 +4,6 @@ import 'package:get/get.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
 import 'package:taleb/app/modules/home/controllers/home_controller.dart';
 import 'package:taleb/app/modules/home/pages/commentaires.dart';
-import 'package:taleb/app/modules/home/pages/test.dart';
 
 class PostCard extends StatefulWidget {
   final String localisation;

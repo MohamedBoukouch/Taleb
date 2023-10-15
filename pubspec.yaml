@@ -17,6 +17,8 @@ dependencies:
   get: 
   flutter: 
     sdk: flutter
+  flutter_localization:
+    sdk: flutter
   carousel_slider: 
   smooth_page_indicator: 
   flutter_typeahead: 
@@ -27,6 +29,7 @@ dependencies:
   flutter_svg: 
   comment_box: ^0.0.18
   custom_refresh_indicator: ^2.2.1
+  # flutter_localization: ^0.1.14
 
 dev_dependencies: 
   flutter_lints: 
@@ -34,14 +37,18 @@ dev_dependencies:
     sdk: flutter
 
 flutter: 
+  generate: true
   assets: 
     - assets/splash/
     - assets/icons/
 
   uses-material-design: true
 
-  # fonts:
-  #   - family: Inspiration
-  #     fonts:
-  #       - asset: fonts/JosefinSans-VariableFont_wght.ttf
+  fonts: 
+    - family: Bitter
+      fonts:
+        - asset: fonts/Bitter-Medium.ttf
 
+    - family: Bitter_italic
+      fonts:
+        - asset: fonts/Bitter-Mediumitalic.ttf

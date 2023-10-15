@@ -69,7 +69,7 @@ class _SplashViewState extends State<SplashView>
                       style: TextStyle(
                         color: AppTheme.whit_color,
                         fontSize: 36,
-                        fontFamily: 'Inspiration',
+                        fontFamily: 'Bitter',
                         fontWeight: FontWeight.w700,
                       ),
                     ),
@@ -85,7 +85,7 @@ class _SplashViewState extends State<SplashView>
                           style: TextStyle(
                             color: AppTheme.whit_color,
                             fontSize: 15,
-                            fontFamily: 'Inspiration',
+                            fontFamily: 'Bitter_italic',
                           ),
                         )),
                   ],
@@ -185,3 +185,49 @@ class CircleProgressPainter extends CustomPainter {
   bool shouldRepaint(CircleProgressPainter oldDelegate) =>
       progress != oldDelegate.progress;
 }
+
+
+
+// import 'package:flutter/foundation.dart';
+// import 'package:flutter/material.dart';
+// import 'package:flutter/widgets.dart';
+// import 'package:taleb/app/config/constants/app_constant.dart';
+// import 'package:taleb/app/data/datasource/static/splash_List.dart';
+// import 'package:taleb/app/modules/splash/widgets/body.dart';
+// import 'package:taleb/app/modules/splash/widgets/dot_controll.dart';
+// import 'package:taleb/app/modules/splash/widgets/splash_button.dart';
+
+// class SplashView extends StatefulWidget {
+//   const SplashView({Key? key}) : super(key: key);
+
+//   @override
+//   State<SplashView> createState() => _SplashViewState();
+// }
+
+// class _SplashViewState extends State<SplashView> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return const Scaffold(
+//       backgroundColor: Colors.white,
+//       body: SafeArea(
+//         child: Column(
+//           children: [
+//             Body(),
+//             Expanded(
+//               flex: 2,
+//               child: Column(
+//                 children: [
+//                   DotControll(),
+//                   Spacer(
+//                     flex: 3,
+//                   ),
+//                   SplashButton(),
+//                 ],
+//               ),
+//             )
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }

@@ -3,6 +3,7 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
+  flutter_localization
   modal_progress_hud_nsn
   url_launcher_windows
 )
