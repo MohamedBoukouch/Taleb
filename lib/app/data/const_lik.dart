@@ -10,7 +10,7 @@ const linkverifycompte = "$linkservername/ResetPassword/verifycompte.php";
 const linkresertpassword = "$linkservername/ResetPassword/resetpassword.php";
 
 //Publication
-const linkshowpubli = "$linkservername/publication/showpub.php";
+const linkshowpubli = "$linkservername/publication/Show_publication_View.php";
 
 //Comments
 const linkaddcomment = "$linkservername/publication/comment/Add_comment.php";
@@ -22,3 +22,7 @@ const linkNumbercomment =
 
 //Like_publication
 const linkLike = "$linkservername/publication/Like/like.php";
+
+//favorit
+const linkAddfavorit = "$linkservername/publication/favorit/add_favorit.php";
+const linkDropfavorit = "$linkservername/publication/favorit/drop_favorit.php";

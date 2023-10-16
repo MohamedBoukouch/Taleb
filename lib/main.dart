@@ -7,7 +7,6 @@ import 'package:taleb/app/config/translations/localization/my_translation.dart';
 import 'package:taleb/app/data/binding/initialbinding.dart';
 import 'package:taleb/app/modules/login/views/login_view.dart';
 import 'app/routes/app_pages.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 
 late SharedPreferences sharedpref;
 void main() async {

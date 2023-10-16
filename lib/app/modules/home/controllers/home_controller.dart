@@ -9,6 +9,7 @@ import 'package:taleb/app/modules/home/pages/commentaires.dart';
 import 'package:taleb/app/modules/home/views/home_view.dart';
 import 'package:taleb/app/modules/home/widgets/publication.dart';
 import 'package:taleb/app/modules/login/views/login_view.dart';
+import 'package:taleb/main.dart';
 
 class HomeController extends GetxController {
   //TODO: Implement HomeController
@@ -54,9 +55,12 @@ class HomeController extends GetxController {
 
   Future Showpub() async {
     // statusRequest = StatusRequest.loading;
-    var response = await testData.getData();
+    var response = await _crud.postRequest(linkshowpubli, {
+      "id_user": sharedpref.getString("id"),
+    });
     if (response['status'] == "success") {
       print("success");
+      // update();
       return response['data'];
     } else {
       print("error");
@@ -66,6 +70,7 @@ class HomeController extends GetxController {
   //Addcomment
   Addcommentaire(String id_user, String id_publication, String text,
       String number_comment) async {
+    int number_comt = int.parse(number_comment);
     var response = await _crud.postRequest(linkaddcomment, {
       "id_user": id_user,
       "id_publication": id_publication,
@@ -74,8 +79,7 @@ class HomeController extends GetxController {
     });
     if (response['status'] == "success") {
       print("coment add successfull");
-      // Get.to(Commentaire(
-      //     id_publication: id_publication, number_comment: number_comment));
+      update();
     } else {
       print("signup fail");
     }
@@ -125,6 +129,32 @@ class HomeController extends GetxController {
       print("Good Like");
     } else {
       print("sfail like");
+    }
+  }
+
+  //Add_favorit
+  Addfavorite(String id_publication) async {
+    var response = await _crud.postRequest(linkAddfavorit, {
+      "id_user": sharedpref.getString("id"),
+      "id_publication": id_publication,
+    });
+    if (response['status'] == "success") {
+      print("is your favorit");
+    } else {
+      print("error in favorit ");
+    }
+  }
+
+  //Drop_favorit
+  Dropfavorite(String id_publication) async {
+    var response = await _crud.postRequest(linkDropfavorit, {
+      "id_publication": id_publication,
+      "id_user": sharedpref.getString("id"),
+    });
+    if (response['status'] == "success") {
+      print("is not your favorit");
+    } else {
+      print("error in favorit");
     }
   }
 }

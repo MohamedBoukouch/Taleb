@@ -68,6 +68,7 @@ class _HomeViewState extends State<HomeView> {
                     itemBuilder: (context, index) {
                       // return Center(child: Text("${snapshot.data[index]['id']}"));
                       return PostCard(
+                        is_favorit: snapshot.data[index]['favorite'],
                         numberlike: snapshot.data[index]['numberlike'],
                         numbercomment: snapshot.data[index]['numbercomment'],
                         id_publication: "${snapshot.data[index]['id']}",

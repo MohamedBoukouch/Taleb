@@ -15,6 +15,7 @@ class PostCard extends StatefulWidget {
   bool? forcomment = false;
   final int numberlike;
   final int numbercomment;
+  final int is_favorit;
   PostCard({
     Key? key,
     required this.localisation,
@@ -25,6 +26,7 @@ class PostCard extends StatefulWidget {
     required this.id_publication,
     required this.numberlike,
     required this.numbercomment,
+    required this.is_favorit,
   }) : super(key: key);
 
   @override
@@ -33,7 +35,8 @@ class PostCard extends StatefulWidget {
 
 class _PostCardState extends State<PostCard> {
   bool _isExpanded = false;
-  bool _isfavorit = false;
+  bool _islaked = false;
+  late int _isfavorit = widget.is_favorit;
   int _like = 0;
   int comment = 0;
   var nbr_cmt;
@@ -151,7 +154,7 @@ class _PostCardState extends State<PostCard> {
                         margin: EdgeInsets.only(
                             left: AppConstant.screenWidth * .055),
                         child: IconButton(
-                          icon: _isfavorit == false
+                          icon: _islaked == false
                               ? const Icon(
                                   Icons.favorite_border,
                                   size: 25,
@@ -163,8 +166,8 @@ class _PostCardState extends State<PostCard> {
                                 ),
                           onPressed: () async {
                             setState(() {
-                              _isfavorit = !_isfavorit;
-                              _isfavorit == false ? nbr_like-- : nbr_like++;
+                              _islaked = !_islaked;
+                              _islaked == false ? nbr_like-- : nbr_like++;
                               // nbr_like++;
                             });
                             try {
@@ -184,51 +187,87 @@ class _PostCardState extends State<PostCard> {
                   ),
                 ),
                 Container(
-                    width: AppConstant.screenWidth * .29,
-                    height: AppConstant.screenHeight * .06,
-                    decoration: BoxDecoration(
-                        color: Color.fromARGB(64, 158, 158, 158),
-                        borderRadius: BorderRadius.circular(50)),
-                    child: Row(
-                      children: [
-                        Container(
-                          margin: EdgeInsets.only(
-                              left: AppConstant.screenWidth * .055),
-                          child: IconButton(
-                            icon: const Icon(
-                              Icons.chat_bubble_outline,
-                              size: 25,
-                            ),
-                            onPressed: () {
-                              Get.to(() => Commentaire(
-                                    id_publication: "${widget.id_publication}",
-                                    number_comment: widget.numbercomment,
-                                  ));
-                            },
-                          ),
-                        ),
-                        Text(
-                          "${widget.numbercomment}",
-                          style: TextStyle(),
-                        ),
-                      ],
-                    )),
-                Container(
                   width: AppConstant.screenWidth * .29,
                   height: AppConstant.screenHeight * .06,
                   decoration: BoxDecoration(
-                      color: const Color.fromARGB(64, 158, 158, 158),
+                      color: Color.fromARGB(64, 158, 158, 158),
                       borderRadius: BorderRadius.circular(50)),
+                  child: Row(
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(
+                            left: AppConstant.screenWidth * .055),
+                        child: IconButton(
+                          icon: const Icon(
+                            Icons.chat_bubble_outline,
+                            size: 25,
+                          ),
+                          onPressed: () {
+                            Get.to(() => Commentaire(
+                                  id_publication: "${widget.id_publication}",
+                                  number_comment: widget.numbercomment,
+                                ));
+                          },
+                        ),
+                      ),
+                      Text(
+                        "${widget.numbercomment}",
+                        style: TextStyle(),
+                      ),
+                    ],
+                  ),
+                ),
+                Container(
+                  margin: EdgeInsets.only(left: AppConstant.screenWidth * .055),
                   child: IconButton(
-                    icon: const Icon(
-                      Icons.share,
-                      size: 25,
-                    ),
-                    onPressed: () {
-                      // Add share functionality here
+                    icon: _isfavorit == 0
+                        ? const Icon(
+                            Icons.star_border,
+                            size: 25,
+                          )
+                        : const Icon(
+                            Icons.star,
+                            color: Colors.orange,
+                            size: 25,
+                          ),
+                    onPressed: () async {
+                      setState(() {
+                        _isfavorit == 0 ? _isfavorit = 1 : _isfavorit = 0;
+                      });
+                      if (_isfavorit == 1) {
+                        // setState(()  {
+                        try {
+                          await controller.Addfavorite(widget.id_publication);
+                        } catch (e) {
+                          print("saba hhh");
+                        }
+                        // });
+                      } else {
+                        try {
+                          await controller.Dropfavorite(widget.id_publication);
+                        } catch (e) {
+                          print("saba hhh");
+                        }
+                        // });
+                      }
                     },
                   ),
                 ),
+                // Container(
+                //   width: AppConstant.screenWidth * .29,
+                //   height: AppConstant.screenHeight * .06,
+                //   decoration: BoxDecoration(
+                //       color: const Color.fromARGB(64, 158, 158, 158),
+                //       borderRadius: BorderRadius.circular(50)),
+                //   child: IconButton(
+                //     icon: widget.is_favorit == 1
+                //         ? Icon(Icons.star)
+                //         : Icon(Icons.star_border),
+                //     onPressed: () {
+                //       // Add share functionality here
+                //     },
+                //   ),
+                // ),
               ],
             ),
           ),

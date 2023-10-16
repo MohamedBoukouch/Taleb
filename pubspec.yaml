@@ -17,8 +17,6 @@ dependencies:
   get: 
   flutter: 
     sdk: flutter
-  flutter_localization:
-    sdk: flutter
   carousel_slider: 
   smooth_page_indicator: 
   flutter_typeahead: 
