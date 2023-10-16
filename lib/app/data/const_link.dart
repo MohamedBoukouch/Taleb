@@ -22,6 +22,8 @@ const linkNumbercomment =
 
 //Like_publication
 const linkLike = "$linkservername/publication/Like/like.php";
+const linkAddlike = "$linkservername/publication/Like/Add_like.php";
+const linkDroplike = "$linkservername/publication/Like/Drop_like.php";
 
 //favorit
 const linkAddfavorit = "$linkservername/publication/favorit/add_favorit.php";

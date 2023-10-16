@@ -1,5 +1,5 @@
 import 'package:taleb/app/data/Crud.dart';
-import 'package:taleb/app/data/const_lik.dart';
+import 'package:taleb/app/data/const_link.dart';
 
 class TestData {
   Crud crud;

@@ -1,9 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
 import 'package:taleb/app/modules/home/controllers/home_controller.dart';
 import 'package:taleb/app/modules/home/pages/commentaires.dart';
+import 'package:url_launcher/link.dart';
 
 class PostCard extends StatefulWidget {
   final String localisation;
@@ -16,6 +18,8 @@ class PostCard extends StatefulWidget {
   final int numberlike;
   final int numbercomment;
   final int is_favorit;
+  final int is_liked;
+  final String? link;
   PostCard({
     Key? key,
     required this.localisation,
@@ -27,6 +31,8 @@ class PostCard extends StatefulWidget {
     required this.numberlike,
     required this.numbercomment,
     required this.is_favorit,
+    required this.is_liked,
+    this.link,
   }) : super(key: key);
 
   @override
@@ -35,7 +41,7 @@ class PostCard extends StatefulWidget {
 
 class _PostCardState extends State<PostCard> {
   bool _isExpanded = false;
-  bool _islaked = false;
+  late int _isliked = widget.is_liked;
   late int _isfavorit = widget.is_favorit;
   int _like = 0;
   int comment = 0;
@@ -116,11 +122,20 @@ class _PostCardState extends State<PostCard> {
           _isExpanded
               ? Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    widget.description,
-                    style: TextStyle(fontSize: 16),
-                  ),
-                )
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Text("Link :  "),
+                          Link(
+                              uri: Uri.parse("Google.com"),
+                              builder: ((context, followLink) => TextButton(
+                                  onPressed: followLink,
+                                  child: Text("hello")))),
+                        ],
+                      )
+                    ],
+                  ))
               : SizedBox.shrink(),
           InkWell(
             onTap: () {
@@ -154,7 +169,7 @@ class _PostCardState extends State<PostCard> {
                         margin: EdgeInsets.only(
                             left: AppConstant.screenWidth * .055),
                         child: IconButton(
-                          icon: _islaked == false
+                          icon: _isliked == 0
                               ? const Icon(
                                   Icons.favorite_border,
                                   size: 25,
@@ -166,15 +181,27 @@ class _PostCardState extends State<PostCard> {
                                 ),
                           onPressed: () async {
                             setState(() {
-                              _islaked = !_islaked;
-                              _islaked == false ? nbr_like-- : nbr_like++;
+                              _isliked == 0 ? _isliked = 1 : _isliked = 0;
+                              _isliked == 0 ? nbr_like-- : nbr_like++;
                               // nbr_like++;
                             });
-                            try {
-                              await controller.Likepublication(
-                                  widget.id_publication, "$nbr_like");
-                            } catch (e) {
-                              print("saba hhh");
+                            if (_isliked == 1) {
+                              // setState(()  {
+                              try {
+                                await controller.Addlike(
+                                    widget.id_publication, "$nbr_like");
+                              } catch (e) {
+                                print("saba hhh");
+                              }
+                              // });
+                            } else {
+                              try {
+                                await controller.Droplike(
+                                    widget.id_publication, '$nbr_like');
+                              } catch (e) {
+                                print("saba hhh");
+                              }
+                              // });
                             }
                           },
                         ),
@@ -218,7 +245,11 @@ class _PostCardState extends State<PostCard> {
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(left: AppConstant.screenWidth * .055),
+                  width: AppConstant.screenWidth * .29,
+                  height: AppConstant.screenHeight * .06,
+                  decoration: BoxDecoration(
+                      color: const Color.fromARGB(64, 158, 158, 158),
+                      borderRadius: BorderRadius.circular(50)),
                   child: IconButton(
                     icon: _isfavorit == 0
                         ? const Icon(

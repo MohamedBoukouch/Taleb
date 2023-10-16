@@ -4,7 +4,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
 import 'package:taleb/app/config/function/checkInternet.dart';
-import 'package:taleb/app/data/const_lik.dart';
+import 'package:taleb/app/data/const_link.dart';
+import 'package:taleb/app/modules/home/controllers/favorit_controller.dart';
 import 'package:taleb/app/modules/home/controllers/home_controller.dart';
 import 'package:taleb/app/modules/home/widgets/publication.dart';
 import 'package:taleb/app/modules/initial/views/init_view.dart';
@@ -18,6 +19,8 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   final HomeController controller = Get.put(HomeController());
+  final FavoriController favorit_controller = Get.put(FavoriController());
+
   var res;
 
   initialdata() async {
@@ -66,8 +69,9 @@ class _HomeViewState extends State<HomeView> {
                   return ListView.builder(
                     itemCount: snapshot.data.length,
                     itemBuilder: (context, index) {
-                      // return Center(child: Text("${snapshot.data[index]['id']}"));
                       return PostCard(
+                        link: snapshot.data[index]['link'],
+                        is_liked: snapshot.data[index]['liked'],
                         is_favorit: snapshot.data[index]['favorite'],
                         numberlike: snapshot.data[index]['numberlike'],
                         numbercomment: snapshot.data[index]['numbercomment'],

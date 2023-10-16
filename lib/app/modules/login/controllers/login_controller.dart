@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
 import 'package:taleb/app/config/function/functions.dart';
 import 'package:taleb/app/data/Crud.dart';
-import 'package:taleb/app/data/const_lik.dart';
+import 'package:taleb/app/data/const_link.dart';
 import 'package:taleb/app/modules/home/views/home_view.dart';
 import 'package:taleb/app/modules/login/pages/resetpassword.dart';
 import 'package:taleb/app/modules/login/pages/verifycompte.dart';

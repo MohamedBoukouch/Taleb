@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
 import 'package:taleb/app/config/function/functions.dart';
 import 'package:taleb/app/data/Crud.dart';
-import 'package:taleb/app/data/const_lik.dart';
+import 'package:taleb/app/data/const_link.dart';
 import 'package:taleb/app/data/remot/testdata.dart';
 import 'package:taleb/app/modules/home/pages/commentaires.dart';
 import 'package:taleb/app/modules/home/views/home_view.dart';
@@ -79,10 +79,10 @@ class HomeController extends GetxController {
     });
     if (response['status'] == "success") {
       print("coment add successfull");
-      update();
     } else {
       print("signup fail");
     }
+    update();
   }
 
   //Showcomment
@@ -119,16 +119,37 @@ class HomeController extends GetxController {
     }
   }
 
-//Like
-  Likepublication(String id_publication, String numberlike) async {
-    var response = await _crud.postRequest(linkLike, {
+  //AddLike
+  Addlike(String id_publication, String numberlike) async {
+    var response = await _crud.postRequest(linkAddlike, {
+      "id_user": sharedpref.getString("id"),
       "id_publication": id_publication,
-      "numberlike": numberlike,
     });
     if (response['status'] == "success") {
-      print("Good Like");
+      print("you like publiaction");
+      var response = await _crud.postRequest(linkLike, {
+        "numberlike": numberlike,
+        "id_publication": id_publication,
+      });
     } else {
-      print("sfail like");
+      print("error in like ");
+    }
+  }
+
+  //DropLike
+  Droplike(String id_publication, String numberlike) async {
+    var response = await _crud.postRequest(linkDroplike, {
+      "id_publication": id_publication,
+      "id_user": sharedpref.getString("id"),
+    });
+    if (response['status'] == "success") {
+      print("u are drop like");
+      var response = await _crud.postRequest(linkLike, {
+        "numberlike": numberlike,
+        "id_publication": id_publication,
+      });
+    } else {
+      print("error in drop like");
     }
   }
 
@@ -140,6 +161,9 @@ class HomeController extends GetxController {
     });
     if (response['status'] == "success") {
       print("is your favorit");
+      Get.rawSnackbar(
+          title: "Notification",
+          messageText: Text("You Are add the publication to list of favorit"));
     } else {
       print("error in favorit ");
     }
@@ -153,6 +177,10 @@ class HomeController extends GetxController {
     });
     if (response['status'] == "success") {
       print("is not your favorit");
+      Get.rawSnackbar(
+          title: "Notification",
+          messageText:
+              Text("You Are Delet the publication to list of favorit"));
     } else {
       print("error in favorit");
     }
