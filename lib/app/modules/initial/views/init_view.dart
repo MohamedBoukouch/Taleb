@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
 import "package:get/get.dart";
 import "package:taleb/app/modules/home/views/home_view.dart";
-import "package:taleb/app/modules/notification/views/notification_view.dart";
+import 'package:taleb/app/modules/favorit/views/notification_view.dart';
 import "package:taleb/app/modules/search/views/search_view.dart";
 import "package:taleb/app/modules/setting/views/setting_view.dart";
 
@@ -30,7 +30,7 @@ class InitialView extends StatelessWidget {
               break;
 
             case 2:
-              Get.off(() => const NotificationView());
+              Get.off(() => const FavoritView());
               break;
             case 3:
               Get.off(() => const HomeView());
@@ -65,10 +65,10 @@ class InitialView extends StatelessWidget {
           ),
           BottomNavigationBarItem(
             activeIcon: Icon(
-              Icons.notifications,
+              Icons.bookmark,
               color: Colors.orange,
             ),
-            icon: Icon(Icons.notifications),
+            icon: Icon(Icons.bookmark),
             label: "●",
           ),
           BottomNavigationBarItem(

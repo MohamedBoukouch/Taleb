@@ -28,6 +28,8 @@ const linkDroplike = "$linkservername/publication/Like/Drop_like.php";
 //favorit
 const linkAddfavorit = "$linkservername/publication/favorit/add_favorit.php";
 const linkDropfavorit = "$linkservername/publication/favorit/drop_favorit.php";
+const linkselectfavorit =
+    "$linkservername/publication/favorit/select_favorit.php";
 
 //Search
 const linksearch = "$linkservername/search/serch_publication.php";

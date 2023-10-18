@@ -16,7 +16,8 @@ class HomeController extends GetxController {
   Crud _crud = Crud();
   TestData testData = TestData(Get.find());
 
-  List data = [];
+  List<dynamic> listdata = [];
+  List<dynamic> ListPicturesPub = [];
 
   final count = 0.obs;
   @override
@@ -44,6 +45,7 @@ class HomeController extends GetxController {
     });
     if (response['status'] == "success") {
       print("success");
+      ListPicturesPub.assignAll(response['data']);
       // update();
       return response['data'];
     } else {
@@ -174,11 +176,15 @@ class HomeController extends GetxController {
   Search(String search_txt) async {
     var response = await _crud.postRequest(linksearch, {
       "search_txt": search_txt,
+      "id_user": sharedpref.getString("id"),
     });
     if (response['status'] == "success") {
-      print("you like publiaction");
+      print("Search sucssfule");
+      print(response['data']);
+      listdata.assignAll(response['data']);
+      // return response['data'];
     } else {
-      print("error in like ");
+      print("error in search ");
     }
   }
   // //List_categori_serach

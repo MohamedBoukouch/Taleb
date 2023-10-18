@@ -90,7 +90,7 @@ class _PostCardState extends State<PostCard> {
                 InkWell(
                   onTap: () {
                     print(widget.link);
-
+                    print(charArray[0]);
                     // splitString();
                   },
                   child: const Icon(

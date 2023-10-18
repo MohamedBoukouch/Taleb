@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:taleb/app/config/constants/app_constant.dart';
+import 'package:taleb/app/data/const_link.dart';
 import 'package:taleb/app/modules/home/controllers/home_controller.dart';
+import 'package:taleb/app/modules/home/widgets/publication.dart';
 import 'package:taleb/app/modules/initial/views/init_view.dart';
+import 'package:taleb/app/modules/search/widgets/ZoomSuggestion.dart';
+import 'package:taleb/app/modules/search/widgets/suggestion_form.dart';
 
 class SearchView extends StatefulWidget {
   SearchView({Key? key}) : super(key: key);
@@ -46,6 +52,19 @@ class _SearchViewState extends State<SearchView> {
   }
 
   bool isSearchEmpty = true;
+  bool isSearching = false;
+  String vile = "Agadir";
+  List lisdata = [];
+
+  checksearch(val) {
+    if (val == "") {
+      isSearching = false;
+    }
+  }
+
+  onsearchitem() {
+    isSearching = true;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -65,13 +84,26 @@ class _SearchViewState extends State<SearchView> {
                   controller: _searchController,
                   onChanged: (value) {
                     handleSearch(value);
+                    checksearch(value);
                   },
                   decoration: InputDecoration(
                     suffixIcon: IconButton(
-                      onPressed: () {
+                      onPressed: () async {
                         if (_searchController.text.isNotEmpty) {
-                          suggestions.add(_searchController.text);
-                          saveSuggestions();
+                          if (suggestions.contains(_searchController.text)) {
+                          } else {
+                            suggestions.add(_searchController.text);
+                            saveSuggestions();
+                          }
+
+                          onsearchitem();
+                          try {
+                            await _controller.Search(_searchController.text);
+                            setState(() {});
+                          } catch (e) {
+                            print("ddd");
+                          }
+                          _searchController.clear();
                         }
                       },
                       icon: Icon(Icons.search),
@@ -159,22 +191,84 @@ class _SearchViewState extends State<SearchView> {
                 },
               ),
             ),
-            isSearchEmpty
+            isSearching == false
                 ? Expanded(
                     child: GridView.builder(
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 3,
                       ),
-                      itemCount: imageList.length,
+                      itemCount: _controller.ListPicturesPub.length,
                       itemBuilder: (context, index) {
-                        return Container(
-                          margin: EdgeInsets.all(4.0),
-                          child: Image.network(imageList[index]),
+                        return Padding(
+                          padding: EdgeInsets.only(right: 1, bottom: 1),
+                          child: InkWell(
+                            onTap: () {
+                              Get.to(
+                                ZoomSuggestion(
+                                  link:
+                                      "${_controller.ListPicturesPub[index]['link']}",
+                                  is_liked: _controller.ListPicturesPub[index]
+                                      ['liked'],
+                                  is_favorit: _controller.ListPicturesPub[index]
+                                      ['favorite'],
+                                  numberlike: _controller.ListPicturesPub[index]
+                                      ['numberlike'],
+                                  numbercomment: _controller
+                                      .ListPicturesPub[index]['numbercomment'],
+                                  id_publication:
+                                      "${_controller.ListPicturesPub[index]['id']}",
+                                  localisation:
+                                      " ${_controller.ListPicturesPub[index]['localisation']}",
+                                  timeAgo:
+                                      "  ${_controller.ListPicturesPub[index]['date']}",
+                                  titel:
+                                      "${_controller.ListPicturesPub[index]['titel']}",
+                                  description:
+                                      "${_controller.ListPicturesPub[index]['description']}",
+                                  postImage:
+                                      "${_controller.ListPicturesPub[index]['file']}",
+                                ),
+                              );
+                            },
+                            child: suggestion(
+                                inputImage:
+                                    "${_controller.ListPicturesPub[index]['file']}"),
+                          ),
                         );
                       },
                     ),
                   )
-                : Text("Search results go here"),
+                : _controller.listdata.length > 0
+                    ? Expanded(
+                        child: ListView.builder(
+                          itemCount: _controller.listdata.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return PostCard(
+                              link: "${_controller.listdata[index]['link']}",
+                              is_liked: _controller.listdata[index]['liked'],
+                              is_favorit: _controller.listdata[index]
+                                  ['favorite'],
+                              numberlike: _controller.listdata[index]
+                                  ['numberlike'],
+                              numbercomment: _controller.listdata[index]
+                                  ['numbercomment'],
+                              id_publication:
+                                  "${_controller.listdata[index]['id']}",
+                              localisation:
+                                  " ${_controller.listdata[index]['localisation']}",
+                              timeAgo:
+                                  "  ${_controller.listdata[index]['date']}",
+                              titel: "${_controller.listdata[index]['titel']}",
+                              description:
+                                  "${_controller.listdata[index]['description']}",
+                              postImage:
+                                  "${_controller.listdata[index]['file']}",
+                            );
+                          },
+                        ),
+                      )
+                    : Expanded(child: Text("Aucun résultat pour "))
           ],
         ),
       ),
