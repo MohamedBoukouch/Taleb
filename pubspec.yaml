@@ -27,6 +27,8 @@ dependencies:
   flutter_svg: 
   comment_box: ^0.0.18
   custom_refresh_indicator: ^2.2.1
+  dots_indicator: ^3.0.0
+  photo_view: ^0.14.0
   # flutter_localization: ^0.1.14
 
 dev_dependencies: 

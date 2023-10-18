@@ -1,8 +1,11 @@
+import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
+import 'package:photo_view/photo_view.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
+import 'package:taleb/app/data/const_link.dart';
 import 'package:taleb/app/modules/home/controllers/home_controller.dart';
 import 'package:taleb/app/modules/home/pages/commentaires.dart';
 import 'package:url_launcher/link.dart';
@@ -19,7 +22,7 @@ class PostCard extends StatefulWidget {
   final int numbercomment;
   final int is_favorit;
   final int is_liked;
-  final String? link;
+  final String link;
   PostCard({
     Key? key,
     required this.localisation,
@@ -32,7 +35,7 @@ class PostCard extends StatefulWidget {
     required this.numbercomment,
     required this.is_favorit,
     required this.is_liked,
-    this.link,
+    required this.link,
   }) : super(key: key);
 
   @override
@@ -48,6 +51,27 @@ class _PostCardState extends State<PostCard> {
   var nbr_cmt;
   late int nbr_like = widget.numberlike;
   final HomeController controller = Get.put(HomeController());
+  final PageController _pageController = PageController();
+  int currentPage = 0;
+
+  late String inputImage = widget.postImage;
+  List<String> charArray = [];
+
+  // int listSize = charArray.length;
+  void splitString() {
+    charArray = inputImage.split(',');
+    // int listSize = charArray.length;
+    // print(charArray);
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    setState(() {
+      splitString();
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -63,10 +87,17 @@ class _PostCardState extends State<PostCard> {
           ListTile(
             title: Row(
               children: [
-                const Icon(
-                  Icons.pin_drop,
-                  color: Colors.red,
-                  size: 20,
+                InkWell(
+                  onTap: () {
+                    print(widget.link);
+
+                    // splitString();
+                  },
+                  child: const Icon(
+                    Icons.pin_drop,
+                    color: Colors.red,
+                    size: 20,
+                  ),
                 ),
                 Text(widget.localisation),
               ],
@@ -128,7 +159,7 @@ class _PostCardState extends State<PostCard> {
                         children: [
                           Text("Link :  "),
                           Link(
-                              uri: Uri.parse("Google.com"),
+                              uri: Uri.parse(widget.link),
                               builder: ((context, followLink) => TextButton(
                                   onPressed: followLink,
                                   child: Text("hello")))),
@@ -151,7 +182,66 @@ class _PostCardState extends State<PostCard> {
               ),
             ),
           ),
-          Image.network(widget.postImage), // Display the post image
+          Container(
+            height: AppConstant.screenHeight * 0.45,
+            child: Column(
+              children: <Widget>[
+                Expanded(
+                  child: PageView.builder(
+                    controller: _pageController,
+                    scrollDirection: Axis.horizontal,
+                    itemCount: charArray.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                        padding: EdgeInsets.all(16),
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute<void>(
+                              builder: (BuildContext context) {
+                                return Scaffold(
+                                  body: Center(
+                                    child: PhotoView(
+                                      imageProvider: NetworkImage(
+                                        "$linkservername/publication/upload/${charArray[currentPage]}",
+                                      ),
+                                      backgroundDecoration: BoxDecoration(
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              },
+                            ));
+                          },
+                          child: ClipRRect(
+                            child: Image.network(
+                              "$linkservername/publication/upload/${charArray[index]}",
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        ),
+                      );
+                    },
+                    onPageChanged: (int page) {
+                      setState(() {
+                        currentPage = page.toInt();
+                      });
+                    },
+                  ),
+                ),
+                charArray.length > 1
+                    ? DotsIndicator(
+                        dotsCount: charArray.length,
+                        position: currentPage,
+                        decorator: DotsDecorator(
+                          color: Colors.grey, // Inactive dot color
+                          activeColor: Colors.blue, // Active dot color
+                        ),
+                      )
+                    : Container(),
+              ],
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.all(10),
             child: Row(
@@ -262,6 +352,7 @@ class _PostCardState extends State<PostCard> {
                             size: 25,
                           ),
                     onPressed: () async {
+                      print(widget.postImage);
                       setState(() {
                         _isfavorit == 0 ? _isfavorit = 1 : _isfavorit = 0;
                       });
@@ -305,6 +396,5 @@ class _PostCardState extends State<PostCard> {
         ],
       ),
     );
-    ;
   }
 }

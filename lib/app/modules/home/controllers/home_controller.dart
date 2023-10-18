@@ -17,22 +17,6 @@ class HomeController extends GetxController {
   TestData testData = TestData(Get.find());
 
   List data = [];
-  // late StatusRequest statusRequest;
-
-  // getData() async {
-  //   // statusRequest = StatusRequest.loading;
-  //   var response = await testData.getData();
-  // statusRequest = handlingData(response);
-  //   // if (StatusRequest.success == statusRequest) {
-  //     data.addAll(response);
-  //   // }
-  //   update();
-  //   @override
-  //   onInit() {
-  //     getData();
-  //     super.onInit();
-  //   }
-  // }
 
   final count = 0.obs;
   @override
@@ -185,4 +169,29 @@ class HomeController extends GetxController {
       print("error in favorit");
     }
   }
+
+  //Search
+  Search(String search_txt) async {
+    var response = await _crud.postRequest(linksearch, {
+      "search_txt": search_txt,
+    });
+    if (response['status'] == "success") {
+      print("you like publiaction");
+    } else {
+      print("error in like ");
+    }
+  }
+  // //List_categori_serach
+  // List<String> myList = [];
+  // List_ctigorie_search(String search_txt) async {
+  //   var response = await _crud.postRequest(linkDropfavorit, {
+  //     "search_txt": search_txt,
+  //   });
+  //   if (response['status'] == "success") {
+  //     print("List_active");
+  //     myList.add(response);
+  //   } else {
+  //     print("error in list_search");
+  //   }
+  // }
 }
