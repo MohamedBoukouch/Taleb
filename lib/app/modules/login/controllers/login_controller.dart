@@ -1,5 +1,6 @@
 // import 'dart:js';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -19,6 +20,10 @@ class LoginController extends GetxController {
   final count = 0.obs;
   @override
   void onInit() {
+    // FirebaseMessaging.instance.getToken().then((Value) {
+    //   String? token = Value;
+    //   print(Value);
+    // });
     super.onInit();
   }
 

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "321847682857",
+    "project_id": "taleb-ac17b",
+    "storage_bucket": "taleb-ac17b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:321847682857:android:ba41ad62cacbc5bb527938",
+        "android_client_info": {
+          "package_name": "com.example.taleb"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDPnE6UfTcWm_DoO2m7PNIssoKgqnV_2xM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

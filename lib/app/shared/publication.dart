@@ -204,7 +204,7 @@ class _PostCardState extends State<PostCard> {
                                   body: Center(
                                     child: PhotoView(
                                       imageProvider: NetworkImage(
-                                        "$linkservername/publication/upload/${charArray[currentPage]}",
+                                        "$linkservername/Admin/publication/upload/${charArray[currentPage]}",
                                       ),
                                       backgroundDecoration: BoxDecoration(
                                         color: Colors.black,
@@ -217,7 +217,7 @@ class _PostCardState extends State<PostCard> {
                           },
                           child: ClipRRect(
                             child: Image.network(
-                              "$linkservername/publication/upload/${charArray[index]}",
+                              "$linkservername/Admin/publication/upload/${charArray[index]}",
                               fit: BoxFit.cover,
                             ),
                           ),

@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
@@ -24,6 +25,7 @@ class HomeController extends GetxController {
   @override
   void onInit() {
     // Showpub();
+    FirebaseMessaging.instance.subscribeToTopic("users");
     super.onInit();
   }
 
@@ -165,10 +167,10 @@ class HomeController extends GetxController {
     if (response['status'] == "success") {
       print("is not your favorit");
       // Get.to(FavoritView());
-      // Get.rawSnackbar(
-      //     title: "Notification",
-      //     messageText:
-      //         Text("You Are Delet the publication to list of favorit"));
+      Get.rawSnackbar(
+          title: "Notification",
+          messageText:
+              Text("You Are Delet the publication to list of favorit"));
     } else {
       print("error in favorit");
     }

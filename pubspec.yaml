@@ -29,6 +29,9 @@ dependencies:
   custom_refresh_indicator: ^2.2.1
   dots_indicator: ^3.0.0
   photo_view: ^0.14.0
+  firebase_core: ^2.19.0
+  firebase_messaging: ^14.7.1
+  flutter_ringtone_player: ^3.2.0
   # flutter_localization: ^0.1.14
 
 dev_dependencies: 

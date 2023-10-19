@@ -43,57 +43,56 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return InitialView(
       selectedindex: 3,
-      body: Column(
+      body: ListView(
         children: [
           Slidere(),
-          Expanded(
-            child: FutureBuilder(
-              future: controller.Showpub(),
-              builder: (BuildContext context, AsyncSnapshot snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  return const Center(
-                    child: SpinKitCircle(
-                      color: Color.fromARGB(255, 246, 154, 7),
-                      size: 60,
-                    ),
-                  );
-                } else if (snapshot.hasError) {
-                  return Center(
-                    child: Image.asset(
-                      Appimages.error,
-                      width: AppConstant.screenWidth * .8,
-                    ),
-                  );
-                } else if (!snapshot.hasData) {
-                  return const Center(
-                    child: Center(child: Text("No data available")),
-                  );
-                } else {
-                  return ListView.builder(
-                    itemCount: snapshot.data.length,
-                    itemBuilder: (context, index) {
-                      return PostCard(
-                        link: "${snapshot.data[index]['link']}",
-                        is_liked: snapshot.data[index]['liked'],
-                        is_favorit: snapshot.data[index]['favorite'],
-                        numberlike: snapshot.data[index]['numberlike'],
-                        numbercomment: snapshot.data[index]['numbercomment'],
-                        id_publication: "${snapshot.data[index]['id']}",
-                        // forcomment: false,
-                        localisation:
-                            " ${snapshot.data[index]['localisation']}",
-                        timeAgo: "  ${snapshot.data[index]['date']}",
-                        titel: "${snapshot.data[index]['titel']}",
-                        description: "${snapshot.data[index]['description']}",
-                        postImage: "${snapshot.data[index]['file']}",
-                        // postImage:
-                        //     "$linkservername/publication/upload/${snapshot.data[index]['file']}",
-                      );
-                    },
-                  );
-                }
-              },
-            ),
+          FutureBuilder(
+            future: controller.Showpub(),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return const Center(
+                  child: SpinKitCircle(
+                    color: Color.fromARGB(255, 246, 154, 7),
+                    size: 60,
+                  ),
+                );
+              } else if (snapshot.hasError) {
+                return Center(
+                  child: Image.asset(
+                    Appimages.error,
+                    width: AppConstant.screenWidth * .8,
+                  ),
+                );
+              } else if (!snapshot.hasData) {
+                return const Center(
+                  child: Center(child: Text("No data available")),
+                );
+              } else {
+                return ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: snapshot.data.length,
+                  itemBuilder: (context, index) {
+                    return PostCard(
+                      link: "${snapshot.data[index]['link']}",
+                      is_liked: snapshot.data[index]['liked'],
+                      is_favorit: snapshot.data[index]['favorite'],
+                      numberlike: snapshot.data[index]['numberlike'],
+                      numbercomment: snapshot.data[index]['numbercomment'],
+                      id_publication: "${snapshot.data[index]['id']}",
+                      // forcomment: false,
+                      localisation: " ${snapshot.data[index]['localisation']}",
+                      timeAgo: "  ${snapshot.data[index]['date']}",
+                      titel: "${snapshot.data[index]['titel']}",
+                      description: "${snapshot.data[index]['description']}",
+                      postImage: "${snapshot.data[index]['file']}",
+                      // postImage:
+                      //     "$linkservername/publication/upload/${snapshot.data[index]['file']}",
+                    );
+                  },
+                );
+              }
+            },
           ),
         ],
       ),
