@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
 import 'package:taleb/app/data/const_link.dart';
 import 'package:taleb/app/modules/home/controllers/home_controller.dart';
-import 'package:taleb/app/modules/home/widgets/publication.dart';
+import 'package:taleb/app/shared/publication.dart';
 import 'package:taleb/app/modules/initial/views/init_view.dart';
 import 'package:taleb/app/modules/search/widgets/ZoomSuggestion.dart';
 import 'package:taleb/app/modules/search/widgets/suggestion_form.dart';

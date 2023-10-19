@@ -26,15 +26,15 @@ class FavoritController extends GetxController {
 
   void increment() => count.value++;
 
+  List<dynamic> FavoriteList = [];
+
   Future SelectFavorit() async {
-    // statusRequest = StatusRequest.loading;
-    var response = await _crud.postRequest(linkservername, {
+    var response = await _crud.postRequest(linkselectfavorit, {
       "id_user": sharedpref.getString("id"),
     });
     if (response['status'] == "success") {
       print("success");
-      return response['data'];
-      // update();
+      // return FavoriteList.assignAll(response['data']);
       return response['data'];
     } else {
       print("error");

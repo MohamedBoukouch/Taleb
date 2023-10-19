@@ -1,7 +1,7 @@
 import "package:flutter/material.dart";
 import "package:get/get.dart";
 import "package:taleb/app/modules/home/views/home_view.dart";
-import 'package:taleb/app/modules/favorit/views/notification_view.dart';
+import 'package:taleb/app/modules/favorit/views/favorit_view.dart';
 import "package:taleb/app/modules/search/views/search_view.dart";
 import "package:taleb/app/modules/setting/views/setting_view.dart";
 
@@ -14,7 +14,32 @@ class InitialView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       // extendBodyBehindAppBar: true,
-      // appBar: AppBar(),
+
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        title: Text(
+          'Taleb',
+          style: TextStyle(
+            color: Colors.black, // Text color
+          ),
+        ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.notifications),
+            onPressed: () {
+              // Add your action here
+            },
+            color: Colors.black, // Icon color
+          ),
+          IconButton(
+            icon: Icon(Icons.chat),
+            onPressed: () {
+              // Add your action here
+            },
+            color: Colors.black, // Icon color
+          ),
+        ],
+      ),
       backgroundColor: Colors.white,
       body: body,
       bottomNavigationBar: BottomNavigationBar(
@@ -65,10 +90,10 @@ class InitialView extends StatelessWidget {
           ),
           BottomNavigationBarItem(
             activeIcon: Icon(
-              Icons.bookmark,
+              Icons.star_rate,
               color: Colors.orange,
             ),
-            icon: Icon(Icons.bookmark),
+            icon: Icon(Icons.star_rate),
             label: "●",
           ),
           BottomNavigationBarItem(

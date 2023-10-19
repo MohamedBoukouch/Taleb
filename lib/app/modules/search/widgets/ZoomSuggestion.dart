@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:taleb/app/modules/home/widgets/publication.dart';
+import 'package:taleb/app/shared/publication.dart';
 
 class ZoomSuggestion extends StatefulWidget {
   final String localisation;

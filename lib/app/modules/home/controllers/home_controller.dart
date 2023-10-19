@@ -5,9 +5,10 @@ import 'package:taleb/app/config/function/functions.dart';
 import 'package:taleb/app/data/Crud.dart';
 import 'package:taleb/app/data/const_link.dart';
 import 'package:taleb/app/data/remot/testdata.dart';
+import 'package:taleb/app/modules/favorit/views/favorit_view.dart';
 import 'package:taleb/app/modules/home/pages/commentaires.dart';
 import 'package:taleb/app/modules/home/views/home_view.dart';
-import 'package:taleb/app/modules/home/widgets/publication.dart';
+import 'package:taleb/app/shared/publication.dart';
 import 'package:taleb/app/modules/login/views/login_view.dart';
 import 'package:taleb/main.dart';
 
@@ -163,10 +164,11 @@ class HomeController extends GetxController {
     });
     if (response['status'] == "success") {
       print("is not your favorit");
-      Get.rawSnackbar(
-          title: "Notification",
-          messageText:
-              Text("You Are Delet the publication to list of favorit"));
+      // Get.to(FavoritView());
+      // Get.rawSnackbar(
+      //     title: "Notification",
+      //     messageText:
+      //         Text("You Are Delet the publication to list of favorit"));
     } else {
       print("error in favorit");
     }
@@ -187,6 +189,7 @@ class HomeController extends GetxController {
       print("error in search ");
     }
   }
+
   // //List_categori_serach
   // List<String> myList = [];
   // List_ctigorie_search(String search_txt) async {

@@ -4,10 +4,11 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
 import 'package:taleb/app/config/function/checkInternet.dart';
+import 'package:taleb/app/config/images/app_images.dart';
 import 'package:taleb/app/data/const_link.dart';
 import 'package:taleb/app/modules/favorit/controllers/notification_controller.dart';
 import 'package:taleb/app/modules/home/controllers/home_controller.dart';
-import 'package:taleb/app/modules/home/widgets/publication.dart';
+import 'package:taleb/app/shared/publication.dart';
 import 'package:taleb/app/modules/home/widgets/slider.dart';
 import 'package:taleb/app/modules/initial/views/init_view.dart';
 
@@ -42,7 +43,7 @@ class _FavoritViewState extends State<FavoritView> {
   @override
   Widget build(BuildContext context) {
     return InitialView(
-      selectedindex: 3,
+      selectedindex: 2,
       body: Column(
         children: [
           // Slidere(),
@@ -60,18 +61,17 @@ class _FavoritViewState extends State<FavoritView> {
                 } else if (snapshot.hasError) {
                   return Center(
                     child: Image.asset(
-                      "assets/icons/error.png",
+                      Appimages.error,
                       width: AppConstant.screenWidth * .8,
                     ),
                   );
-                } else if (!snapshot.hasData) {
-                  return const Center(
-                    child: Text("No data available"),
-                  );
+                } else if (!snapshot.hasData || snapshot.data.isEmpty) {
+                  return Image.asset(Appimages.data_empty);
                 } else {
                   return ListView.builder(
                     itemCount: snapshot.data.length,
                     itemBuilder: (context, index) {
+                      // return Text("${snapshot.data[index]}");
                       return PostCard(
                         link: "${snapshot.data[index]['link']}",
                         is_liked: snapshot.data[index]['liked'],

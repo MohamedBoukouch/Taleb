@@ -6,8 +6,10 @@ import 'package:get/get.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
 import 'package:taleb/app/data/const_link.dart';
+import 'package:taleb/app/modules/favorit/views/favorit_view.dart';
 import 'package:taleb/app/modules/home/controllers/home_controller.dart';
 import 'package:taleb/app/modules/home/pages/commentaires.dart';
+import 'package:taleb/app/modules/home/views/home_view.dart';
 import 'package:url_launcher/link.dart';
 
 class PostCard extends StatefulWidget {
@@ -370,6 +372,7 @@ class _PostCardState extends State<PostCard> {
                         } catch (e) {
                           print("saba hhh");
                         }
+
                         // });
                       }
                     },

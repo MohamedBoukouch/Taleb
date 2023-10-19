@@ -7,4 +7,6 @@ class Appimages {
   static const String splash_1 = "assets/splash/SL1.jpg";
   static const String splash_2 = "assets/splash/SL2.jpg";
   static const String splash_3 = "assets/splash/SL3.jpg";
+  static const String error = "assets/icons/error.jpg";
+  static const String data_empty = "assets/icons/empty_data.jpg";
 }

@@ -6,7 +6,7 @@ import '../modules/initial/views/init_view.dart';
 import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
 import '../modules/favorit/bindings/notification_binding.dart';
-import '../modules/favorit/views/notification_view.dart';
+import '../modules/favorit/views/favorit_view.dart';
 import '../modules/search/bindings/search_binding.dart';
 import '../modules/search/views/search_view.dart';
 import '../modules/setting/bindings/setting_binding.dart';

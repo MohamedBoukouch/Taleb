@@ -7,7 +7,7 @@ import 'package:taleb/app/config/constants/app_constant.dart';
 import 'package:taleb/app/modules/home/controllers/home_controller.dart';
 import 'package:taleb/app/modules/home/views/home_view.dart';
 import 'package:taleb/app/modules/home/widgets/comment_form.dart';
-import 'package:taleb/app/modules/home/widgets/publication.dart';
+import 'package:taleb/app/shared/publication.dart';
 import 'package:taleb/app/shared/edittext.dart';
 import 'package:taleb/main.dart';
 
