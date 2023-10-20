@@ -11,6 +11,7 @@ import '../controllers/notification_controller.dart';
 class NotificationView extends GetView<NotificationController> {
   NotificationView({Key? key}) : super(key: key);
   final NotificationController _controller = Get.put(NotificationController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -48,9 +49,25 @@ class NotificationView extends GetView<NotificationController> {
               physics: NeverScrollableScrollPhysics(),
               itemCount: snapshot.data.length,
               itemBuilder: (context, index) {
-                return NotificationForm(
-                    body: "${snapshot.data[index]['body']}",
-                    id_notification: snapshot.data[index]['id']);
+                return Dismissible(
+                  key: Key("${snapshot.data[index]['id']}"),
+                  direction: DismissDirection.startToEnd,
+                  background: const Card(
+                    color: Color.fromARGB(255, 255, 34, 0),
+                    child: Icon(
+                      Icons.delete,
+                      color: Colors.white,
+                      size: 30,
+                    ),
+                  ),
+                  onDismissed: (direction) {
+                    _controller
+                        .deletnotification("${snapshot.data[index]['id']}");
+                  },
+                  child: NotificationForm(
+                      body: "${snapshot.data[index]['body']}",
+                      id_notification: snapshot.data[index]['id']),
+                );
               },
             );
           }

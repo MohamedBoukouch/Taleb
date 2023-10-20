@@ -21,27 +21,24 @@ class _NotificationFormState extends State<NotificationForm> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(top: 3, bottom: 3),
+      padding: EdgeInsets.only(top: 5, bottom: 5),
       margin: EdgeInsets.only(top: 1),
-      color: Colors.red,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        color: Color.fromARGB(20, 158, 158, 158),
+      ),
       child: ListTile(
-          title: Text(
-            "${widget.body}",
-            style: TextStyle(fontFamily: 'Bitter', fontSize: 15),
+        title: Text(
+          "${widget.body}",
+          style: TextStyle(fontFamily: 'Bitter', fontSize: 15),
+        ),
+        leading: const CircleAvatar(
+          radius: 30,
+          backgroundImage: NetworkImage(
+            "https://th.bing.com/th/id/OIP.6nsKk7mIkSKvYZD_APa8-AHaFk?pid=ImgDet&rs=1",
           ),
-          trailing: IconButton(
-              onPressed: () async {
-                await _controller
-                    .deletnotification("${widget.id_notification}");
-                setState(() {});
-              },
-              icon: Icon(Icons.close)),
-          leading: CircleAvatar(
-            radius: 30,
-            backgroundImage: NetworkImage(
-              "https://th.bing.com/th/id/OIP.6nsKk7mIkSKvYZD_APa8-AHaFk?pid=ImgDet&rs=1",
-            ),
-          )),
+        ),
+      ),
     );
   }
 }

@@ -32,6 +32,7 @@ dependencies:
   firebase_messaging: ^14.7.1
   flutter_ringtone_player: ^3.2.0
   jiffy: ^6.2.1
+  # jiffy: ^6.2.1
   # flutter_localization: ^0.1.14
 
 dev_dependencies: 

@@ -3,12 +3,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
+import 'package:jiffy/jiffy.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
 import 'package:taleb/app/data/const_link.dart';
 import 'package:taleb/app/modules/home/controllers/home_controller.dart';
 import 'package:taleb/app/modules/home/pages/commentaires.dart';
 import 'package:taleb/app/modules/home/views/home_view.dart';
+import 'package:taleb/app/shared/time.dart';
 import 'package:url_launcher/link.dart';
 
 class PostCard extends StatefulWidget {
@@ -54,15 +57,14 @@ class _PostCardState extends State<PostCard> {
   final HomeController controller = Get.put(HomeController());
   final PageController _pageController = PageController();
   int currentPage = 0;
+  DateTime now = DateTime.now();
 
+  // DateTime dateOnly = DateTime(now.year, now.month, now.day);
   late String inputImage = widget.postImage;
   List<String> charArray = [];
 
-  // int listSize = charArray.length;
   void splitString() {
     charArray = inputImage.split(',');
-    // int listSize = charArray.length;
-    // print(charArray);
   }
 
   @override
@@ -75,6 +77,8 @@ class _PostCardState extends State<PostCard> {
 
   @override
   Widget build(BuildContext context) {
+    DateTime now = DateTime.now();
+    String formattedDateTime = "${now.year}/${now.month}/${now.day}";
     return Card(
       margin: const EdgeInsets.all(8.0),
       elevation: widget.forcomment == false ? 10 : 0,
@@ -90,9 +94,8 @@ class _PostCardState extends State<PostCard> {
               children: [
                 InkWell(
                   onTap: () {
-                    print(widget.link);
-                    print(charArray[0]);
-                    // splitString();
+                    // print(widget.link);
+                    print(widget.timeAgo);
                   },
                   child: const Icon(
                     Icons.pin_drop,
@@ -110,7 +113,7 @@ class _PostCardState extends State<PostCard> {
                   color: Colors.blue,
                   size: 19,
                 ),
-                Text(widget.timeAgo),
+                Text("${widget.timeAgo}"),
               ],
             ),
           ),
