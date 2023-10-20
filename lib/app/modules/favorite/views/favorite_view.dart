@@ -1,3 +1,27 @@
+// import 'package:flutter/material.dart';
+
+// import 'package:get/get.dart';
+
+// import '../controllers/favorite_controller.dart';
+
+// class FavoriteView extends GetView<FavoriteController> {
+//   const FavoriteView({Key? key}) : super(key: key);
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text('FavoriteView'),
+//         centerTitle: true,
+//       ),
+//       body: const Center(
+//         child: Text(
+//           'FavoriteView is working',
+//           style: TextStyle(fontSize: 20),
+//         ),
+//       ),
+//     );
+//   }
+// }
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart'; // Import Flutter Material package
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -6,21 +30,21 @@ import 'package:taleb/app/config/constants/app_constant.dart';
 import 'package:taleb/app/config/function/checkInternet.dart';
 import 'package:taleb/app/config/images/app_images.dart';
 import 'package:taleb/app/data/const_link.dart';
-import 'package:taleb/app/modules/favorit/controllers/notification_controller.dart';
+import 'package:taleb/app/modules/Favorite/controllers/favorite_controller.dart';
 import 'package:taleb/app/modules/home/controllers/home_controller.dart';
 import 'package:taleb/app/shared/publication.dart';
 import 'package:taleb/app/modules/home/widgets/slider.dart';
 import 'package:taleb/app/modules/initial/views/init_view.dart';
 
-class FavoritView extends StatefulWidget {
-  const FavoritView({Key? key}) : super(key: key);
+class FavoriteView extends StatefulWidget {
+  const FavoriteView({Key? key}) : super(key: key);
 
   @override
-  State<FavoritView> createState() => _FavoritViewState();
+  State<FavoriteView> createState() => _FavoriteViewState();
 }
 
-class _FavoritViewState extends State<FavoritView> {
-  final FavoritController controller = Get.put(FavoritController());
+class _FavoriteViewState extends State<FavoriteView> {
+  final FavoriteController controller = Get.put(FavoriteController());
   // final FavoriController favorit_controller = Get.put(FavoriController());
 
   var res;

@@ -33,3 +33,8 @@ const linkselectfavorit =
 
 //Search
 const linksearch = "$linkservername/search/serch_publication.php";
+
+//Search
+const link_notification = "$linkservername/Notification/selectnotification.php";
+const link_delet_notification =
+    "$linkservername/Notification/deletnotification.php";

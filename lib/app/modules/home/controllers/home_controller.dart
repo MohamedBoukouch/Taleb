@@ -6,7 +6,6 @@ import 'package:taleb/app/config/function/functions.dart';
 import 'package:taleb/app/data/Crud.dart';
 import 'package:taleb/app/data/const_link.dart';
 import 'package:taleb/app/data/remot/testdata.dart';
-import 'package:taleb/app/modules/favorit/views/favorit_view.dart';
 import 'package:taleb/app/modules/home/pages/commentaires.dart';
 import 'package:taleb/app/modules/home/views/home_view.dart';
 import 'package:taleb/app/shared/publication.dart';

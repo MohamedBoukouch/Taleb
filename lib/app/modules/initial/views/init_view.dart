@@ -1,9 +1,12 @@
 import "package:flutter/material.dart";
 import "package:get/get.dart";
+import "package:taleb/app/modules/Favorite/views/favorite_view.dart";
 import "package:taleb/app/modules/home/views/home_view.dart";
-import 'package:taleb/app/modules/favorit/views/favorit_view.dart';
+import "package:taleb/app/modules/notification/views/notification_view.dart";
+
 import "package:taleb/app/modules/search/views/search_view.dart";
 import "package:taleb/app/modules/setting/views/setting_view.dart";
+import "package:taleb/main.dart";
 
 class InitialView extends StatelessWidget {
   final int selectedindex;
@@ -27,16 +30,16 @@ class InitialView extends StatelessWidget {
           IconButton(
             icon: Icon(Icons.notifications),
             onPressed: () {
-              // Add your action here
+              Get.to(NotificationView());
             },
-            color: Colors.black, // Icon color
+            color: Colors.black,
           ),
           IconButton(
             icon: Icon(Icons.chat),
             onPressed: () {
-              // Add your action here
+              print(sharedpref.getString("id"));
             },
-            color: Colors.black, // Icon color
+            color: Colors.black,
           ),
         ],
       ),
@@ -55,7 +58,7 @@ class InitialView extends StatelessWidget {
               break;
 
             case 2:
-              Get.off(() => const FavoritView());
+              Get.off(() => const FavoriteView());
               break;
             case 3:
               Get.off(() => const HomeView());

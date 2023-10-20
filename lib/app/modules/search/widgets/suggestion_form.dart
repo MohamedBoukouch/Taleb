@@ -29,7 +29,7 @@ class _suggestionState extends State<suggestion> {
     return Stack(
       children: [
         Image.network(
-          "$linkservername/publication/upload/${charArray[0]}",
+          "$linkservername/Admin/publication/upload/${charArray[0]}",
           width: AppConstant.screenWidth,
           height: AppConstant.screenHeight,
           fit: BoxFit.cover,

@@ -4,6 +4,7 @@ import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
+import 'package:taleb/app/config/images/app_images.dart';
 import 'package:taleb/app/data/const_link.dart';
 import 'package:taleb/app/modules/home/controllers/home_controller.dart';
 import 'package:taleb/app/shared/publication.dart';
@@ -20,7 +21,8 @@ class SearchView extends StatefulWidget {
 
 class _SearchViewState extends State<SearchView> {
   final TextEditingController _searchController = TextEditingController();
-  final HomeController _controller = Get.find<HomeController>();
+  // final HomeController _controller = Get.find<HomeController>();
+  final HomeController _controller = Get.put(HomeController());
 
   final List<String> suggestions = [];
 
@@ -193,51 +195,80 @@ class _SearchViewState extends State<SearchView> {
             ),
             isSearching == false
                 ? Expanded(
-                    child: GridView.builder(
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3,
-                      ),
-                      itemCount: _controller.ListPicturesPub.length,
-                      itemBuilder: (context, index) {
-                        return Padding(
-                          padding: EdgeInsets.only(right: 1, bottom: 1),
-                          child: InkWell(
-                            onTap: () {
-                              Get.to(
-                                ZoomSuggestion(
-                                  link:
-                                      "${_controller.ListPicturesPub[index]['link']}",
-                                  is_liked: _controller.ListPicturesPub[index]
-                                      ['liked'],
-                                  is_favorit: _controller.ListPicturesPub[index]
-                                      ['favorite'],
-                                  numberlike: _controller.ListPicturesPub[index]
-                                      ['numberlike'],
-                                  numbercomment: _controller
-                                      .ListPicturesPub[index]['numbercomment'],
-                                  id_publication:
-                                      "${_controller.ListPicturesPub[index]['id']}",
-                                  localisation:
-                                      " ${_controller.ListPicturesPub[index]['localisation']}",
-                                  timeAgo:
-                                      "  ${_controller.ListPicturesPub[index]['date']}",
-                                  titel:
-                                      "${_controller.ListPicturesPub[index]['titel']}",
-                                  description:
-                                      "${_controller.ListPicturesPub[index]['description']}",
-                                  postImage:
-                                      "${_controller.ListPicturesPub[index]['file']}",
+                    child: FutureBuilder(
+                      future: _controller.Showpub(),
+                      builder: (BuildContext context, AsyncSnapshot snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                            child: SpinKitCircle(
+                              color: Color.fromARGB(255, 246, 154, 7),
+                              size: 60,
+                            ),
+                          );
+                        } else if (snapshot.hasError) {
+                          return Center(
+                            child: Image.asset(
+                              Appimages.error,
+                              width: AppConstant.screenWidth * .8,
+                            ),
+                          );
+                        } else if (!snapshot.hasData) {
+                          return const Center(
+                            child: Center(child: Text("No data available")),
+                          );
+                        } else {
+                          return GridView.builder(
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                            ),
+                            itemCount: snapshot.data.length,
+                            itemBuilder: (context, index) {
+                              return Padding(
+                                padding: EdgeInsets.only(right: 1, bottom: 1),
+                                child: InkWell(
+                                  onTap: () {
+                                    Get.to(
+                                      ZoomSuggestion(
+                                        link:
+                                            "${_controller.ListPicturesPub[index]['link']}",
+                                        is_liked: _controller
+                                            .ListPicturesPub[index]['liked'],
+                                        is_favorit: _controller
+                                            .ListPicturesPub[index]['favorite'],
+                                        numberlike:
+                                            _controller.ListPicturesPub[index]
+                                                ['numberlike'],
+                                        numbercomment:
+                                            _controller.ListPicturesPub[index]
+                                                ['numbercomment'],
+                                        id_publication:
+                                            "${_controller.ListPicturesPub[index]['id']}",
+                                        localisation:
+                                            " ${_controller.ListPicturesPub[index]['localisation']}",
+                                        timeAgo:
+                                            "  ${_controller.ListPicturesPub[index]['date']}",
+                                        titel:
+                                            "${_controller.ListPicturesPub[index]['titel']}",
+                                        description:
+                                            "${_controller.ListPicturesPub[index]['description']}",
+                                        postImage:
+                                            "${_controller.ListPicturesPub[index]['file']}",
+                                      ),
+                                    );
+                                  },
+                                  child: suggestion(
+                                      inputImage:
+                                          "${snapshot.data[index]['file']}"),
                                 ),
                               );
                             },
-                            child: suggestion(
-                                inputImage:
-                                    "${_controller.ListPicturesPub[index]['file']}"),
-                          ),
-                        );
+                          );
+                        }
                       },
                     ),
+                    // child:
                   )
                 : _controller.listdata.length > 0
                     ? Expanded(
