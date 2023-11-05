@@ -1,53 +1,98 @@
 import "package:flutter/material.dart";
 import "package:get/get.dart";
 import "package:taleb/app/modules/Favorite/views/favorite_view.dart";
+import "package:taleb/app/modules/chat/views/chat_view.dart";
+import "package:taleb/app/modules/favorite/controllers/favorite_controller.dart";
+import "package:taleb/app/modules/home/controllers/home_controller.dart";
 import "package:taleb/app/modules/home/views/home_view.dart";
+import "package:taleb/app/modules/initial/controllers/init_controller.dart";
+import "package:taleb/app/modules/initial/widgets/notifications.dart";
+import "package:taleb/app/modules/notification/controllers/notification_controller.dart";
 import "package:taleb/app/modules/notification/views/notification_view.dart";
 
 import "package:taleb/app/modules/search/views/search_view.dart";
 import "package:taleb/app/modules/setting/views/setting_view.dart";
 import "package:taleb/main.dart";
 
-class InitialView extends StatelessWidget {
+class InitialView extends StatefulWidget {
   final int selectedindex;
   final Widget? body;
   const InitialView({Key? key, this.selectedindex = 0, this.body})
       : super(key: key);
+
+  @override
+  State<InitialView> createState() => _InitialViewState();
+}
+
+class _InitialViewState extends State<InitialView> {
+  final NotificationController controller = Get.put(NotificationController());
+  late int not = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // extendBodyBehindAppBar: true,
-
       appBar: AppBar(
         backgroundColor: Colors.white,
-        title: Text(
-          'Taleb',
-          style: TextStyle(
-            color: Colors.black, // Text color
+        title: InkWell(
+          onTap: () {
+            print(controller.ListNotification.length);
+          },
+          child: Text(
+            'Taleb',
+            style: TextStyle(
+              color: Colors.black, // Text color
+            ),
           ),
         ),
         actions: [
-          IconButton(
-            icon: Icon(Icons.notifications),
-            onPressed: () {
-              Get.to(NotificationView());
-            },
-            color: Colors.black,
+          Stack(
+            children: [
+              IconButton(
+                icon: Icon(Icons.notifications, size: 30),
+                onPressed: () async {
+                  print("${await controller.ListNotification.length}");
+
+                  try {
+                    await controller.update_notification_status();
+                  } catch (e) {
+                    print(e);
+                  }
+                  Get.to(NotificationView());
+                },
+                color: Color.fromARGB(214, 112, 111, 111),
+              ),
+
+              Positioned(
+                bottom: 31,
+                right: 13,
+                child: Container(
+                  width: 20,
+                  height: 20,
+                  decoration: BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.circular(50)),
+                  child: Center(
+                    child: Text("${controller.ListNotification.length}"),
+                  ),
+                ),
+              )
+              // : Positioned(child: Text("")),
+            ],
           ),
           IconButton(
-            icon: Icon(Icons.chat),
-            onPressed: () {
-              print(sharedpref.getString("id"));
+            icon: Icon(Icons.chat_bubble_outline_outlined, size: 30),
+            onPressed: () async {
+              Get.to(ChatView());
             },
-            color: Colors.black,
+            color: Color.fromARGB(214, 112, 111, 111),
           ),
         ],
       ),
       backgroundColor: Colors.white,
-      body: body,
+      body: widget.body,
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.red,
-        currentIndex: selectedindex,
+        currentIndex: widget.selectedindex,
         onTap: (int index) {
           switch (index) {
             case 0:
@@ -75,11 +120,11 @@ class InitialView extends StatelessWidget {
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             activeIcon: Icon(
-              Icons.settings,
+              Icons.person,
               color: Colors.orange,
             ),
             icon: Icon(
-              Icons.settings,
+              Icons.person,
             ),
             label: "●",
           ),

@@ -185,7 +185,7 @@ class HomeController extends GetxController {
       print("Search sucssfule");
       print(response['data']);
       listdata.assignAll(response['data']);
-      // return response['data'];
+      return response['data'];
     } else {
       print("error in search ");
     }

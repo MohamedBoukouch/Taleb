@@ -22,35 +22,68 @@ class NotificationView extends GetView<NotificationController> {
         ),
         centerTitle: true,
       ),
-      body: FutureBuilder(
-        future: _controller.selectnotification(),
-        builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: SpinKitCircle(
-                color: Color.fromARGB(255, 246, 154, 7),
-                size: 60,
-              ),
-            );
-          } else if (snapshot.hasError) {
-            return Center(
-              child: Image.asset(
-                Appimages.error,
-                width: AppConstant.screenWidth * .8,
-              ),
-            );
-          } else if (!snapshot.hasData) {
-            return const Center(
-              child: Center(child: Text("No data available")),
+      body: Obx(
+        () {
+          if (controller.needsDataRefresh.value) {
+            return FutureBuilder(
+              future: _controller.allnotifications(),
+              builder: (BuildContext context, AsyncSnapshot snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: SpinKitCircle(
+                      color: Color.fromARGB(255, 246, 154, 7),
+                      size: 60,
+                    ),
+                  );
+                } else if (snapshot.hasError) {
+                  return Center(
+                    child: Image.asset(
+                      Appimages.error,
+                      width: AppConstant.screenWidth * .8,
+                    ),
+                  );
+                } else if (!snapshot.hasData) {
+                  return const Center(
+                    child: Center(child: Text("No data available")),
+                  );
+                } else {
+                  return ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (context, index) {
+                      return Dismissible(
+                        key: Key("${snapshot.data[index]['id']}"),
+                        direction: DismissDirection.startToEnd,
+                        background: const Card(
+                          color: Color.fromARGB(255, 255, 34, 0),
+                          child: Icon(
+                            Icons.delete,
+                            color: Colors.white,
+                            size: 30,
+                          ),
+                        ),
+                        onDismissed: (direction) {
+                          _controller.deletnotification(
+                              "${snapshot.data[index]['id']}");
+                        },
+                        child: NotificationForm(
+                            body: "${snapshot.data[index]['body']}",
+                            id_notification: snapshot.data[index]['id']),
+                      );
+                    },
+                  );
+                }
+              },
             );
           } else {
             return ListView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
-              itemCount: snapshot.data.length,
+              itemCount: controller.ListNotification.length,
               itemBuilder: (context, index) {
                 return Dismissible(
-                  key: Key("${snapshot.data[index]['id']}"),
+                  key: Key("${controller.ListNotification[index]['id']}"),
                   direction: DismissDirection.startToEnd,
                   background: const Card(
                     color: Color.fromARGB(255, 255, 34, 0),
@@ -61,18 +94,70 @@ class NotificationView extends GetView<NotificationController> {
                     ),
                   ),
                   onDismissed: (direction) {
-                    _controller
-                        .deletnotification("${snapshot.data[index]['id']}");
+                    _controller.deletnotification(
+                        "${controller.ListNotification[index]['id']}");
                   },
                   child: NotificationForm(
-                      body: "${snapshot.data[index]['body']}",
-                      id_notification: snapshot.data[index]['id']),
+                      body: "${controller.ListNotification[index]['body']}",
+                      id_notification: controller.ListNotification[index]
+                          ['id']),
                 );
               },
             );
           }
         },
       ),
+      // body: FutureBuilder(
+      //   future: _controller.selctntfc(),
+      //   builder: (BuildContext context, AsyncSnapshot snapshot) {
+      //     if (snapshot.connectionState == ConnectionState.waiting) {
+      //       return const Center(
+      //         child: SpinKitCircle(
+      //           color: Color.fromARGB(255, 246, 154, 7),
+      //           size: 60,
+      //         ),
+      //       );
+      //     } else if (snapshot.hasError) {
+      //       return Center(
+      //         child: Image.asset(
+      //           Appimages.error,
+      //           width: AppConstant.screenWidth * .8,
+      //         ),
+      //       );
+      //     } else if (!snapshot.hasData) {
+      //       return const Center(
+      //         child: Center(child: Text("No data available")),
+      //       );
+      //     } else {
+      //       return ListView.builder(
+      //         shrinkWrap: true,
+      //         physics: NeverScrollableScrollPhysics(),
+      //         itemCount: snapshot.data.length,
+      //         itemBuilder: (context, index) {
+      //           return Dismissible(
+      //             key: Key("${snapshot.data[index]['id']}"),
+      //             direction: DismissDirection.startToEnd,
+      //             background: const Card(
+      //               color: Color.fromARGB(255, 255, 34, 0),
+      //               child: Icon(
+      //                 Icons.delete,
+      //                 color: Colors.white,
+      //                 size: 30,
+      //               ),
+      //             ),
+      //             onDismissed: (direction) {
+      //               _controller
+      //                   .deletnotification("${snapshot.data[index]['id']}");
+      //             },
+      //             child: NotificationForm(
+      //                 body: "${snapshot.data[index]['body']}",
+      //                 id_notification: snapshot.data[index]['id']),
+      //           );
+      //         },
+      //       );
+      //     }
+      //   },
+      // ),
     );
   }
 }

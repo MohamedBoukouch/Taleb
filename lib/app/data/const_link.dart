@@ -34,7 +34,17 @@ const linkselectfavorit =
 //Search
 const linksearch = "$linkservername/search/serch_publication.php";
 
-//Search
-const link_notification = "$linkservername/Notification/selectnotification.php";
+//Notification
+const link_notification =
+    "$linkservername/Notification/notification_active.php";
 const link_delet_notification =
     "$linkservername/Notification/deletnotification.php";
+const link_all_notifications =
+    "$linkservername/Notification/all_notification.php";
+const link_update_notification_status =
+    "$linkservername/Notification/update_status_notification.php";
+
+//Messages
+const link_send_messages = "$linkservername/Chat/send_message.php";
+const link_show_messages = "$linkservername/Chat/show_message.php";
+const link_delet_message = "$linkservername/Chat/delet_message.php";

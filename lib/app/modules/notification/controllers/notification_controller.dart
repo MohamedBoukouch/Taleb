@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:get/get.dart';
 import 'package:taleb/app/data/Crud.dart';
 import 'package:taleb/app/data/const_link.dart';
@@ -8,13 +9,10 @@ class NotificationController extends GetxController {
   //TODO: Implement NotificationController
   Crud _crud = Crud();
 
-  List ListNotification = [];
+  List<dynamic> ListNotification = [];
+  // List<dynamic> List_Lenght_Notification = [];
+  // List<dynamic> List_notification_active = [];
   final count = 0.obs;
-  @override
-  void onInit() {
-    ListNotification;
-    super.onInit();
-  }
 
   @override
   void onReady() {
@@ -28,21 +26,34 @@ class NotificationController extends GetxController {
 
   void increment() => count.value++;
 
-  //select_notification
-  Future selectnotification() async {
-    // statusRequest = StatusRequest.loading;
-    var response = await _crud.postRequest(link_notification, {
-      "id_user": sharedpref.getString("id"),
-    });
+  RxBool needsDataRefresh = true.obs;
+
+  void setRefreshFlag(bool value) {
+    needsDataRefresh.value = value;
+  }
+
+  //select_active_notification
+  activenotification() async {
+    update();
+    var response = await _crud.getRequest(link_notification);
+
+    update();
+  }
+
+//ALL Notifications:
+  allnotifications() async {
+    update();
+    var response = await _crud.getRequest(link_all_notifications);
+    ListNotification.addAll(response['data']);
+    // ListNotification.assignAll(response['data']);
     if (response['status'] == "success") {
       print("success");
-      // return
-      // return ListNotification.assignAll(response['data']);
-      // update();
+
       return response['data'];
     } else {
       print("error");
     }
+    update();
   }
 
   //deletnotification
@@ -61,5 +72,29 @@ class NotificationController extends GetxController {
       update();
     }
     update();
+  }
+
+  //update_notification_status
+  update_notification_status() async {
+    update();
+    var response = await _crud.postRequest(link_update_notification_status, {
+      "active": "0",
+    });
+    if (response['status'] == "success") {
+      print("success");
+      // Get.to(NotificationView());
+      update();
+    } else {
+      print("error");
+      update();
+    }
+    update();
+  }
+
+  @override
+  void onInit() {
+    activenotification();
+    ListNotification;
+    super.onInit();
   }
 }

@@ -7,6 +7,7 @@ class FavoriteController extends GetxController {
   //TODO: Implement FavoriteController
 
   Crud _crud = Crud();
+  List<dynamic> FavoriteList = [];
 
   final count = 0.obs;
   @override
@@ -26,15 +27,13 @@ class FavoriteController extends GetxController {
 
   void increment() => count.value++;
 
-  List<dynamic> FavoriteList = [];
-
   Future SelectFavorit() async {
     var response = await _crud.postRequest(linkselectfavorit, {
       "id_user": sharedpref.getString("id"),
     });
     if (response['status'] == "success") {
       print("success");
-      // return FavoriteList.assignAll(response['data']);
+      FavoriteList.assignAll(response['data']);
       return response['data'];
     } else {
       print("error");
