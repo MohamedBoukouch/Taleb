@@ -9,6 +9,7 @@ class Edittext extends StatefulWidget {
   final bool? ispassword;
   final bool? isemail;
   final Icon? icon;
+  final bool? enable;
   final TextEditingController Controller;
   final StringValidator? validator;
   final Function(dynamic value)? onSaved;
@@ -18,6 +19,7 @@ class Edittext extends StatefulWidget {
     this.ispassword,
     this.isemail,
     this.icon,
+    this.enable,
     required this.Controller,
     this.validator,
     this.onSaved,
@@ -33,6 +35,7 @@ class _EdittextState extends State<Edittext> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      enabled: widget.enable,
       controller: widget.Controller,
       validator: widget.validator,
       obscureText: widget.ispassword == true
@@ -65,9 +68,16 @@ class _EdittextState extends State<Edittext> {
                 ),
               )
             : null,
-        enabledBorder: OutlineInputBorder(
+        disabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
             width: 3, //<-- SEE HERE
+            color: const Color.fromARGB(132, 255, 153, 0),
+          ),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            width: 1, //<-- SEE HERE
             color: Colors.grey,
           ),
           borderRadius: BorderRadius.circular(20),

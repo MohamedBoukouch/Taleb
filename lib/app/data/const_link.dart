@@ -48,3 +48,6 @@ const link_update_notification_status =
 const link_send_messages = "$linkservername/Chat/send_message.php";
 const link_show_messages = "$linkservername/Chat/show_message.php";
 const link_delet_message = "$linkservername/Chat/delet_message.php";
+
+//Profile
+const link_profile = "$linkservername/profile/profile.php";

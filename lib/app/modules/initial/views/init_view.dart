@@ -17,7 +17,8 @@ import "package:taleb/main.dart";
 class InitialView extends StatefulWidget {
   final int selectedindex;
   final Widget? body;
-  const InitialView({Key? key, this.selectedindex = 0, this.body})
+  final PreferredSizeWidget? appbar;
+  const InitialView({Key? key, this.selectedindex = 0, this.body, this.appbar})
       : super(key: key);
 
   @override
@@ -31,63 +32,7 @@ class _InitialViewState extends State<InitialView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: InkWell(
-          onTap: () {
-            print(controller.ListNotification.length);
-          },
-          child: Text(
-            'Taleb',
-            style: TextStyle(
-              color: Colors.black, // Text color
-            ),
-          ),
-        ),
-        actions: [
-          Stack(
-            children: [
-              IconButton(
-                icon: Icon(Icons.notifications, size: 30),
-                onPressed: () async {
-                  print("${await controller.ListNotification.length}");
-
-                  try {
-                    await controller.update_notification_status();
-                  } catch (e) {
-                    print(e);
-                  }
-                  Get.to(NotificationView());
-                },
-                color: Color.fromARGB(214, 112, 111, 111),
-              ),
-
-              Positioned(
-                bottom: 31,
-                right: 13,
-                child: Container(
-                  width: 20,
-                  height: 20,
-                  decoration: BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.circular(50)),
-                  child: Center(
-                    child: Text("${controller.ListNotification.length}"),
-                  ),
-                ),
-              )
-              // : Positioned(child: Text("")),
-            ],
-          ),
-          IconButton(
-            icon: Icon(Icons.chat_bubble_outline_outlined, size: 30),
-            onPressed: () async {
-              Get.to(ChatView());
-            },
-            color: Color.fromARGB(214, 112, 111, 111),
-          ),
-        ],
-      ),
+      appBar: widget.appbar,
       backgroundColor: Colors.white,
       body: widget.body,
       bottomNavigationBar: BottomNavigationBar(

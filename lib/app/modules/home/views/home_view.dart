@@ -6,7 +6,11 @@ import 'package:taleb/app/config/constants/app_constant.dart';
 import 'package:taleb/app/config/function/checkInternet.dart';
 import 'package:taleb/app/config/images/app_images.dart';
 import 'package:taleb/app/data/const_link.dart';
+import 'package:taleb/app/modules/chat/views/chat_view.dart';
 import 'package:taleb/app/modules/home/controllers/home_controller.dart';
+import 'package:taleb/app/modules/home/widgets/appbar.dart';
+import 'package:taleb/app/modules/notification/controllers/notification_controller.dart';
+import 'package:taleb/app/modules/notification/views/notification_view.dart';
 import 'package:taleb/app/shared/publication.dart';
 import 'package:taleb/app/modules/home/widgets/slider.dart';
 import 'package:taleb/app/modules/initial/views/init_view.dart';
@@ -20,6 +24,9 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   final HomeController controller = Get.put(HomeController());
+  final NotificationController controller_notification =
+      Get.put(NotificationController());
+
   // final FavoriController favorit_controller = Get.put(FavoriController());
 
   var res;
@@ -43,6 +50,65 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return InitialView(
       selectedindex: 3,
+      appbar: AppBar(
+        backgroundColor: Colors.white,
+        title: InkWell(
+          onTap: () {
+            print(controller_notification.ListNotification.length);
+          },
+          child: Text(
+            'Taleb',
+            style: TextStyle(
+              color: Colors.black, // Text color
+            ),
+          ),
+        ),
+        actions: [
+          Stack(
+            children: [
+              IconButton(
+                icon: Icon(Icons.notifications, size: 30),
+                onPressed: () async {
+                  print(
+                      "${await controller_notification.ListNotification.length}");
+
+                  try {
+                    await controller_notification.update_notification_status();
+                  } catch (e) {
+                    print(e);
+                  }
+                  Get.to(NotificationView());
+                },
+                color: Color.fromARGB(214, 112, 111, 111),
+              ),
+
+              Positioned(
+                bottom: 31,
+                right: 13,
+                child: Container(
+                  width: 20,
+                  height: 20,
+                  decoration: BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.circular(50)),
+                  child: Center(
+                    child: Text(
+                        "${controller_notification.ListNotification.length}"),
+                  ),
+                ),
+              )
+              // : Positioned(child: Text("")),
+            ],
+          ),
+          IconButton(
+            icon: Icon(Icons.chat_bubble_outline_outlined, size: 30),
+            onPressed: () async {
+              Get.to(ChatView());
+            },
+            color: Color.fromARGB(214, 112, 111, 111),
+          ),
+        ],
+      ),
       body: ListView(
         children: [
           Slidere(),

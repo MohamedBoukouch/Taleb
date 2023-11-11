@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
+import 'package:taleb/app/config/themes/app_theme.dart';
 
 class Button extends StatefulWidget {
   final String txt;
@@ -17,12 +18,12 @@ class _ButtonState extends State<Button> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(top: AppConstant.screenHeight * .04),
+      // margin: EdgeInsets.only(top: AppConstant.screenHeight * .04),
       width: AppConstant.screenWidth * .9,
       height: AppConstant.screenHeight * .064,
       decoration: BoxDecoration(
-        color: Colors.orange,
-        borderRadius: BorderRadius.circular(20),
+        color: AppTheme.main_color_1,
+        borderRadius: BorderRadius.circular(30),
         boxShadow: [
           BoxShadow(
             color: const Color.fromARGB(219, 158, 158, 158).withOpacity(0.5),
