@@ -2,13 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
-import 'package:taleb/app/config/function/functions.dart';
 import 'package:taleb/app/modules/login/controllers/login_controller.dart';
 import 'package:taleb/app/modules/login/pages/checkemail.dart';
 import 'package:taleb/app/modules/signup/views/signup_view.dart';
 import 'package:taleb/app/shared/bottun.dart';
 import 'package:taleb/app/shared/edittext.dart';
-
 import '../../../config/translations/localization/changelocal.dart';
 
 class LoginView extends StatefulWidget {
@@ -66,7 +64,6 @@ class _LoginViewState extends State<LoginView> {
                       } else if (value.length < 6) {
                         return "Voter mot de passe est incorrect";
                       }
-
                       return null; // Input is valid
                     },
                   ),

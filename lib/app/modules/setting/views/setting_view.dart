@@ -92,7 +92,7 @@ class _SettingViewState extends State<SettingView> {
                           height: 20,
                         ),
                         Text(
-                          "${snapshot.data[index]['firstname']} ${snapshot.data[index]['firstname']}",
+                          "${snapshot.data[index]['firstname']} ${snapshot.data[index]['lastname']}",
                           style: TextStyle(
                               fontSize: 20,
                               fontFamily: 'Bitter',
@@ -203,7 +203,7 @@ class _SettingViewState extends State<SettingView> {
                                 "Log Out",
                                 style: TextStyle(
                                     fontFamily: 'Bitter',
-                                    fontSize: 20,
+                                    fontSize: 18,
                                     color: Colors.white),
                               ),
                             ),
