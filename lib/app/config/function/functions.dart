@@ -5,11 +5,13 @@ import "package:google_fonts/google_fonts.dart";
 import "package:taleb/app/modules/home/controllers/home_controller.dart";
 import "package:taleb/app/modules/home/pages/commentaires.dart";
 import "package:taleb/app/modules/home/views/home_view.dart";
+import "package:taleb/app/modules/setting/controllers/setting_controller.dart";
 
 import "../constants/app_constant.dart";
 import "../themes/app_theme.dart";
 
-final HomeController controller = Get.put(HomeController());
+final HomeController home_controller = Get.put(HomeController());
+final SettingController compte_controller = Get.put(SettingController());
 
 class AppFunction {
   AppFunction._();
@@ -44,6 +46,22 @@ class AppFunction {
     );
   }
 
+//delet_compte
+  static delet_compte(cxt) {
+    return TextButton(
+      child: const Text(
+        "Delet",
+        style: TextStyle(
+          color: Colors.red,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      onPressed: () async {
+        await compte_controller.deletcompte(cxt);
+      },
+    );
+  }
+
 //delet comment
   static deletcomment(String id_comment, String id_publication,
       String nbr_comment, dynamic context) {
@@ -56,7 +74,7 @@ class AppFunction {
         ),
       ),
       onPressed: () async {
-        await controller.Deletcomment(
+        await home_controller.Deletcomment(
             id_comment, id_publication, nbr_comment, context);
       },
     );

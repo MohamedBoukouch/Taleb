@@ -46,101 +46,103 @@ class _EditProfileState extends State<EditProfile> {
     return Scaffold(
       // appBar: AppBar(),
 
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Container(
-            padding: EdgeInsets.only(
-                right: AppConstant.screenWidth * .05,
-                left: AppConstant.screenWidth * .05),
-            child: Column(
-              children: [
-                ButtonBack(),
-                SizedBox(
-                  height: AppConstant.screenHeight * .05,
-                ),
-                const Row(
-                  children: [
-                    CircleAvatar(
-                      backgroundColor: Color.fromARGB(24, 255, 153, 0),
-                      radius: 25,
-                      child: Image(
-                        image: AssetImage("assets/icons/compte.png"),
+      body: SingleChildScrollView(
+        child: SafeArea(
+          child: SingleChildScrollView(
+            child: Container(
+              padding: EdgeInsets.only(
+                  right: AppConstant.screenWidth * .05,
+                  left: AppConstant.screenWidth * .05),
+              child: Column(
+                children: [
+                  ButtonBack(),
+                  SizedBox(
+                    height: AppConstant.screenHeight * .05,
+                  ),
+                  const Row(
+                    children: [
+                      CircleAvatar(
+                        backgroundColor: Color.fromARGB(24, 255, 153, 0),
+                        radius: 25,
+                        child: Image(
+                          image: AssetImage("assets/icons/compte.png"),
+                        ),
+                      ),
+                      SizedBox(
+                        width: 20,
+                      ),
+                      Text(
+                        "Mon Compte",
+                        style: TextStyle(
+                            fontFamily: 'Bitter',
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20),
+                      )
+                    ],
+                  ),
+                  SizedBox(
+                    height: AppConstant.screenHeight * .06,
+                  ),
+                  Edittext(
+                    icon: Icon(Icons.person_2_outlined),
+                    Controller: nom_controller,
+                    hint: "Nom",
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Edittext(
+                    icon: Icon(Icons.person_2_outlined),
+                    Controller: prenom_controller,
+                    hint: "Prenom",
+                  ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Edittext(
+                    icon: Icon(Icons.email_outlined),
+                    Controller: email_controller,
+                    hint: "Email",
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  ChangePassword(),
+                  Edittext(
+                    icon: Icon(Icons.lock),
+                    ispassword: true,
+                    Controller: password_controller,
+                    hint: "Nouveau mot de passe",
+                  ),
+                  const SizedBox(
+                    height: 10,
+                  ),
+                  SizedBox(
+                    height: AppConstant.screenHeight * .07,
+                  ),
+                  Container(
+                    margin: EdgeInsets.only(
+                        left: AppConstant.screenWidth * .15,
+                        right: AppConstant.screenWidth * .15),
+                    child: InkWell(
+                      onTap: () async {
+                        try {
+                          await controller.edit_compte(
+                              "${nom_controller.text}",
+                              "${prenom_controller.text}",
+                              "${email_controller.text}",
+                              context);
+                        } catch (e) {
+                          print("ggggg");
+                        }
+                      },
+                      child: const Button(
+                        txt: "Enreristrer",
                       ),
                     ),
-                    SizedBox(
-                      width: 20,
-                    ),
-                    Text(
-                      "Mon Compte",
-                      style: TextStyle(
-                          fontFamily: 'Bitter',
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20),
-                    )
-                  ],
-                ),
-                SizedBox(
-                  height: AppConstant.screenHeight * .06,
-                ),
-                Edittext(
-                  icon: Icon(Icons.person_2_outlined),
-                  Controller: nom_controller,
-                  hint: "Nom",
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Edittext(
-                  icon: Icon(Icons.person_2_outlined),
-                  Controller: prenom_controller,
-                  hint: "Prenom",
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                Edittext(
-                  icon: Icon(Icons.email_outlined),
-                  Controller: email_controller,
-                  hint: "Email",
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                ChangePassword(),
-                Edittext(
-                  icon: Icon(Icons.lock),
-                  ispassword: true,
-                  Controller: password_controller,
-                  hint: "Nouveau mot de passe",
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                SizedBox(
-                  height: AppConstant.screenHeight * .07,
-                ),
-                Container(
-                  margin: EdgeInsets.only(
-                      left: AppConstant.screenWidth * .15,
-                      right: AppConstant.screenWidth * .15),
-                  child: InkWell(
-                    onTap: () async {
-                      try {
-                        await controller.edit_compte(
-                            "${nom_controller.text}",
-                            "${prenom_controller.text}",
-                            "${email_controller.text}",
-                            context);
-                      } catch (e) {
-                        print("ggggg");
-                      }
-                    },
-                    child: const Button(
-                      txt: "Enreristrer",
-                    ),
-                  ),
-                )
-              ],
+                  )
+                ],
+              ),
             ),
           ),
         ),

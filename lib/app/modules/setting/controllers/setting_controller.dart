@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
 import 'package:taleb/app/config/function/functions.dart';
 import 'package:taleb/app/data/Crud.dart';
 import 'package:taleb/app/data/const_link.dart';
+import 'package:taleb/app/modules/login/views/login_view.dart';
 import 'package:taleb/main.dart';
 
 class SettingController extends GetxController {
@@ -79,37 +82,46 @@ class SettingController extends GetxController {
     });
     if (response['status'] == "success") {
       print("edit_password sucssfule");
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.success,
+        text: 'Password Changed Successfully!',
+      );
+      //return response['data'];
+    } else {
+      print("error in edit password ");
+      QuickAlert.show(
+        context: context,
+        type: QuickAlertType.error,
+        title: 'Oops...',
+        text: 'Sorry, May be your password is incorrect',
+      );
+    }
+  }
+
+  //Delet_Compte
+  deletcompte(context) async {
+    var response = await _crud.postRequest(link_delet_compte, {
+      "id": sharedpref.getString("id"),
+    });
+    if (response['status'] == "success") {
+      print("edit_password sucssfule");
+      Get.off(LoginView());
+    } else {
+      print("error in edit password ");
       showDialog(
           context: context,
           builder: (context) {
             return AlertDialog(
                 title: Image.asset(
-                  "assets/icons/succefully.png",
+                  "assets/icons/wairning_icon.png",
                   width: AppConstant.screenWidth * .02,
                 ),
-                content:
-                    const Text("Your password has been changed Oh success"),
+                content: const Text("Your password is incorrect"),
                 actions: [
                   AppFunction.cancel(),
                 ]);
           });
-      //return response['data'];
-    } else {
-      print("error in edit password ");
-      // showDialog(
-      //     context: context,
-      //     builder: (context) {
-      //       return AlertDialog(
-      //           title: Image.asset(
-      //             "assets/icons/error.jpg",
-      //             width: AppConstant.screenWidth * .02,
-      //           ),
-      //           content:
-      //               const Text("Your password has been changed Oh success"),
-      //           actions: [
-      //             AppFunction.cancel(),
-      //           ]);
-      //     });
     }
   }
 }

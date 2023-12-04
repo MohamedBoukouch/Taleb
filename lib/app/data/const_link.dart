@@ -55,3 +55,4 @@ const link_profile = "$linkservername/profile/profile.php";
 //Compte
 const link_edit_compte = "$linkservername/compte/edit_compte.php";
 const link_edit_password = "$linkservername/compte/edit_password.php";
+const link_delet_compte = "$linkservername/compte/delet_compte.php";

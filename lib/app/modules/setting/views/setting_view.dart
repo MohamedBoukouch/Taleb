@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import 'package:get/get.dart';
+import 'package:quickalert/models/quickalert_type.dart';
+import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
+import 'package:taleb/app/config/function/functions.dart';
 import 'package:taleb/app/config/themes/app_theme.dart';
 import 'package:taleb/app/modules/initial/views/init_view.dart';
 import 'package:taleb/app/modules/login/views/login_view.dart';
@@ -34,9 +37,6 @@ class _SettingViewState extends State<SettingView> {
   Widget build(BuildContext context) {
     return InitialView(
       selectedindex: 0,
-      // appbar: AppBar(
-      //   backgroundColor: Colors.white,
-      // ),
       body: ListView(
         children: [
           FutureBuilder(
@@ -209,7 +209,36 @@ class _SettingViewState extends State<SettingView> {
                             ),
                           ),
                         ),
-                        DeletCompte(),
+                        InkWell(
+                            //in this link i can find all type of quiqkalert ->  https://pub.dev/packages/quickalert
+                            onTap: () {
+                              QuickAlert.show(
+                                  context: context,
+                                  type: QuickAlertType.confirm,
+                                  text: 'Do you want to Delet your compte',
+                                  confirmBtnText: 'Yes',
+                                  cancelBtnText: 'No',
+                                  confirmBtnColor: Colors.green,
+                                  onConfirmBtnTap: () async {
+                                    await controller.deletcompte(context);
+                                  });
+                              // showDialog(
+                              //     context: context,
+                              //     builder: (context) {
+                              //       return AlertDialog(
+                              //           title: Image.asset(
+                              //             "assets/icons/succefully.png",
+                              //             width: AppConstant.screenWidth * .02,
+                              //           ),
+                              //           content: const Text(
+                              //               "Really do you want to delet your compte"),
+                              //           actions: [
+                              //             AppFunction.cancel(),
+                              //             AppFunction.delet_compte(context),
+                              //           ]);
+                              //     });
+                            },
+                            child: const DeletCompte()),
                       ],
                     );
                   },
