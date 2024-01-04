@@ -124,4 +124,31 @@ class SettingController extends GetxController {
           });
     }
   }
+
+  //Update profile
+  add_pic_profile(context, String base64Image) async {
+    var response = await _crud.postRequest(link_add_pic_profile, {
+      "user_id": sharedpref.getString("id"),
+      "profile": base64Image,
+    });
+    if (response['status'] == "success") {
+      print("edit_password sucssfule");
+      Get.off(LoginView());
+    } else {
+      print("error in edit password ");
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+                title: Image.asset(
+                  "assets/icons/wairning_icon.png",
+                  width: AppConstant.screenWidth * .02,
+                ),
+                content: const Text("Your password is incorrect"),
+                actions: [
+                  AppFunction.cancel(),
+                ]);
+          });
+    }
+  }
 }

@@ -51,8 +51,9 @@ const link_delet_message = "$linkservername/Chat/delet_message.php";
 
 //Profile
 const link_profile = "$linkservername/profile/profile.php";
-
+const link_add_pic_profile = "$linkservername/Add_image_profile.php";
 //Compte
 const link_edit_compte = "$linkservername/compte/edit_compte.php";
 const link_edit_password = "$linkservername/compte/edit_password.php";
 const link_delet_compte = "$linkservername/compte/delet_compte.php";
+const link_delet_ = "$linkservername/compte/delet_compte.php";

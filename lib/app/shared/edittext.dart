@@ -35,7 +35,6 @@ class _EdittextState extends State<Edittext> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      maxLength: 10,
       enabled: widget.enable,
       controller: widget.Controller,
       validator: widget.validator,

@@ -1,12 +1,17 @@
+import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
 import 'package:taleb/app/config/function/functions.dart';
 import 'package:taleb/app/config/themes/app_theme.dart';
+import 'package:taleb/app/data/const_link.dart';
 import 'package:taleb/app/modules/initial/views/init_view.dart';
 import 'package:taleb/app/modules/login/views/login_view.dart';
 import 'package:taleb/app/modules/setting/pages/contactez_nous.dart';
@@ -16,11 +21,10 @@ import 'package:taleb/app/modules/setting/widgets/slider_1.dart';
 import 'package:taleb/app/modules/setting/widgets/slider_2.dart';
 import 'package:taleb/app/shared/bottun.dart';
 import 'package:taleb/app/shared/edittext.dart';
+import 'package:taleb/app/shared/fullscreen.dart';
 import 'package:taleb/main.dart';
 
 import '../controllers/setting_controller.dart';
-
-// class SettingView extends GetView<SettingController> {
 
 class SettingView extends StatefulWidget {
   const SettingView({Key? key}) : super(key: key);
@@ -32,6 +36,64 @@ class SettingView extends StatefulWidget {
 class _SettingViewState extends State<SettingView> {
   final SettingController controller = Get.put(SettingController());
   TextEditingController _nom = TextEditingController();
+  File? _selectedImage;
+
+  Future<void> _pickImage() async {
+    final picker = ImagePicker();
+    try {
+      final pickedImage = await picker.pickImage(source: ImageSource.gallery);
+
+      if (pickedImage != null) {
+        // Show a Snackbar for user verification
+        //final bool? userConfirmed = await _showVerificationSnackbar();
+        // ignore: use_build_context_synchronously
+        QuickAlert.show(
+          context: context,
+          type: QuickAlertType.confirm,
+          text: 'Do you want to Delete your compte',
+          confirmBtnText: 'Yes',
+          cancelBtnText: 'No',
+          confirmBtnColor: Colors.green,
+          onConfirmBtnTap: () {
+            setState(() async {
+              List<int> imageBytes = await pickedImage.readAsBytes();
+              String base64Image = base64Encode(imageBytes);
+              // Send the base64-encoded image to the PHP backend
+              await controller.add_pic_profile(context, base64Image);
+              //  _selectedImage = File(pickedImage.path);
+              Get.back();
+            });
+          },
+          onCancelBtnTap: () {
+            Get.back();
+          },
+        );
+      }
+    } catch (e) {
+      print("Error picking image: $e");
+    }
+  }
+
+  Future<bool> _showVerificationSnackbar() async {
+    Completer<bool> completer = Completer<bool>();
+
+    QuickAlert.show(
+      context: context,
+      type: QuickAlertType.confirm,
+      text: 'Do you want to Delete your compte',
+      confirmBtnText: 'Yes',
+      cancelBtnText: 'No',
+      confirmBtnColor: Colors.green,
+      onConfirmBtnTap: () {
+        completer.complete(true);
+      },
+      onCancelBtnTap: () {
+        completer.complete(false);
+      },
+    );
+
+    return completer.future;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,26 +128,48 @@ class _SettingViewState extends State<SettingView> {
                         SizedBox(
                           height: AppConstant.screenHeight * .05,
                         ),
-                        const Center(
-                          child: Stack(
-                            children: [
-                              CircleAvatar(
-                                radius: 70,
-                                backgroundImage: NetworkImage(
-                                    "https://th.bing.com/th/id/OIP.6nsKk7mIkSKvYZD_APa8-AHaFk?pid=ImgDet&rs=1"),
+                        GestureDetector(
+                          onTap: () {
+                            // Open full-screen image viewer
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => FullScreenImage(
+                                imageUrl:
+                                    "$linkservername/Admin/publication/upload/${snapshot.data[index]['profile']}",
                               ),
-                              Positioned(
-                                right: 0,
-                                bottom: 10,
-                                child: CircleAvatar(
-                                  backgroundColor: Colors.orangeAccent,
-                                  child: Icon(
-                                    Icons.camera_alt_outlined,
-                                    color: Colors.black,
+                            ));
+                          },
+                          child: Center(
+                            child: Stack(
+                              children: [
+                                Hero(
+                                  tag:
+                                      "profileImage_${index}", // Same unique tag as in onTap
+                                  child: CircleAvatar(
+                                    radius: 70,
+                                    backgroundImage: _selectedImage != null
+                                        ? FileImage(_selectedImage!)
+                                            as ImageProvider<Object>?
+                                        : NetworkImage(
+                                            "$linkservername/Admin/publication/upload/${snapshot.data[index]['profile']}",
+                                          ) as ImageProvider<Object>?,
                                   ),
                                 ),
-                              )
-                            ],
+                                GestureDetector(
+                                  onTap: _pickImage,
+                                  child: Positioned(
+                                    right: 0,
+                                    bottom: 10,
+                                    child: CircleAvatar(
+                                      backgroundColor: Colors.orangeAccent,
+                                      child: Icon(
+                                        Icons.camera_alt_outlined,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                         SizedBox(
@@ -222,21 +306,6 @@ class _SettingViewState extends State<SettingView> {
                                   onConfirmBtnTap: () async {
                                     await controller.deletcompte(context);
                                   });
-                              // showDialog(
-                              //     context: context,
-                              //     builder: (context) {
-                              //       return AlertDialog(
-                              //           title: Image.asset(
-                              //             "assets/icons/succefully.png",
-                              //             width: AppConstant.screenWidth * .02,
-                              //           ),
-                              //           content: const Text(
-                              //               "Really do you want to delet your compte"),
-                              //           actions: [
-                              //             AppFunction.cancel(),
-                              //             AppFunction.delet_compte(context),
-                              //           ]);
-                              //     });
                             },
                             child: const DeletCompte()),
                       ],
