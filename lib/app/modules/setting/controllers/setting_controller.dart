@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:quickalert/models/quickalert_type.dart';
@@ -8,6 +10,7 @@ import 'package:taleb/app/data/Crud.dart';
 import 'package:taleb/app/data/const_link.dart';
 import 'package:taleb/app/modules/login/views/login_view.dart';
 import 'package:taleb/main.dart';
+import 'package:http/http.dart' as http;
 
 class SettingController extends GetxController {
   //TODO: Implement SettingController
@@ -126,29 +129,30 @@ class SettingController extends GetxController {
   }
 
   //Update profile
-  add_pic_profile(context, String base64Image) async {
-    var response = await _crud.postRequest(link_add_pic_profile, {
-      "user_id": sharedpref.getString("id"),
-      "profile": base64Image,
-    });
-    if (response['status'] == "success") {
-      print("edit_password sucssfule");
-      Get.off(LoginView());
-    } else {
-      print("error in edit password ");
-      showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-                title: Image.asset(
-                  "assets/icons/wairning_icon.png",
-                  width: AppConstant.screenWidth * .02,
-                ),
-                content: const Text("Your password is incorrect"),
-                actions: [
-                  AppFunction.cancel(),
-                ]);
-          });
+  add_pic_profile(File? _selectedImage) async {
+    final uri = Uri.parse(link_add_pic_profile);
+    var request = http.MultipartRequest('POST', uri);
+    request.fields['user_id'] = "${sharedpref.getString("id")}";
+    var pic =
+        await http.MultipartFile.fromPath("profile[]", _selectedImage!.path);
+    request.files.add(pic);
+
+    if (_selectedImage != null) {
+      var pic =
+          await http.MultipartFile.fromPath("image", _selectedImage!.path);
+      request.files.add(pic);
     }
+    try {
+      var response = await request.send();
+      if (response.statusCode == 200) {
+        print("Image upload successful");
+      } else {
+        print("Error in uploading image. Status code: ${response.statusCode}");
+      }
+    } catch (error) {
+      print("Error sending image request: $error");
+    }
+
+    Get.back();
   }
 }

@@ -54,6 +54,7 @@ flutter:
   assets: 
     - assets/splash/
     - assets/icons/
+    - assets/profile/
 
   uses-material-design: true
 

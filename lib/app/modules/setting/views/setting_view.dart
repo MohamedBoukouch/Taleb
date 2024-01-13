@@ -4,7 +4,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:gallery_saver/files.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
@@ -37,15 +39,16 @@ class _SettingViewState extends State<SettingView> {
   final SettingController controller = Get.put(SettingController());
   TextEditingController _nom = TextEditingController();
   File? _selectedImage;
+  final picker = ImagePicker();
 
   Future<void> _pickImage() async {
-    final picker = ImagePicker();
     try {
       final pickedImage = await picker.pickImage(source: ImageSource.gallery);
 
       if (pickedImage != null) {
-        // Show a Snackbar for user verification
-        //final bool? userConfirmed = await _showVerificationSnackbar();
+        setState(() {
+          _selectedImage = File(pickedImage.path);
+        });
         // ignore: use_build_context_synchronously
         QuickAlert.show(
           context: context,
@@ -54,15 +57,13 @@ class _SettingViewState extends State<SettingView> {
           confirmBtnText: 'Yes',
           cancelBtnText: 'No',
           confirmBtnColor: Colors.green,
-          onConfirmBtnTap: () {
-            setState(() async {
-              List<int> imageBytes = await pickedImage.readAsBytes();
-              String base64Image = base64Encode(imageBytes);
-              // Send the base64-encoded image to the PHP backend
-              await controller.add_pic_profile(context, base64Image);
-              //  _selectedImage = File(pickedImage.path);
-              Get.back();
-            });
+          onConfirmBtnTap: () async {
+            //await add_pic_profile(File? _selectedImage)
+            try {
+              await controller.add_pic_profile(_selectedImage);
+            } catch (e) {
+              print("$e");
+            }
           },
           onCancelBtnTap: () {
             Get.back();
@@ -130,7 +131,6 @@ class _SettingViewState extends State<SettingView> {
                         ),
                         GestureDetector(
                           onTap: () {
-                            // Open full-screen image viewer
                             Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => FullScreenImage(
                                 imageUrl:
@@ -145,21 +145,53 @@ class _SettingViewState extends State<SettingView> {
                                   tag:
                                       "profileImage_${index}", // Same unique tag as in onTap
                                   child: CircleAvatar(
-                                    radius: 70,
+                                    radius: 80,
                                     backgroundImage: _selectedImage != null
                                         ? FileImage(_selectedImage!)
-                                            as ImageProvider<Object>?
-                                        : NetworkImage(
-                                            "$linkservername/Admin/publication/upload/${snapshot.data[index]['profile']}",
-                                          ) as ImageProvider<Object>?,
+                                        : (snapshot.data[index]['profile'] ==
+                                                "0"
+                                            ? AssetImage(
+                                                "assets/profile/profile.jpg")
+                                            : NetworkImage(
+                                                    "$linkservername/profile/upload/${snapshot.data[index]['profile']}")
+                                                as ImageProvider<Object>),
                                   ),
+
+                                  //   backgroundImage: snapshot.data[index]
+                                  //               ['profile'] ==
+                                  //           "0"
+                                  //       ? AssetImage("assets/splash/SL1.jpg")
+                                  //           as ImageProvider<Object>
+                                  //       : (_selectedImage != null
+                                  //               ? FileImage(_selectedImage!)
+                                  //               : NetworkImage(
+                                  //                   "$linkservername/profile/upload/${snapshot.data[index]['profile']}"))
+                                  //           as ImageProvider<Object>,
+                                  // ),
+
+                                  //         null,
+
+                                  // backgroundImage:
+                                  //     ? FileImage(_selectedImage!)
+                                  //     :
+                                  //     AssetImage("assets/splash/SL1.jpg")
+                                  //         as ImageProvider<Object>
+
+                                  // : (snapshot.data[index]['profile'] !=
+                                  //         null
+                                  //     ? NetworkImage(
+                                  //             "$linkservername/profile/upload/${snapshot.data[index]['profile']}")
+                                  //         as ImageProvider<Object>
+                                  //     : AssetImage(
+                                  //         "assets/splash/SL1.jpg")),
+                                  // ),
                                 ),
-                                GestureDetector(
-                                  onTap: _pickImage,
-                                  child: Positioned(
-                                    right: 0,
-                                    bottom: 10,
-                                    child: CircleAvatar(
+                                Positioned(
+                                  bottom: 0,
+                                  right: 0,
+                                  child: GestureDetector(
+                                    onTap: _pickImage,
+                                    child: const CircleAvatar(
                                       backgroundColor: Colors.orangeAccent,
                                       child: Icon(
                                         Icons.camera_alt_outlined,
@@ -320,7 +352,6 @@ class _SettingViewState extends State<SettingView> {
     );
   }
 }
-
 
 // Column(
 //         children: [

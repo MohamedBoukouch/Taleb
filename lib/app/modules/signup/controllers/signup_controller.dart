@@ -5,7 +5,9 @@ import 'package:taleb/app/config/function/functions.dart';
 import 'package:taleb/app/data/Crud.dart';
 import 'package:taleb/app/data/const_link.dart';
 import 'package:taleb/app/modules/home/views/home_view.dart';
+import 'package:taleb/app/modules/login/views/login_view.dart';
 import 'package:taleb/app/modules/signup/pages/verifyEmail.dart';
+import 'package:taleb/main.dart';
 
 class SignupController extends GetxController {
   //TODO: Implement SignupController
@@ -37,9 +39,11 @@ class SignupController extends GetxController {
       "lastname": lastname,
       "email": email,
       "password": password,
+      "profile": "0"
     });
     if (response['status'] == "success" &&
         response['email'] == "email send Success") {
+      //sharedpref.setString("id", response['data']['id'].toString());
       Get.to(() => VerifyEmail(email: email));
     } else {
       print("signup fail");
@@ -55,7 +59,7 @@ class SignupController extends GetxController {
       "verifycode": verifycode,
     });
     if (response['status'] == "success") {
-      Get.to(() => HomeView());
+      Get.to(() => LoginView());
     } else {
       showDialog(
           context: context,

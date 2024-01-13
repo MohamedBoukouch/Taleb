@@ -33,7 +33,7 @@ class _LoginViewState extends State<LoginView> {
             key: _loginKey,
             child: Container(
               margin: EdgeInsets.only(top: AppConstant.screenHeight * .35),
-              padding: EdgeInsets.all(AppConstant.screenHeight * .035),
+              //padding: EdgeInsets.all(AppConstant.screenHeight * .035),
               child: Column(
                 children: [
                   Edittext(
@@ -95,7 +95,7 @@ class _LoginViewState extends State<LoginView> {
                       }
                     },
                     child: const Button(
-                      txt: "Connexion",
+                      txt: "Connex",
                     ),
                   ),
                   Container(
