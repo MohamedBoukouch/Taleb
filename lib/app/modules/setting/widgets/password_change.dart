@@ -70,6 +70,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                                     ),
                                   ),
                                   Edittext(
+                                    readonly: false,
                                     hint: "Old Password",
                                     ispassword: true,
                                     icon: const Icon(Icons.lock),
@@ -96,6 +97,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                                     height: 20,
                                   ),
                                   Edittext(
+                                    readonly: false,
                                     hint: "New Password",
                                     ispassword: true,
                                     icon: const Icon(Icons.lock),
@@ -113,6 +115,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                                     height: 20,
                                   ),
                                   Edittext(
+                                    readonly: false,
                                     hint: "Repeat New Password",
                                     ispassword: true,
                                     icon: const Icon(Icons.lock),

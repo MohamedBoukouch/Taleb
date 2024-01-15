@@ -63,6 +63,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                           right: AppConstant.screenHeight * .035,
                           top: AppConstant.screenHeight * .01),
                       child: Edittext(
+                        readonly: false,
                         hint: "password",
                         ispassword: true,
                         icon: const Icon(Icons.lock),
@@ -96,6 +97,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                           top: AppConstant.screenHeight * .01),
                       child: Edittext(
                         hint: "Confirm password",
+                        readonly: false,
                         ispassword: true,
                         icon: const Icon(Icons.lock),
                         Controller: _confirmpasswordController,

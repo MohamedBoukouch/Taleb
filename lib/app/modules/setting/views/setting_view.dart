@@ -18,6 +18,7 @@ import 'package:taleb/app/modules/initial/views/init_view.dart';
 import 'package:taleb/app/modules/login/views/login_view.dart';
 import 'package:taleb/app/modules/setting/pages/contactez_nous.dart';
 import 'package:taleb/app/modules/setting/pages/edit_profile.dart';
+import 'package:taleb/app/modules/setting/pages/language.dart';
 import 'package:taleb/app/modules/setting/widgets/delet_compte.dart';
 import 'package:taleb/app/modules/setting/widgets/slider_1.dart';
 import 'package:taleb/app/modules/setting/widgets/slider_2.dart';
@@ -156,35 +157,6 @@ class _SettingViewState extends State<SettingView> {
                                                     "$linkservername/profile/upload/${snapshot.data[index]['profile']}")
                                                 as ImageProvider<Object>),
                                   ),
-
-                                  //   backgroundImage: snapshot.data[index]
-                                  //               ['profile'] ==
-                                  //           "0"
-                                  //       ? AssetImage("assets/splash/SL1.jpg")
-                                  //           as ImageProvider<Object>
-                                  //       : (_selectedImage != null
-                                  //               ? FileImage(_selectedImage!)
-                                  //               : NetworkImage(
-                                  //                   "$linkservername/profile/upload/${snapshot.data[index]['profile']}"))
-                                  //           as ImageProvider<Object>,
-                                  // ),
-
-                                  //         null,
-
-                                  // backgroundImage:
-                                  //     ? FileImage(_selectedImage!)
-                                  //     :
-                                  //     AssetImage("assets/splash/SL1.jpg")
-                                  //         as ImageProvider<Object>
-
-                                  // : (snapshot.data[index]['profile'] !=
-                                  //         null
-                                  //     ? NetworkImage(
-                                  //             "$linkservername/profile/upload/${snapshot.data[index]['profile']}")
-                                  //         as ImageProvider<Object>
-                                  //     : AssetImage(
-                                  //         "assets/splash/SL1.jpg")),
-                                  // ),
                                 ),
                                 Positioned(
                                   bottom: 0,
@@ -281,12 +253,15 @@ class _SettingViewState extends State<SettingView> {
                             color: AppTheme.main_color_2,
                           ),
                         ),
-                        Slider_2(
-                            titel: "Laungage",
-                            icon: Icon(
-                              Icons.language,
-                              color: AppTheme.main_color_2,
-                            )),
+                        InkWell(
+                          onTap: () => Get.to(Language()),
+                          child: Slider_2(
+                              titel: "Laungage",
+                              icon: Icon(
+                                Icons.language,
+                                color: AppTheme.main_color_2,
+                              )),
+                        ),
                         //Slider_2(),
 
                         Slider_2(

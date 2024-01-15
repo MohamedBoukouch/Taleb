@@ -38,6 +38,7 @@ class _SignupViewState extends State<SignupView> {
                 child: Column(
                   children: [
                     Edittext(
+                      readonly: false,
                       hint: "Nom",
                       icon: const Icon(Icons.person_2_outlined),
                       Controller: _nomController,
@@ -52,6 +53,7 @@ class _SignupViewState extends State<SignupView> {
                       height: AppConstant.screenHeight * .03,
                     ),
                     Edittext(
+                      readonly: false,
                       hint: "Prenom",
                       isemail: true,
                       icon: const Icon(Icons.person_2_outlined),
@@ -67,6 +69,7 @@ class _SignupViewState extends State<SignupView> {
                       height: AppConstant.screenHeight * .03,
                     ),
                     Edittext(
+                      readonly: false,
                       hint: "Adress Email",
                       isemail: true,
                       ispassword: false,
@@ -86,6 +89,7 @@ class _SignupViewState extends State<SignupView> {
                       height: AppConstant.screenHeight * .03,
                     ),
                     Edittext(
+                      readonly: false,
                       hint: "password",
                       ispassword: true,
                       icon: const Icon(Icons.lock),

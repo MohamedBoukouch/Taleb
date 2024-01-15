@@ -84,6 +84,7 @@ class _EditProfileState extends State<EditProfile> {
                     height: AppConstant.screenHeight * .06,
                   ),
                   Edittext(
+                    readonly: false,
                     icon: Icon(Icons.person_2_outlined),
                     Controller: nom_controller,
                     hint: "Nom",
@@ -92,6 +93,7 @@ class _EditProfileState extends State<EditProfile> {
                     height: 10,
                   ),
                   Edittext(
+                    readonly: false,
                     icon: Icon(Icons.person_2_outlined),
                     Controller: prenom_controller,
                     hint: "Prenom",
@@ -100,6 +102,7 @@ class _EditProfileState extends State<EditProfile> {
                     height: 10,
                   ),
                   Edittext(
+                    readonly: false,
                     icon: Icon(Icons.email_outlined),
                     Controller: email_controller,
                     hint: "Email",
@@ -109,6 +112,7 @@ class _EditProfileState extends State<EditProfile> {
                   ),
                   ChangePassword(),
                   Edittext(
+                    readonly: false,
                     icon: Icon(Icons.lock),
                     ispassword: true,
                     Controller: password_controller,

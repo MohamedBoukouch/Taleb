@@ -56,6 +56,7 @@ class _CheckEmailState extends State<CheckEmail> {
                         right: AppConstant.screenHeight * .035,
                         top: AppConstant.screenHeight * .01),
                     child: Edittext(
+                      readonly: false,
                       hint: "Adress Email",
                       isemail: true,
                       ispassword: false,

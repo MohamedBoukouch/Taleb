@@ -12,13 +12,10 @@ class ButtonBack extends StatelessWidget {
       onTap: () {
         Get.back();
       },
-      child: Container(
-        alignment: Alignment.topLeft,
-        margin: EdgeInsets.only(top: AppConstant.screenHeight * .06),
-        child: CircleAvatar(
-            radius: 25,
-            backgroundColor: Colors.white,
-            child: Image.asset("assets/icons/back.png")),
+      child: CircleAvatar(
+        radius: 25,
+        backgroundColor: Colors.white,
+        child: Image.asset("assets/icons/back.png"),
       ),
     );
   }

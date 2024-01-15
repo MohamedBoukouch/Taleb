@@ -37,6 +37,7 @@ class _LoginViewState extends State<LoginView> {
               child: Column(
                 children: [
                   Edittext(
+                    readonly: false,
                     hint: "Adress Email",
                     isemail: true,
                     icon: Icon(Icons.email_outlined),
@@ -54,6 +55,7 @@ class _LoginViewState extends State<LoginView> {
                     height: AppConstant.screenHeight * .03,
                   ),
                   Edittext(
+                    readonly: false,
                     hint: "password",
                     ispassword: true,
                     icon: const Icon(Icons.lock),
@@ -95,7 +97,7 @@ class _LoginViewState extends State<LoginView> {
                       }
                     },
                     child: const Button(
-                      txt: "Connex",
+                      txt: "Connexion",
                     ),
                   ),
                   Container(

@@ -8,6 +8,7 @@ class Edittext extends StatefulWidget {
   final String? hint;
   final bool? ispassword;
   final bool? isemail;
+  final bool readonly;
   final Icon? icon;
   final bool? enable;
   final TextEditingController Controller;
@@ -18,6 +19,7 @@ class Edittext extends StatefulWidget {
     this.hint,
     this.ispassword,
     this.isemail,
+    required this.readonly,
     this.icon,
     this.enable,
     required this.Controller,
@@ -34,10 +36,11 @@ class _EdittextState extends State<Edittext> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(
       child: TextFormField(
         enabled: true,
         controller: widget.Controller,
+        readOnly: widget.readonly,
         validator: widget.validator,
         style: TextStyle(
           color: Colors.black, // Set the text color to red
@@ -50,7 +53,9 @@ class _EdittextState extends State<Edittext> {
         keyboardType:
             widget.isemail == true ? TextInputType.emailAddress : null,
         decoration: InputDecoration(
-          hintStyle: TextStyle(color: Colors.black),
+          hintStyle: TextStyle(
+            color: Color(0xFF555353),
+          ),
           labelStyle: TextStyle(color: Colors.black),
           errorStyle: GoogleFonts.poppins(
             color: Colors.red,

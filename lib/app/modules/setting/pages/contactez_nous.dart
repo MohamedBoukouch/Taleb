@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
 import 'package:taleb/app/shared/back.dart';
+import 'package:taleb/app/shared/bottun.dart';
 import 'package:taleb/app/shared/edittext.dart';
 
 class ContactezNous extends StatefulWidget {
@@ -11,9 +12,18 @@ class ContactezNous extends StatefulWidget {
 }
 
 class _ContactezNousState extends State<ContactezNous> {
-  TextEditingController nom_controller = TextEditingController();
-  TextEditingController email_controller = TextEditingController();
-  TextEditingController password_controller = TextEditingController();
+  TextEditingController _nom_controller = TextEditingController();
+  TextEditingController _email_controller = TextEditingController();
+  TextEditingController _message = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    // Initialize your controller here
+    // For example, if you're using a TextEditingController:
+    _email_controller.text = "Taleb@gmail.com";
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,7 +35,7 @@ class _ContactezNousState extends State<ContactezNous> {
                 right: AppConstant.screenWidth * .05),
             child: Column(
               children: [
-                ButtonBack(),
+                Container(alignment: Alignment.topLeft, child: ButtonBack()),
                 Column(
                   children: [
                     Container(
@@ -33,8 +43,9 @@ class _ContactezNousState extends State<ContactezNous> {
                         padding: EdgeInsets.only(bottom: 15, top: 15),
                         child: Text("Nom et Prénom")),
                     Edittext(
-                      Controller: nom_controller,
+                      Controller: _nom_controller,
                       hint: "Nom Complete",
+                      readonly: false,
                       icon: Icon(
                         Icons.person,
                         color: Colors.orange,
@@ -50,8 +61,9 @@ class _ContactezNousState extends State<ContactezNous> {
                       child: Text("Address e-mail"),
                     ),
                     Edittext(
-                      Controller: email_controller,
+                      Controller: _email_controller,
                       hint: "Address Email",
+                      readonly: true,
                       icon: Icon(
                         Icons.mail,
                         color: Colors.orange,
@@ -64,35 +76,41 @@ class _ContactezNousState extends State<ContactezNous> {
                     Container(
                       alignment: Alignment.centerLeft,
                       padding: EdgeInsets.only(bottom: 15, top: 15),
-                      child: Text("Message"),
+                      child: Text(
+                        "Message",
+                      ),
                     ),
-                    SizedBox(
-                      height: 80,
-                      child: TextField(
-                          //Controller: password_controller,
-                          ),
-                    )
                   ],
                 ),
-                SizedBox(
-                  width: 240, // <-- TextField width
-                  height: 120, // <-- TextField height
-                  child: TextField(
-                    maxLines: null,
-                    expands: true,
-                    keyboardType: TextInputType.multiline,
-                    decoration: InputDecoration(
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                            width: 1, //<-- SEE HERE
-                            color: Colors.grey,
-                          ),
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        filled: true,
-                        hintText: 'Enter a message'),
+                Container(
+                  padding: EdgeInsets.only(left: 30),
+                  height: AppConstant.screenHeight * .23,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(
+                      color: Colors.orange,
+
+                      width: 2, // Adjust the width as needed
+                    ),
                   ),
-                )
+                  child: TextFormField(
+                    maxLines: 5,
+                    controller: _message,
+                    style: TextStyle(
+                      color: Colors.black, // Set the text color to red
+                    ),
+                    decoration: InputDecoration(
+                      hintText: "Message",
+                      hintStyle: TextStyle(color: Color(0xFF555353)),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: AppConstant.screenHeight * .05,
+                ),
+                Button(
+                  txt: "Envoyer",
+                ),
               ],
             ),
           ),
