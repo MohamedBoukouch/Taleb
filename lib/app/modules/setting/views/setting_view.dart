@@ -152,7 +152,7 @@ class _SettingViewState extends State<SettingView> {
                                         : (snapshot.data[index]['profile'] ==
                                                 "0"
                                             ? AssetImage(
-                                                "assets/profile/profile.jpg")
+                                                "assets/profile/Profile_2.png")
                                             : NetworkImage(
                                                     "$linkservername/profile/upload/${snapshot.data[index]['profile']}")
                                                 as ImageProvider<Object>),

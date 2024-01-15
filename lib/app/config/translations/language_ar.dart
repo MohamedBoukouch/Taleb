@@ -1,7 +1,7 @@
-// ignore_for_file: non_constant_identifier_names
+// // ignore_for_file: non_constant_identifier_names
 
-import "app_translation.dart";
+// import "app_translation.dart";
 
-final Map<String, String> language_ar = <String, String>{
-  AppKeys.app_title.name: "إلكترو بوصفيحة",
-};
+// final Map<String, String> language_ar = <String, String>{
+//   AppKeys.app_title.name: "إلكترو بوصفيحة",
+// };

@@ -66,9 +66,8 @@ class _VerifyEmailState extends State<VerifyEmail> {
               showCursor: false,
               fieldWidth: 50,
               borderRadius: BorderRadius.circular(10),
-              textStyle: TextStyle(
-                fontWeight: FontWeight.bold,
-              ),
+              textStyle:
+                  TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
               disabledBorderColor: Colors.red,
               focusedBorderColor: Colors.orange,
               showFieldAsBox: true,

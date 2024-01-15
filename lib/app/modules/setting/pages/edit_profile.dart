@@ -45,7 +45,10 @@ class _EditProfileState extends State<EditProfile> {
   Widget build(BuildContext context) {
     return Scaffold(
       // appBar: AppBar(),
-
+      appBar: AppBar(
+        automaticallyImplyLeading: false, // Remove the default back button
+        leading: ButtonBack(),
+      ),
       body: SingleChildScrollView(
         child: SafeArea(
           child: SingleChildScrollView(
@@ -55,7 +58,6 @@ class _EditProfileState extends State<EditProfile> {
                   left: AppConstant.screenWidth * .05),
               child: Column(
                 children: [
-                  ButtonBack(),
                   SizedBox(
                     height: AppConstant.screenHeight * .05,
                   ),

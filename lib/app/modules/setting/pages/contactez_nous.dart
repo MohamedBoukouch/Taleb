@@ -27,6 +27,10 @@ class _ContactezNousState extends State<ContactezNous> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: false, // Remove the default back button
+        title: ButtonBack(), // Your back button widget
+      ),
       body: SingleChildScrollView(
         child: SafeArea(
           child: Container(
@@ -35,7 +39,6 @@ class _ContactezNousState extends State<ContactezNous> {
                 right: AppConstant.screenWidth * .05),
             child: Column(
               children: [
-                Container(alignment: Alignment.topLeft, child: ButtonBack()),
                 Column(
                   children: [
                     Container(
