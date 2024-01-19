@@ -42,7 +42,6 @@ class _LanguageState extends State<Language> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text("1".tr),
               TypeLanguage(
                 text: "العربية",
                 urlImage: "assets/flags/maroc.jpg",

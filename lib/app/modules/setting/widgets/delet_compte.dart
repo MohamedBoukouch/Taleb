@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
 
 class DeletCompte extends StatefulWidget {
@@ -21,10 +22,10 @@ class _DeletCompteState extends State<DeletCompte> {
             color: Color.fromARGB(68, 255, 81, 0),
             borderRadius: BorderRadius.circular(30),
           ),
-          child: const Center(
+          child: Center(
             child: Text(
-              "Supprimer mon compte",
-              style: TextStyle(
+              "Supprimer_compte".tr,
+              style: const TextStyle(
                   fontFamily: 'Inspiration',
                   color: Colors.red,
                   fontSize: 17,

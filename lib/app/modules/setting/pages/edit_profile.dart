@@ -61,21 +61,21 @@ class _EditProfileState extends State<EditProfile> {
                   SizedBox(
                     height: AppConstant.screenHeight * .05,
                   ),
-                  const Row(
+                  Row(
                     children: [
-                      CircleAvatar(
+                      const CircleAvatar(
                         backgroundColor: Color.fromARGB(24, 255, 153, 0),
                         radius: 25,
                         child: Image(
                           image: AssetImage("assets/icons/compte.png"),
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 20,
                       ),
                       Text(
-                        "Mon Compte",
-                        style: TextStyle(
+                        "Mon_Compte".tr,
+                        style: const TextStyle(
                             fontFamily: 'Bitter',
                             fontWeight: FontWeight.bold,
                             fontSize: 20),
@@ -89,7 +89,7 @@ class _EditProfileState extends State<EditProfile> {
                     readonly: false,
                     icon: Icon(Icons.person_2_outlined),
                     Controller: nom_controller,
-                    hint: "Nom",
+                    hint: "Nom".tr,
                   ),
                   SizedBox(
                     height: 10,
@@ -98,7 +98,7 @@ class _EditProfileState extends State<EditProfile> {
                     readonly: false,
                     icon: Icon(Icons.person_2_outlined),
                     Controller: prenom_controller,
-                    hint: "Prenom",
+                    hint: "Prenom".tr,
                   ),
                   SizedBox(
                     height: 10,
@@ -112,7 +112,34 @@ class _EditProfileState extends State<EditProfile> {
                   const SizedBox(
                     height: 10,
                   ),
-                  ChangePassword(),
+                  //ChangePassword(),
+                  ListTile(
+                    trailing: InkWell(
+                      onTap: () {
+                        showModalBottomSheet(
+                          context: context,
+                          builder: (context) {
+                            return ChangePassword(
+                              email: widget.email,
+                            );
+                          },
+                        );
+                      },
+                      child: Text(
+                        "Change".tr,
+                        style: TextStyle(
+                          fontFamily: 'Bitter',
+                        ),
+                      ),
+                    ),
+                    leading: Text(
+                      "Mote_de_pass".tr,
+                      style: TextStyle(
+                          fontFamily: 'Bitter',
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15),
+                    ),
+                  ),
                   Edittext(
                     readonly: false,
                     icon: Icon(Icons.lock),
@@ -120,11 +147,8 @@ class _EditProfileState extends State<EditProfile> {
                     Controller: password_controller,
                     hint: "Nouveau mot de passe",
                   ),
-                  const SizedBox(
-                    height: 10,
-                  ),
                   SizedBox(
-                    height: AppConstant.screenHeight * .07,
+                    height: AppConstant.screenHeight * .08,
                   ),
                   Container(
                     margin: EdgeInsets.only(
@@ -142,8 +166,8 @@ class _EditProfileState extends State<EditProfile> {
                           print("ggggg");
                         }
                       },
-                      child: const Button(
-                        txt: "Enreristrer",
+                      child: Button(
+                        txt: "Enreristrer".tr,
                       ),
                     ),
                   )

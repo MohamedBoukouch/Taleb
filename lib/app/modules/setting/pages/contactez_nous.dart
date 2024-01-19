@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
 import 'package:taleb/app/shared/back.dart';
 import 'package:taleb/app/shared/bottun.dart';
@@ -44,10 +45,10 @@ class _ContactezNousState extends State<ContactezNous> {
                     Container(
                         alignment: Alignment.centerLeft,
                         padding: EdgeInsets.only(bottom: 15, top: 15),
-                        child: Text("Nom et Prénom")),
+                        child: Text("Nom_Prenom".tr)),
                     Edittext(
                       Controller: _nom_controller,
-                      hint: "Nom Complete",
+                      hint: "Nom_Complete".tr,
                       readonly: false,
                       icon: Icon(
                         Icons.person,
@@ -60,8 +61,8 @@ class _ContactezNousState extends State<ContactezNous> {
                   children: [
                     Container(
                       alignment: Alignment.centerLeft,
-                      padding: EdgeInsets.only(bottom: 15, top: 15),
-                      child: Text("Address e-mail"),
+                      padding: const EdgeInsets.only(bottom: 15, top: 15),
+                      child: Text("Address".tr),
                     ),
                     Edittext(
                       Controller: _email_controller,
@@ -80,7 +81,7 @@ class _ContactezNousState extends State<ContactezNous> {
                       alignment: Alignment.centerLeft,
                       padding: EdgeInsets.only(bottom: 15, top: 15),
                       child: Text(
-                        "Message",
+                        "Message".tr,
                       ),
                     ),
                   ],
@@ -103,16 +104,20 @@ class _ContactezNousState extends State<ContactezNous> {
                       color: Colors.black, // Set the text color to red
                     ),
                     decoration: InputDecoration(
-                      hintText: "Message",
-                      hintStyle: TextStyle(color: Color(0xFF555353)),
-                    ),
+                        prefixIcon: const Icon(
+                          Icons.abc,
+                          color: Colors.white,
+                        ),
+                        hintText: "Message".tr,
+                        hintStyle: const TextStyle(color: Color(0xFF555353)),
+                        alignLabelWithHint: true),
                   ),
                 ),
                 SizedBox(
                   height: AppConstant.screenHeight * .05,
                 ),
                 Button(
-                  txt: "Envoyer",
+                  txt: "Envoyer".tr,
                 ),
               ],
             ),

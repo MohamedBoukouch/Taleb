@@ -1,9 +1,11 @@
+import 'package:either_dart/either.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
 import 'package:taleb/app/modules/login/controllers/login_controller.dart';
 import 'package:taleb/app/modules/login/pages/checkemail.dart';
+import 'package:taleb/app/modules/setting/pages/language.dart';
 import 'package:taleb/app/modules/signup/views/signup_view.dart';
 import 'package:taleb/app/shared/bottun.dart';
 import 'package:taleb/app/shared/edittext.dart';
@@ -37,12 +39,14 @@ class _LoginViewState extends State<LoginView> {
                   child: Container(
                     margin:
                         EdgeInsets.only(top: AppConstant.screenHeight * .35),
-                    //padding: EdgeInsets.all(AppConstant.screenHeight * .035),
+                    padding: EdgeInsets.only(
+                        right: AppConstant.screenHeight * .02,
+                        left: AppConstant.screenHeight * .02),
                     child: Column(
                       children: [
                         Edittext(
                           readonly: false,
-                          hint: "Adress Email",
+                          hint: "Address".tr,
                           isemail: true,
                           icon: Icon(Icons.email_outlined),
                           Controller: _emailController,
@@ -61,7 +65,7 @@ class _LoginViewState extends State<LoginView> {
                         ),
                         Edittext(
                           readonly: false,
-                          hint: "password",
+                          hint: "Mote_de_pass".tr,
                           ispassword: true,
                           icon: const Icon(Icons.lock),
                           Controller: _passwordController,
@@ -80,9 +84,9 @@ class _LoginViewState extends State<LoginView> {
                           alignment: Alignment.centerLeft,
                           child: InkWell(
                             onTap: () => Get.to(() => CheckEmail()),
-                            child: const Text(
-                              'Forget_password?',
-                              style: TextStyle(
+                            child: Text(
+                              'Forget_Password'.tr,
+                              style: const TextStyle(
                                 color: Color.fromARGB(255, 158, 158, 158),
                                 fontWeight: FontWeight.bold,
                                 fontFamily: 'Inspiration',
@@ -90,6 +94,9 @@ class _LoginViewState extends State<LoginView> {
                               ),
                             ),
                           ),
+                        ),
+                        const SizedBox(
+                          height: 20,
                         ),
                         InkWell(
                           onTap: () async {
@@ -111,8 +118,8 @@ class _LoginViewState extends State<LoginView> {
                               }
                             }
                           },
-                          child: const Button(
-                            txt: "Connexion",
+                          child: Button(
+                            txt: "Connexion".tr,
                           ),
                         ),
                         Container(
@@ -121,10 +128,10 @@ class _LoginViewState extends State<LoginView> {
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              const Center(
+                              Center(
                                 child: Text(
-                                  "je n'ai pas de compte ?  ",
-                                  style: TextStyle(
+                                  "creet_compte".tr,
+                                  style: const TextStyle(
                                     fontFamily: 'Inspiration',
                                     fontSize: 19,
                                     fontWeight: FontWeight.bold,
@@ -135,9 +142,9 @@ class _LoginViewState extends State<LoginView> {
                               ),
                               InkWell(
                                 onTap: () => Get.to(() => const SignupView()),
-                                child: const Text(
-                                  "S'inscrire.",
-                                  style: TextStyle(
+                                child: Text(
+                                  "Sinscrire".tr,
+                                  style: const TextStyle(
                                       fontFamily: 'Inspiration',
                                       fontSize: 19,
                                       fontWeight: FontWeight.bold,
@@ -148,85 +155,87 @@ class _LoginViewState extends State<LoginView> {
                           ),
                         ),
                         IconButton(
-                            onPressed: () {
-                              showDialog(
-                                  context: context,
-                                  builder: (context) {
-                                    return AlertDialog(
-                                        backgroundColor:
-                                            const Color.fromARGB(0, 0, 0, 0),
-                                        title: Text("1".tr),
-                                        actions: [
-                                          Column(
-                                            children: [
-                                              Container(
-                                                  decoration: BoxDecoration(
-                                                      color:
-                                                          const Color.fromARGB(
-                                                              255,
-                                                              248,
-                                                              181,
-                                                              81),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              20)),
-                                                  child: TextButton(
-                                                    child: const Center(
-                                                      child: Text(
-                                                        "Ar",
-                                                        style: TextStyle(
-                                                            color: Colors.black,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontFamily:
-                                                                'Bitter'),
-                                                      ),
-                                                    ),
-                                                    onPressed: () {
-                                                      _controller
-                                                          .changeLang("ar");
-                                                    },
-                                                  )),
-                                              SizedBox(
-                                                height: 5,
-                                              ),
-                                              Container(
-                                                  decoration: BoxDecoration(
-                                                      color:
-                                                          const Color.fromARGB(
-                                                              255,
-                                                              248,
-                                                              181,
-                                                              81),
-                                                      borderRadius:
-                                                          BorderRadius.circular(
-                                                              20)),
-                                                  child: TextButton(
-                                                    child: const Center(
-                                                      child: Text(
-                                                        "En",
-                                                        style: TextStyle(
-                                                            color: Colors.black,
-                                                            fontWeight:
-                                                                FontWeight.bold,
-                                                            fontFamily:
-                                                                'Bitter'),
-                                                      ),
-                                                    ),
-                                                    onPressed: () {
-                                                      _controller
-                                                          .changeLang("en");
-                                                    },
-                                                  )),
-                                            ],
-                                          )
-                                        ]);
-                                  });
-                            },
-                            icon: Icon(
-                              Icons.language,
-                              size: 30,
-                            )),
+                          onPressed: () {
+                            Get.to(() => Language());
+                            // showDialog(
+                            //     context: context,
+                            //     builder: (context) {
+                            //   return AlertDialog(
+                            //       backgroundColor:
+                            //           const Color.fromARGB(0, 0, 0, 0),
+                            //       title: Text("1".tr),
+                            //       actions: [
+                            //         Column(
+                            //           children: [
+                            //             Container(
+                            //                 decoration: BoxDecoration(
+                            //                     color:
+                            //                         const Color.fromARGB(
+                            //                             255,
+                            //                             248,
+                            //                             181,
+                            //                             81),
+                            //                     borderRadius:
+                            //                         BorderRadius.circular(
+                            //                             20)),
+                            //                 child: TextButton(
+                            //                   child: const Center(
+                            //                     child: Text(
+                            //                       "Ar",
+                            //                       style: TextStyle(
+                            //                           color: Colors.black,
+                            //                           fontWeight:
+                            //                               FontWeight.bold,
+                            //                           fontFamily:
+                            //                               'Bitter'),
+                            //                     ),
+                            //                   ),
+                            //                   onPressed: () {
+                            //                     _controller
+                            //                         .changeLang("ar");
+                            //                   },
+                            //                 )),
+                            //             SizedBox(
+                            //               height: 5,
+                            //             ),
+                            //             Container(
+                            //                 decoration: BoxDecoration(
+                            //                     color:
+                            //                         const Color.fromARGB(
+                            //                             255,
+                            //                             248,
+                            //                             181,
+                            //                             81),
+                            //                     borderRadius:
+                            //                         BorderRadius.circular(
+                            //                             20)),
+                            //                 child: TextButton(
+                            //                   child: const Center(
+                            //                     child: Text(
+                            //                       "En",
+                            //                       style: TextStyle(
+                            //                           color: Colors.black,
+                            //                           fontWeight:
+                            //                               FontWeight.bold,
+                            //                           fontFamily:
+                            //                               'Bitter'),
+                            //                     ),
+                            //                   ),
+                            //                   onPressed: () {
+                            //                     _controller
+                            //                         .changeLang("en");
+                            //                   },
+                            //                 )),
+                            //           ],
+                            //         )
+                            //       ]);
+                            // });
+                          },
+                          icon: Icon(
+                            Icons.language,
+                            size: 30,
+                          ),
+                        ),
                       ],
                     ),
                   ),

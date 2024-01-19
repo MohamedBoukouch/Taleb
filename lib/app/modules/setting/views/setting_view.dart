@@ -212,8 +212,8 @@ class _SettingViewState extends State<SettingView> {
                                 color: AppTheme.main_color_1,
                                 borderRadius: BorderRadius.circular(30)),
                             child: Text(
-                              "Edit profile",
-                              style: TextStyle(
+                              "edit_profile".tr,
+                              style: const TextStyle(
                                   color: Colors.white,
                                   fontFamily: 'Bitter',
                                   fontWeight: FontWeight.bold,
@@ -237,7 +237,7 @@ class _SettingViewState extends State<SettingView> {
                                 Get.to(ContactezNous());
                               },
                               child: Slider_2(
-                                titel: "Contactez-nous",
+                                titel: "Contactez-nous".tr,
                                 icon: Icon(
                                   Icons.support_agent,
                                   color: AppTheme.main_color_2,
@@ -247,7 +247,7 @@ class _SettingViewState extends State<SettingView> {
                           ),
                         ),
                         Slider_2(
-                          titel: "Payement Options",
+                          titel: "Payement_Options".tr,
                           icon: Icon(
                             Icons.monetization_on_outlined,
                             color: AppTheme.main_color_2,
@@ -256,7 +256,7 @@ class _SettingViewState extends State<SettingView> {
                         InkWell(
                           onTap: () => Get.to(Language()),
                           child: Slider_2(
-                              titel: "Laungage",
+                              titel: "1".tr,
                               icon: Icon(
                                 Icons.language,
                                 color: AppTheme.main_color_2,
@@ -265,7 +265,7 @@ class _SettingViewState extends State<SettingView> {
                         //Slider_2(),
 
                         Slider_2(
-                          titel: "Supporte",
+                          titel: "Supporte".tr,
                           icon: Icon(
                             Icons.info_outline_rounded,
                             color: AppTheme.main_color_2,
@@ -289,10 +289,10 @@ class _SettingViewState extends State<SettingView> {
                             decoration: BoxDecoration(
                                 color: AppTheme.main_color_1,
                                 borderRadius: BorderRadius.circular(40)),
-                            child: const Center(
+                            child: Center(
                               child: Text(
-                                "Log Out",
-                                style: TextStyle(
+                                "Log_Out".tr,
+                                style: const TextStyle(
                                     fontFamily: 'Bitter',
                                     fontSize: 18,
                                     color: Colors.white),
@@ -306,7 +306,7 @@ class _SettingViewState extends State<SettingView> {
                               QuickAlert.show(
                                   context: context,
                                   type: QuickAlertType.confirm,
-                                  text: 'Do you want to Delet your compte',
+                                  text: 'Message_delet_compte'.tr,
                                   confirmBtnText: 'Yes',
                                   cancelBtnText: 'No',
                                   confirmBtnColor: Colors.green,
@@ -327,47 +327,3 @@ class _SettingViewState extends State<SettingView> {
     );
   }
 }
-
-// Column(
-//         children: [
-//           Stack(
-//             children: [
-//               Center(
-//                 child: Container(
-//                   padding: EdgeInsets.only(top: 40),
-//                   decoration: BoxDecoration(),
-//                   child: CircleAvatar(
-//                     radius: 70,
-//                     backgroundImage: NetworkImage(
-//                         "https://th.bing.com/th/id/OIP.6nsKk7mIkSKvYZD_APa8-AHaFk?pid=ImgDet&rs=1"),
-//                   ),
-//                 ),
-//               ),
-//               Positioned(
-//                 bottom: AppConstant.screenHeight * .025,
-//                 right: AppConstant.screenWidth * .32,
-//                 child: Icon(
-//                   Icons.camera_alt_rounded,
-//                   size: 30,
-//                 ),
-//               ),
-//             ],
-//           ),
-//           Edittext(
-//             Controller: _nom,
-//             hint: "Nom",
-//           ),
-//           Edittext(
-//             Controller: _nom,
-//             hint: "Prenom",
-//           ),
-//           Edittext(
-//             Controller: _nom,
-//             hint: "Email",
-//           ),
-//           Edittext(
-//             Controller: _nom,
-//             hint: "Password",
-//           ),
-//         ],
-//       ),

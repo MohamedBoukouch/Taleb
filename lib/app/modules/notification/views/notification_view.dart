@@ -16,8 +16,8 @@ class NotificationView extends GetView<NotificationController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Notifications',
+        title: Text(
+          'Notifications'.tr,
           style: TextStyle(fontFamily: 'Bitter'),
         ),
         centerTitle: true,

@@ -42,7 +42,7 @@ class _SignupViewState extends State<SignupView> {
                     children: [
                       Edittext(
                         readonly: false,
-                        hint: "Nom",
+                        hint: "Nom".tr,
                         icon: const Icon(Icons.person_2_outlined),
                         Controller: _nomController,
                         validator: (String? value) {
@@ -57,7 +57,7 @@ class _SignupViewState extends State<SignupView> {
                       ),
                       Edittext(
                         readonly: false,
-                        hint: "Prenom",
+                        hint: "Prenom".tr,
                         isemail: true,
                         icon: const Icon(Icons.person_2_outlined),
                         Controller: _prenomController,
@@ -73,7 +73,7 @@ class _SignupViewState extends State<SignupView> {
                       ),
                       Edittext(
                         readonly: false,
-                        hint: "Adress Email",
+                        hint: "Address".tr,
                         isemail: true,
                         ispassword: false,
                         icon: const Icon(Icons.email_outlined),
@@ -93,7 +93,7 @@ class _SignupViewState extends State<SignupView> {
                       ),
                       Edittext(
                         readonly: false,
-                        hint: "password",
+                        hint: "Mote_de_pass".tr,
                         ispassword: true,
                         icon: const Icon(Icons.lock),
                         Controller: _passwordController,
@@ -136,8 +136,8 @@ class _SignupViewState extends State<SignupView> {
                             }
                           }
                         },
-                        child: const Button(
-                          txt: "Connexion",
+                        child: Button(
+                          txt: "Connexion".tr,
                         ),
                       ),
                       Container(
@@ -146,19 +146,18 @@ class _SignupViewState extends State<SignupView> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            const Center(
+                            Center(
                               child: Text(
-                                "Je ai déjà un compte?  ",
-                                style: TextStyle(
+                                "deja_account".tr,
+                                style: const TextStyle(
                                   color: Color.fromARGB(255, 158, 158, 158),
-                                  // fontSize: 16,
                                 ),
                               ),
                             ),
                             InkWell(
                               onTap: () => Get.to(() => const LoginView()),
                               child: const Text(
-                                "Se connecter.",
+                                "Seconnecter",
                                 style: TextStyle(
                                     color: Color.fromARGB(255, 255, 132, 0)),
                               ),
