@@ -56,6 +56,7 @@ flutter:
     - assets/icons/
     - assets/profile/
     - assets/flags/
+    - assets/concoures/
 
   uses-material-design: true
 

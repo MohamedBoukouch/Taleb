@@ -52,15 +52,10 @@ class _HomeViewState extends State<HomeView> {
       selectedindex: 3,
       appbar: AppBar(
         backgroundColor: Colors.white,
-        title: InkWell(
-          onTap: () {
-            print(controller_notification.ListNotification.length);
-          },
-          child: Text(
-            'Taleb',
-            style: TextStyle(
-              color: Colors.black, // Text color
-            ),
+        title: Text(
+          'Taleb',
+          style: TextStyle(
+            color: Colors.black, // Text color
           ),
         ),
         actions: [
@@ -83,18 +78,18 @@ class _HomeViewState extends State<HomeView> {
               ),
 
               Positioned(
-                bottom: 31,
-                right: 13,
+                bottom: 5,
+                right: 18,
                 child: Container(
-                  width: 20,
-                  height: 20,
+                  width: 10,
+                  height: 10,
                   decoration: BoxDecoration(
                       color: Colors.red,
-                      borderRadius: BorderRadius.circular(50)),
-                  child: Center(
-                    child: Text(
-                        "${controller_notification.ListNotification.length}"),
-                  ),
+                      borderRadius: BorderRadius.circular(10)),
+                  // child: Center(
+                  //   child: Text(
+                  //       "${controller_notification.ListNotification.length}"),
+                  // ),
                 ),
               )
               // : Positioned(child: Text("")),

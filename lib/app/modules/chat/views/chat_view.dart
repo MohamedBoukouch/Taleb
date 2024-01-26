@@ -74,9 +74,9 @@ class _ChatViewState extends State<ChatView> {
             borderRadius: BorderRadius.circular(70),
           ),
           child: CommentBox(
-            userImage: CommentBox.commentImageParser(
-                imageURLorPath:
-                    "https://th.bing.com/th/id/OIP.ysdd9pBlwnNdnxQoC8y4KQHaHa?pid=ImgDet&rs=1"),
+            // userImage: CommentBox.commentImageParser(
+            //     imageURLorPath:
+            //         "https://th.bing.com/th/id/OIP.ysdd9pBlwnNdnxQoC8y4KQHaHa?pid=ImgDet&rs=1"),
 
             // ignore: sort_child_properties_last
             child: FutureBuilder(
@@ -144,7 +144,7 @@ class _ChatViewState extends State<ChatView> {
             ),
 
             labelText:
-                _messageController.text.length > 0 ? "" : 'Write a comment...',
+                _messageController.text.length > 0 ? "" : 'Write a message...',
             withBorder: false,
             sendButtonMethod: () async {
               if (formKey.currentState!.validate()) {
@@ -167,7 +167,7 @@ class _ChatViewState extends State<ChatView> {
             },
             formKey: formKey,
             commentController: _messageController,
-            backgroundColor: Color.fromARGB(148, 158, 158, 158),
+            backgroundColor: Color.fromARGB(147, 189, 187, 187),
             textColor: Colors.black,
             sendWidget: Icon(Icons.send_sharp, size: 30, color: Colors.white),
           ),

@@ -20,7 +20,6 @@ class NotificationView extends GetView<NotificationController> {
           'Notifications'.tr,
           style: TextStyle(fontFamily: 'Bitter'),
         ),
-        centerTitle: true,
       ),
       body: Obx(
         () {

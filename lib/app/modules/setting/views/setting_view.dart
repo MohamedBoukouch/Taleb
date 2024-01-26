@@ -17,6 +17,7 @@ import 'package:taleb/app/data/const_link.dart';
 import 'package:taleb/app/modules/initial/views/init_view.dart';
 import 'package:taleb/app/modules/login/views/login_view.dart';
 import 'package:taleb/app/modules/setting/pages/contactez_nous.dart';
+import 'package:taleb/app/modules/setting/pages/councoures.dart';
 import 'package:taleb/app/modules/setting/pages/edit_profile.dart';
 import 'package:taleb/app/modules/setting/pages/language.dart';
 import 'package:taleb/app/modules/setting/widgets/delet_compte.dart';
@@ -246,11 +247,14 @@ class _SettingViewState extends State<SettingView> {
                             ),
                           ),
                         ),
-                        Slider_2(
-                          titel: "Payement_Options".tr,
-                          icon: Icon(
-                            Icons.monetization_on_outlined,
-                            color: AppTheme.main_color_2,
+                        InkWell(
+                          onTap: () => Get.to(() => const Councoures()),
+                          child: Slider_2(
+                            titel: "councoures".tr,
+                            icon: Icon(
+                              Icons.monetization_on_outlined,
+                              color: AppTheme.main_color_2,
+                            ),
                           ),
                         ),
                         InkWell(

@@ -94,7 +94,6 @@ class _PostCardState extends State<PostCard> {
               children: [
                 InkWell(
                   onTap: () {
-                    // print(widget.link);
                     print(widget.timeAgo);
                   },
                   child: const Icon(
@@ -380,21 +379,6 @@ class _PostCardState extends State<PostCard> {
                     },
                   ),
                 ),
-                // Container(
-                //   width: AppConstant.screenWidth * .29,
-                //   height: AppConstant.screenHeight * .06,
-                //   decoration: BoxDecoration(
-                //       color: const Color.fromARGB(64, 158, 158, 158),
-                //       borderRadius: BorderRadius.circular(50)),
-                //   child: IconButton(
-                //     icon: widget.is_favorit == 1
-                //         ? Icon(Icons.star)
-                //         : Icon(Icons.star_border),
-                //     onPressed: () {
-                //       // Add share functionality here
-                //     },
-                //   ),
-                // ),
               ],
             ),
           ),

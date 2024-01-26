@@ -36,7 +36,8 @@ class _InitialViewState extends State<InitialView> {
       backgroundColor: Colors.white,
       body: widget.body,
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Colors.red,
+        type: BottomNavigationBarType.fixed, // Add this line
+        backgroundColor: Colors.white,
         currentIndex: widget.selectedindex,
         onTap: (int index) {
           switch (index) {
@@ -58,7 +59,7 @@ class _InitialViewState extends State<InitialView> {
           }
         },
         selectedItemColor: const Color.fromARGB(255, 247, 134, 6),
-        unselectedItemColor: Color.fromARGB(255, 227, 65, 65),
+        unselectedItemColor: Color.fromARGB(255, 161, 161, 161),
         showSelectedLabels: false,
         showUnselectedLabels: false,
         unselectedLabelStyle: const TextStyle(color: Colors.transparent),
@@ -71,7 +72,7 @@ class _InitialViewState extends State<InitialView> {
             icon: Icon(
               Icons.person,
             ),
-            label: "●",
+            label: "",
           ),
           BottomNavigationBarItem(
             activeIcon: Icon(
@@ -79,7 +80,7 @@ class _InitialViewState extends State<InitialView> {
               color: Colors.orange,
             ),
             icon: Icon(Icons.search),
-            label: "●",
+            label: "",
           ),
           BottomNavigationBarItem(
             activeIcon: Icon(
@@ -87,7 +88,7 @@ class _InitialViewState extends State<InitialView> {
               color: Colors.orange,
             ),
             icon: Icon(Icons.star_rate),
-            label: "●",
+            label: "",
           ),
           BottomNavigationBarItem(
             activeIcon: Icon(
@@ -95,7 +96,7 @@ class _InitialViewState extends State<InitialView> {
               color: Colors.orange,
             ),
             icon: Icon(Icons.home),
-            label: "●",
+            label: "",
           ),
         ],
       ),

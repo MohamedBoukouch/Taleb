@@ -156,9 +156,9 @@ class _SignupViewState extends State<SignupView> {
                             ),
                             InkWell(
                               onTap: () => Get.to(() => const LoginView()),
-                              child: const Text(
-                                "Seconnecter",
-                                style: TextStyle(
+                              child: Text(
+                                "Seconnecter".tr,
+                                style: const TextStyle(
                                     color: Color.fromARGB(255, 255, 132, 0)),
                               ),
                             ),

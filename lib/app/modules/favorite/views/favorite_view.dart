@@ -1,27 +1,3 @@
-// import 'package:flutter/material.dart';
-
-// import 'package:get/get.dart';
-
-// import '../controllers/favorite_controller.dart';
-
-// class FavoriteView extends GetView<FavoriteController> {
-//   const FavoriteView({Key? key}) : super(key: key);
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       appBar: AppBar(
-//         title: const Text('FavoriteView'),
-//         centerTitle: true,
-//       ),
-//       body: const Center(
-//         child: Text(
-//           'FavoriteView is working',
-//           style: TextStyle(fontSize: 20),
-//         ),
-//       ),
-//     );
-//   }
-// }
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart'; // Import Flutter Material package
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -68,6 +44,13 @@ class _FavoriteViewState extends State<FavoriteView> {
   Widget build(BuildContext context) {
     return InitialView(
       selectedindex: 2,
+      appbar: AppBar(
+        title: Text(
+          'Favorite'.tr,
+          style: TextStyle(fontFamily: 'Bitter'),
+        ),
+        // centerTitle: true,
+      ),
       body: Column(
         children: [
           // Slidere(),
