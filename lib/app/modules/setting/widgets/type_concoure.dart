@@ -36,12 +36,14 @@ class _TypeConcoureState extends State<TypeConcoure> {
           border: Border.all(color: const Color.fromARGB(66, 158, 158, 158))),
       child: ListTile(
         leading: Container(
-            width: 50,
-            height: 50,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Image.asset(widget.url_img)),
+          width: 50,
+          height: 50,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+          ),
+          // child: Image.asset(widget.url_img)),
+          child: Image.network("${widget.url_img}"),
+        ),
         title: Text(
           widget.titel,
           style: TextStyle(fontSize: 17, fontFamily: 'Bitter'),

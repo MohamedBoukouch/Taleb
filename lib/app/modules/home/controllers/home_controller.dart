@@ -47,7 +47,7 @@ class HomeController extends GetxController {
     });
     if (response['status'] == "success") {
       print("success");
-      ListPicturesPub.assignAll(response['data']);
+      // ListPicturesPub.assignAll(response['data']);
       // update();
       return response['data'];
     } else {

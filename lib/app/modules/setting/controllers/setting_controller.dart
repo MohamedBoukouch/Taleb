@@ -33,6 +33,7 @@ class SettingController extends GetxController {
   }
 
   void increment() => count.value++;
+  List<dynamic> ListEcole = [];
 
   //Profil
   profil() async {
@@ -154,5 +155,17 @@ class SettingController extends GetxController {
     }
 
     Get.back();
+  }
+
+  //Select_Ecoles
+  Future selectecole(String type) async {
+    var response = await _crud.postRequest(link_select_ecole, {
+      "type": type,
+    });
+    if (response['status'] == "success") {
+      return response['data'];
+    } else {
+      print("error");
+    }
   }
 }

@@ -1,4 +1,4 @@
-const linkservername = "http://10.0.2.2/Taleb_DB";
+const linkservername = "http://172.20.128.1/Taleb_DB";
 
 //Auth
 const linksignup = "$linkservername/auth/signup.php";
@@ -58,3 +58,6 @@ const link_edit_compte = "$linkservername/compte/edit_compte.php";
 const link_edit_password = "$linkservername/compte/edit_password.php";
 const link_delet_compte = "$linkservername/compte/delet_compte.php";
 const link_delet_ = "$linkservername/compte/delet_compte.php";
+
+//Councoures
+const link_select_ecole = "$linkservername/Admin/concoures/SelectEcoles.php";
