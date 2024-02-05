@@ -10,6 +10,7 @@ list(APPEND FLUTTER_PLUGIN_LIST
   firebase_core
   firebase_storage
   modal_progress_hud_nsn
+  pdfx
   url_launcher_windows
 )
 

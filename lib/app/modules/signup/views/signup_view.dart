@@ -33,6 +33,9 @@ class _SignupViewState extends State<SignupView> {
         SingleChildScrollView(
           child: Column(
             children: [
+              // Switcher(
+              //   index: 2,
+              // ),
               Form(
                 key: _signupKey,
                 child: Container(
@@ -42,7 +45,7 @@ class _SignupViewState extends State<SignupView> {
                     children: [
                       Edittext(
                         readonly: false,
-                        hint: "Nom".tr,
+                        hint: "Nome",
                         icon: const Icon(Icons.person_2_outlined),
                         Controller: _nomController,
                         validator: (String? value) {

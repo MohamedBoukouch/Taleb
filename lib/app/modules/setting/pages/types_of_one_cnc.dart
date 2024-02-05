@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:taleb/app/modules/initial/views/init_view.dart';
+import 'package:taleb/app/modules/setting/pages/content/concoures_content.dart';
 import 'package:taleb/app/modules/setting/widgets/type_concoure.dart';
 
 class TypeOfOneCnc extends StatefulWidget {
@@ -25,10 +26,13 @@ class _TypeOfOneCncState extends State<TypeOfOneCnc> {
           ),
           body: Column(
             children: [
-              TypeConcoure(
-                url_img: "assets/concoures/ENSA.png",
-                titel: "Agadir",
-                type: 2,
+              InkWell(
+                onTap: () => Get.to(ConcoureContent()),
+                child: TypeConcoure(
+                  url_img: "assets/concoures/ENSA.png",
+                  titel: "Agadir",
+                  type: 2,
+                ),
               ),
             ],
           )),
