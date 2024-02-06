@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/get_core.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
 import 'package:taleb/app/config/translations/localization/changelocal.dart';
+import 'package:taleb/app/modules/initial/views/init_view.dart';
 import 'package:taleb/app/modules/setting/widgets/type_language.dart';
 import 'package:taleb/app/shared/back.dart';
 
@@ -26,8 +27,9 @@ class _LanguageState extends State<Language> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
+    return InitialView(
+      selectedindex: 0,
+      appbar: AppBar(
         automaticallyImplyLeading: false, // Remove the default back button
         title: Text("1".tr),
         leading: ButtonBack(),

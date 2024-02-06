@@ -59,7 +59,9 @@ class SignupController extends GetxController {
       "verifycode": verifycode,
     });
     if (response['status'] == "success") {
-      Get.to(() => LoginView());
+      sharedpref.setString("id", response['data']['id'].toString());
+      print(response['status']);
+      Get.off(() => const HomeView());
     } else {
       showDialog(
           context: context,

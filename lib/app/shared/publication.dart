@@ -325,7 +325,6 @@ class _PostCardState extends State<PostCard> {
                           onPressed: () {
                             Get.to(() => Commentaire(
                                   id_publication: "${widget.id_publication}",
-                                  number_comment: widget.numbercomment,
                                 ));
                           },
                         ),

@@ -10,6 +10,7 @@ class NotificationController extends GetxController {
   Crud _crud = Crud();
 
   List<dynamic> ListNotification = [];
+  List<dynamic> ListActiveNotification = [];
   // List<dynamic> List_Lenght_Notification = [];
   // List<dynamic> List_notification_active = [];
   final count = 0.obs;
@@ -32,12 +33,19 @@ class NotificationController extends GetxController {
     needsDataRefresh.value = value;
   }
 
-  //select_active_notification
-  activenotification() async {
-    update();
-    var response = await _crud.getRequest(link_notification);
+  // show_publication
 
-    update();
+  Future Showpub(String publication_id) async {
+    // statusRequest = StatusRequest.loading;
+    var response = await _crud.postRequest(link_show_publication, {
+      "publication_id": publication_id,
+    });
+    if (response['status'] == "success") {
+      print("success");
+      return response['data'];
+    } else {
+      print("error");
+    }
   }
 
 //ALL Notifications:
@@ -48,7 +56,6 @@ class NotificationController extends GetxController {
     // ListNotification.assignAll(response['data']);
     if (response['status'] == "success") {
       print("success");
-
       return response['data'];
     } else {
       print("error");
@@ -74,26 +81,9 @@ class NotificationController extends GetxController {
     update();
   }
 
-  //update_notification_status
-  update_notification_status() async {
-    update();
-    var response = await _crud.postRequest(link_update_notification_status, {
-      "active": "0",
-    });
-    if (response['status'] == "success") {
-      print("success");
-      // Get.to(NotificationView());
-      update();
-    } else {
-      print("error");
-      update();
-    }
-    update();
-  }
-
   @override
   void onInit() {
-    activenotification();
+    // activenotification();
     ListNotification;
     super.onInit();
   }

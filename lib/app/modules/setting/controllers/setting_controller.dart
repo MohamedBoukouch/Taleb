@@ -168,4 +168,30 @@ class SettingController extends GetxController {
       print("error");
     }
   }
+
+  //Select_Ville_Ecoles
+  Future selectvilleecole(String type) async {
+    var response = await _crud.postRequest(link_select_ville_ecole, {
+      "type": type,
+    });
+    if (response['status'] == "success") {
+      return response['data'];
+    } else {
+      print("error");
+    }
+  }
+
+  //Select_Pdf
+  Future selectpdf(String niveau, String ecole, String ville) async {
+    var response = await _crud.postRequest(link_select_pdfs, {
+      "niveau": niveau,
+      "ecole": ecole,
+      "ville": ville,
+    });
+    if (response['status'] == "success") {
+      return response['data'];
+    } else {
+      print("error");
+    }
+  }
 }

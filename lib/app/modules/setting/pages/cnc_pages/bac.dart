@@ -52,11 +52,13 @@ class _BacState extends State<Bac> {
                     itemCount: snapshot.data.length,
                     itemBuilder: (context, index) {
                       return InkWell(
-                        onTap: () => Get.to(() => TypeOfOneCnc()),
+                        onTap: () => Get.to(() => TypeOfOneCnc(
+                            type: "${snapshot.data[index]['name']}")),
                         child: TypeConcoure(
                           url_img:
                               "$linkservername/Admin/concoures/upload/${snapshot.data[index]['logo']}",
-                          titel: "${snapshot.data[index]['name']}",
+                          titel:
+                              "${snapshot.data[index]['name']}".toUpperCase(),
                           type: 1,
                         ),
                       );
@@ -65,27 +67,6 @@ class _BacState extends State<Bac> {
                 }
               },
             ),
-            // InkWell(
-            //   onTap: () => Get.to(() => TypeOfOneCnc()),
-            //   child: TypeConcoure(
-            //     url_img: "assets/concoures/ENSA.png",
-            //     titel: "ENSA",
-            //     type: 1,
-            //   ),
-            // ),
-
-            // TypeConcoure(
-            //   url_img: "assets/concoures/ENSA.png",
-            //   titel: "ENSAM",
-            // ),
-            // TypeConcoure(
-            //   url_img: "assets/concoures/ENSA.png",
-            //   titel: "ENA",
-            // ),
-            // TypeConcoure(
-            //   url_img: "assets/concoures/ENSA.png",
-            //   titel: "FAT",
-            // ),
           ],
         ),
       ),

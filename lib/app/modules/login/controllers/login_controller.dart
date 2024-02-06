@@ -47,7 +47,7 @@ class LoginController extends GetxController {
     if (response['status'] == "success") {
       sharedpref.setString("id", response['data']['id'].toString());
       print(response['status']);
-      Get.to(() => const HomeView());
+      Get.off(() => const HomeView());
     } else {
       print("signup fail");
     }

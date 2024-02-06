@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
+import 'package:taleb/app/modules/initial/views/init_view.dart';
 import 'package:taleb/app/shared/back.dart';
 import 'package:taleb/app/shared/bottun.dart';
 import 'package:taleb/app/shared/edittext.dart';
@@ -27,10 +28,12 @@ class _ContactezNousState extends State<ContactezNous> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
+    return InitialView(
+      selectedindex: 0,
+      appbar: AppBar(
         automaticallyImplyLeading: false, // Remove the default back button
-        title: ButtonBack(), // Your back button widget
+        title: Text("Contactez-nous".tr),
+        leading: ButtonBack(),
       ),
       body: SingleChildScrollView(
         child: SafeArea(

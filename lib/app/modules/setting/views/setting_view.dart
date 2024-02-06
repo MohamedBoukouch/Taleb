@@ -20,6 +20,7 @@ import 'package:taleb/app/modules/setting/pages/contactez_nous.dart';
 import 'package:taleb/app/modules/setting/pages/councoures.dart';
 import 'package:taleb/app/modules/setting/pages/edit_profile.dart';
 import 'package:taleb/app/modules/setting/pages/language.dart';
+import 'package:taleb/app/modules/setting/pages/supporte.dart';
 import 'package:taleb/app/modules/setting/widgets/delet_compte.dart';
 import 'package:taleb/app/modules/setting/widgets/slider_1.dart';
 import 'package:taleb/app/modules/setting/widgets/slider_2.dart';
@@ -268,11 +269,14 @@ class _SettingViewState extends State<SettingView> {
                         ),
                         //Slider_2(),
 
-                        Slider_2(
-                          titel: "Supporte".tr,
-                          icon: Icon(
-                            Icons.info_outline_rounded,
-                            color: AppTheme.main_color_2,
+                        InkWell(
+                          onTap: () => Get.to(() => Supporte()),
+                          child: Slider_2(
+                            titel: "Supporte".tr,
+                            icon: Icon(
+                              Icons.info_outline_rounded,
+                              color: AppTheme.main_color_2,
+                            ),
                           ),
                         ),
                         InkWell(

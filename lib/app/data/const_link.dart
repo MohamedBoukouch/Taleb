@@ -44,6 +44,10 @@ const link_all_notifications =
     "$linkservername/Notification/all_notification.php";
 const link_update_notification_status =
     "$linkservername/Notification/update_status_notification.php";
+const link_notification_active =
+    "$linkservername/Notification/notification_active.php";
+const link_show_publication =
+    "$linkservername/Notification/show_publication.php";
 
 //Messages
 const link_send_messages = "$linkservername/Chat/send_message.php";
@@ -61,3 +65,6 @@ const link_delet_ = "$linkservername/compte/delet_compte.php";
 
 //Councoures
 const link_select_ecole = "$linkservername/Admin/concoures/SelectEcoles.php";
+const link_select_ville_ecole =
+    "$linkservername/Admin/concoures/Villes/SelectVilleEcole.php";
+const link_select_pdfs = "$linkservername/Admin/concoures/PDF/SelectPdf.php";

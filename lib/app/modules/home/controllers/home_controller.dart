@@ -19,6 +19,7 @@ class HomeController extends GetxController {
 
   List<dynamic> listdata = [];
   List<dynamic> ListPicturesPub = [];
+  List<dynamic> ListActiveNotification = [];
 
   final count = 0.obs;
   @override
@@ -56,21 +57,23 @@ class HomeController extends GetxController {
   }
 
   //Addcomment
-  Addcommentaire(String id_user, String id_publication, String text,
-      String number_comment) async {
-    int number_comt = int.parse(number_comment);
+  Future<void> Addcommentaire(
+      String id_user, String id_publication, String text) async {
+    // int number_comt =
+    //     int.tryParse(number_comment) ?? 0; // Parsing with error handling
     var response = await _crud.postRequest(linkaddcomment, {
       "id_user": id_user,
       "id_publication": id_publication,
-      "numbercomment": number_comment,
+      // "numbercomment": number_comment,
       "text": text,
     });
     if (response['status'] == "success") {
-      print("coment add successfull");
+      print("Comment added successfully");
     } else {
-      print("signup fail");
+      print(
+          "Failed to add comment: ${response['message']}"); // Log error message
     }
-    update();
+    update(); // Assuming update() is a method to update the UI
   }
 
   //Showcomment
@@ -191,17 +194,32 @@ class HomeController extends GetxController {
     }
   }
 
-  // //List_categori_serach
-  // List<String> myList = [];
-  // List_ctigorie_search(String search_txt) async {
-  //   var response = await _crud.postRequest(linkDropfavorit, {
-  //     "search_txt": search_txt,
-  //   });
-  //   if (response['status'] == "success") {
-  //     print("List_active");
-  //     myList.add(response);
-  //   } else {
-  //     print("error in list_search");
-  //   }
-  // }
+  //Active_Notification
+  Future activenotification() async {
+    update();
+    var response = await _crud.getRequest(link_notification_active);
+    // ListActiveNotification.addAll(response['data']);
+    // ListNotification.assignAll(response['data']);
+    if (response['status'] == "success") {
+      // update();
+      return response['data']; // Return the data directly
+    } else {
+      print("error");
+      return null; // Return null or handle error accordingly
+    }
+  }
+
+  //update_notification_status
+  update_notification_status() async {
+    update();
+    var response = await _crud.postRequest(link_update_notification_status, {});
+    if (response['status'] == "success") {
+      print("success");
+      update();
+    } else {
+      print("error");
+      update();
+    }
+    update();
+  }
 }

@@ -24,8 +24,8 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   final HomeController controller = Get.put(HomeController());
-  final NotificationController controller_notification =
-      Get.put(NotificationController());
+
+  var notificationData;
 
   // final FavoriController favorit_controller = Get.put(FavoriController());
 
@@ -64,35 +64,36 @@ class _HomeViewState extends State<HomeView> {
               IconButton(
                 icon: Icon(Icons.notifications, size: 30),
                 onPressed: () async {
-                  print(
-                      "${await controller_notification.ListNotification.length}");
+                  notificationData = await controller.activenotification();
+                  print(notificationData);
 
                   try {
-                    await controller_notification.update_notification_status();
+                    await controller.update_notification_status();
                   } catch (e) {
                     print(e);
+                  } finally {
+                    setState(() {});
                   }
-                  Get.to(NotificationView());
+                  Get.to(() => NotificationView());
                 },
                 color: Color.fromARGB(214, 112, 111, 111),
               ),
-
-              Positioned(
-                bottom: 5,
-                right: 18,
-                child: Container(
-                  width: 10,
-                  height: 10,
-                  decoration: BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.circular(10)),
-                  // child: Center(
-                  //   child: Text(
-                  //       "${controller_notification.ListNotification.length}"),
-                  // ),
-                ),
-              )
-              // : Positioned(child: Text("")),
+              notificationData == "1"
+                  ? Positioned(
+                      bottom: 5,
+                      right: 18,
+                      child: Container(
+                        width: 10,
+                        height: 10,
+                        decoration: BoxDecoration(
+                          color: Colors.red,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                    )
+                  : Positioned(
+                      child: Container(),
+                    )
             ],
           ),
           IconButton(

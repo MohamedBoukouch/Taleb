@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:taleb/app/data/const_link.dart';
 import 'package:taleb/app/modules/notification/controllers/notification_controller.dart';
 
 class NotificationForm extends StatefulWidget {
+  final String image;
   final String body;
-  final int id_notification;
+  final String id_notification;
   const NotificationForm({
     Key? key,
     required this.body,
     required this.id_notification,
+    required this.image,
   }) : super(key: key);
 
   @override
@@ -16,7 +19,7 @@ class NotificationForm extends StatefulWidget {
 }
 
 class _NotificationFormState extends State<NotificationForm> {
-  final NotificationController _controller = Get.put(NotificationController());
+  final NotificationController controller = Get.put(NotificationController());
 
   @override
   Widget build(BuildContext context) {
@@ -32,10 +35,10 @@ class _NotificationFormState extends State<NotificationForm> {
           "${widget.body}",
           style: TextStyle(fontFamily: 'Bitter', fontSize: 15),
         ),
-        leading: const CircleAvatar(
+        leading: CircleAvatar(
           radius: 30,
           backgroundImage: NetworkImage(
-            "https://th.bing.com/th/id/OIP.6nsKk7mIkSKvYZD_APa8-AHaFk?pid=ImgDet&rs=1",
+            "$linkservername/Admin/publication/upload/${widget.image}",
           ),
         ),
       ),
