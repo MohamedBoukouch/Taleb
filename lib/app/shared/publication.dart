@@ -81,8 +81,9 @@ class _PostCardState extends State<PostCard> {
     String formattedDateTime = "${now.year}/${now.month}/${now.day}";
     return Card(
       margin: const EdgeInsets.all(8.0),
-      elevation: widget.forcomment == false ? 10 : 0,
+      // elevation: widget.forcomment == false ? 10 : 0,
       // elevation: 10,
+      color: Color.fromARGB(242, 245, 247, 245),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
@@ -236,9 +237,9 @@ class _PostCardState extends State<PostCard> {
                     ? DotsIndicator(
                         dotsCount: charArray.length,
                         position: currentPage,
-                        decorator: DotsDecorator(
-                          color: Colors.grey, // Inactive dot color
-                          activeColor: Colors.blue, // Active dot color
+                        decorator: const DotsDecorator(
+                          // color: Colors.grey, // Inactive dot color
+                          activeColor: Colors.orange, // Active dot color
                         ),
                       )
                     : Container(),

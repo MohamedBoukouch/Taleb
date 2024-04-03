@@ -107,9 +107,9 @@ class _BacState extends State<Bac> {
       ),
       body: ListView(
         children: [
-          Slidere(),
+          // Slidere(),
           FutureBuilder(
-            future: controller.Showpub(),
+            future: controller.Showpub("bac"),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(

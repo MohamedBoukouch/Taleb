@@ -41,10 +41,11 @@ class HomeController extends GetxController {
 
   void increment() => count.value++;
 
-  Future Showpub() async {
+  Future Showpub(String type) async {
     // statusRequest = StatusRequest.loading;
     var response = await _crud.postRequest(linkshowpubli, {
       "id_user": sharedpref.getString("id"),
+      "type":type
     });
     if (response['status'] == "success") {
       print("success");
