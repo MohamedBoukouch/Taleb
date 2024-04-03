@@ -1,4 +1,7 @@
 {
     "emulator.androidColdBoot": true,
-    "emulator.hasEditorTitleIcon": true
+    "emulator.hasEditorTitleIcon": true,
+    "editor.suggest.showStatusBar": true,
+    "problems.showCurrentInStatus": true,
+    "debug.showInStatusBar": "onFirstSessionStart"
 }

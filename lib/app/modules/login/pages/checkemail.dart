@@ -20,76 +20,82 @@ class _CheckEmailState extends State<CheckEmail> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text("Forgot Password"),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Image.asset("assets/icons/close_lock.png"),
-            SizedBox(
-              height: AppConstant.screenHeight * .05,
-            ),
-            Text(
-                "Plais Enter your Email Address To \n Recieve a verification code."),
-            SizedBox(
-              height: AppConstant.screenHeight * .05,
-            ),
-            Form(
-              key: _checkemailKey,
-              child: Column(
-                children: [
-                  Container(
-                    margin:
-                        EdgeInsets.only(right: AppConstant.screenWidth * .60),
-                    child: Text(
-                      "Address Email",
-                      style: TextStyle(color: Colors.grey),
-                    ),
-                  ),
-                  Container(
-                    padding: EdgeInsets.only(
-                        left: AppConstant.screenHeight * .035,
-                        right: AppConstant.screenHeight * .035,
-                        top: AppConstant.screenHeight * .01),
-                    child: Edittext(
-                      readonly: false,
-                      hint: "Adress Email",
-                      isemail: true,
-                      ispassword: false,
-                      icon: const Icon(Icons.email_outlined),
-                      Controller: _emailController,
-                      validator: (String? value) {
-                        if (value == null || value.isEmpty) {
-                          return "Vide";
-                        } else if (!value.contains("@") ||
-                            !value.contains(".")) {
-                          return "Invalid Email";
-                        }
-                        return null;
-                      },
-                    ),
-                  ),
-                ],
+    return SingleChildScrollView(
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text("Forgot Password"),
+        ),
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Image.asset("assets/icons/close_lock.png"),
+              SizedBox(
+                height: AppConstant.screenHeight * .05,
               ),
-            ),
-            InkWell(
-              onTap: () async {
-                if (_checkemailKey.currentState!.validate()) {
-                  FocusScope.of(context).unfocus();
-                  try {
-                    await controller.checkemail(_emailController.text, context);
-                  } catch (e) {}
-                }
-              },
-              child: Button(
-                txt: "Send",
+              Text(
+                  "Plais Enter your Email Address To \n Recieve a verification code."),
+              SizedBox(
+                height: AppConstant.screenHeight * .05,
               ),
-            ),
-          ],
+              Form(
+                key: _checkemailKey,
+                child: Column(
+                  children: [
+                    Container(
+                      margin:
+                          EdgeInsets.only(right: AppConstant.screenWidth * .60),
+                      child: Text(
+                        "Address Email",
+                        style: TextStyle(color: Colors.grey),
+                      ),
+                    ),
+                    Container(
+                      padding: EdgeInsets.only(
+                          left: AppConstant.screenHeight * .035,
+                          right: AppConstant.screenHeight * .035,
+                          top: AppConstant.screenHeight * .01),
+                      child: Edittext(
+                        readonly: false,
+                        hint: "Adress Email",
+                        isemail: true,
+                        ispassword: false,
+                        icon: const Icon(Icons.email_outlined),
+                        Controller: _emailController,
+                        validator: (String? value) {
+                          if (value == null || value.isEmpty) {
+                            return "Vide";
+                          } else if (!value.contains("@") ||
+                              !value.contains(".")) {
+                            return "Invalid Email";
+                          }
+                          return null;
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              InkWell(
+                onTap: () async {
+                  if (_checkemailKey.currentState!.validate()) {
+                    FocusScope.of(context).unfocus();
+                    try {
+                      await controller.checkemail(
+                          _emailController.text, context);
+                    } catch (e) {}
+                  }
+                },
+                child: Button(
+                  txt: "Send",
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
