@@ -15,14 +15,15 @@ import 'package:taleb/app/shared/publication.dart';
 import 'package:taleb/app/modules/home/widgets/slider.dart';
 import 'package:taleb/app/modules/initial/views/init_view.dart';
 
-class Bac extends StatefulWidget {
-  const Bac({Key? key}) : super(key: key);
+class SeeAll extends StatefulWidget {
+  final String type;
+  const SeeAll({Key? key,required this.type}) : super(key: key);
 
   @override
-  State<Bac> createState() => _BacState();
+  State<SeeAll> createState() => _SeeAllState();
 }
 
-class _BacState extends State<Bac> {
+class _SeeAllState extends State<SeeAll> {
   final HomeController controller = Get.put(HomeController());
 
   var notificationData;
@@ -109,7 +110,7 @@ class _BacState extends State<Bac> {
         children: [
           // Slidere(),
           FutureBuilder(
-            future: controller.Showpub("bac"),
+            future: controller.Showpub("${widget.type}"),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(

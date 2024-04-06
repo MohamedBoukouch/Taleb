@@ -4,6 +4,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
 import 'package:taleb/app/config/function/functions.dart';
 import 'package:taleb/app/data/Crud.dart';
@@ -11,6 +12,7 @@ import 'package:taleb/app/data/const_link.dart';
 import 'package:taleb/app/modules/home/views/home_view.dart';
 import 'package:taleb/app/modules/login/pages/resetpassword.dart';
 import 'package:taleb/app/modules/login/pages/verifycompte.dart';
+import 'package:taleb/app/shared/CustomAlert.dart';
 import 'package:taleb/main.dart';
 
 class LoginController extends GetxController {
@@ -64,19 +66,13 @@ class LoginController extends GetxController {
             email: email,
           ));
     } else {
-      showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-                title: Image.asset(
-                  "assets/icons/wairning_icon.png",
-                  width: AppConstant.screenWidth * .04,
-                ),
-                content: const Text("This mail does not exist"),
-                actions: [
-                  AppFunction.cancel(),
-                ]);
-          });
+      CustomAlert.show(
+      context: context,
+      type: AlertType.error,
+      desc: 'Infos incorrects',
+      onPressed: () {
+      Navigator.pop(context);
+      });
     }
   }
 
@@ -93,19 +89,13 @@ class LoginController extends GetxController {
             email: email,
           ));
     } else {
-      showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-                title: Image.asset(
-                  "assets/icons/wairning_icon.png",
-                  width: AppConstant.screenWidth * .04,
-                ),
-                content: const Text("Your code is invalid Try Again"),
-                actions: [
-                  AppFunction.cancel(),
-                ]);
-          });
+      CustomAlert.show(
+                          context: context,
+                          type: AlertType.error,
+                          desc: 'Code incorrects',
+                          onPressed: () {
+                            Navigator.pop(context);
+                          });
     }
     update();
   }
@@ -117,21 +107,16 @@ class LoginController extends GetxController {
       "password": password,
     });
     if (response['status'] == "success") {
-      Get.to(() => const HomeView());
+      // sharedpref.setString("id", response['data']['id'].toString());
+      Get.off(() => const HomeView());
     } else {
-      showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-                title: Image.asset(
-                  "assets/icons/wairning_icon.png",
-                  width: AppConstant.screenWidth * .04,
-                ),
-                content: const Text("Erro 404 Try again"),
-                actions: [
-                  AppFunction.cancel(),
-                ]);
-          });
+            CustomAlert.show(
+                          context: context,
+                          type: AlertType.error,
+                          desc: 'Information incorrects',
+                          onPressed: () {
+                            Navigator.pop(context);
+                          });
     }
     update();
   }

@@ -14,6 +14,7 @@ abstract class Routes {
   static const FAVORITE = _Paths.FAVORITE;
   static const CHAT = _Paths.CHAT;
   static const LANGUAGE = _Paths.LANGUAGE;
+  static const CONCOURS = _Paths.CONCOURS;
 }
 
 abstract class _Paths {
@@ -29,4 +30,5 @@ abstract class _Paths {
   static const FAVORITE = '/favorite';
   static const CHAT = '/chat';
   static const LANGUAGE = '/language';
+  static const CONCOURS = '/concours';
 }

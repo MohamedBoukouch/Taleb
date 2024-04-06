@@ -6,6 +6,8 @@ import 'package:taleb/app/modules/login/pages/verifycompte.dart';
 import 'package:taleb/app/shared/bottun.dart';
 import 'package:taleb/app/shared/edittext.dart';
 
+import '../../../shared/back.dart';
+
 class CheckEmail extends StatefulWidget {
   const CheckEmail({Key? key}) : super(key: key);
 
@@ -20,82 +22,71 @@ class _CheckEmailState extends State<CheckEmail> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text("Forgot Password"),
-        ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Image.asset("assets/icons/close_lock.png"),
-              SizedBox(
-                height: AppConstant.screenHeight * .05,
-              ),
-              Text(
-                  "Plais Enter your Email Address To \n Recieve a verification code."),
-              SizedBox(
-                height: AppConstant.screenHeight * .05,
-              ),
-              Form(
-                key: _checkemailKey,
-                child: Column(
-                  children: [
-                    Container(
-                      margin:
-                          EdgeInsets.only(right: AppConstant.screenWidth * .60),
-                      child: Text(
-                        "Address Email",
-                        style: TextStyle(color: Colors.grey),
-                      ),
+    return Scaffold(
+      appBar: AppBar(
+        leading: ButtonBack(),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.only(left: 16.0,right: 16), // Add left padding
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start, // Align content to the left
+          children: [
+            const SizedBox(height: 50,),
+            Text(
+              "Forgot Password",
+              style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Bitter',fontSize: 20),
+            ),
+            Text(
+              "Don’t Worry, Please to enter your email",
+              style: TextStyle(fontFamily: 'Bitter'),
+            ),
+            const SizedBox(height: 50,),
+            Form(
+              key: _checkemailKey,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start, // Align content to the left
+                children: [
+                  Text(
+                    "Address Email",
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                  SizedBox(height: 5,),
+                  Edittext(
+                      readonly: false,
+                      hint: "Adress Email",
+                      isemail: true,
+                      ispassword: false,
+                      icon: const Icon(Icons.email_outlined),
+                      Controller: _emailController,
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return "Vide";
+                        } else if (!value.contains("@") || !value.contains(".")) {
+                          return "Invalid Email";
+                        }
+                        return null;
+                      },
                     ),
-                    Container(
-                      padding: EdgeInsets.only(
-                          left: AppConstant.screenHeight * .035,
-                          right: AppConstant.screenHeight * .035,
-                          top: AppConstant.screenHeight * .01),
-                      child: Edittext(
-                        readonly: false,
-                        hint: "Adress Email",
-                        isemail: true,
-                        ispassword: false,
-                        icon: const Icon(Icons.email_outlined),
-                        Controller: _emailController,
-                        validator: (String? value) {
-                          if (value == null || value.isEmpty) {
-                            return "Vide";
-                          } else if (!value.contains("@") ||
-                              !value.contains(".")) {
-                            return "Invalid Email";
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                  ],
-                ),
+                ],
               ),
-              SizedBox(
-                height: 20,
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            InkWell(
+              onTap: () async {
+                if (_checkemailKey.currentState!.validate()) {
+                  FocusScope.of(context).unfocus();
+                  try {
+                    await controller.checkemail(_emailController.text, context);
+                  } catch (e) {}
+                }
+              },
+              child: Button(
+                txt: "Send",
               ),
-              InkWell(
-                onTap: () async {
-                  if (_checkemailKey.currentState!.validate()) {
-                    FocusScope.of(context).unfocus();
-                    try {
-                      await controller.checkemail(
-                          _emailController.text, context);
-                    } catch (e) {}
-                  }
-                },
-                child: Button(
-                  txt: "Send",
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

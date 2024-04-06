@@ -5,6 +5,8 @@ import 'package:http/http.dart' as http;
 import 'package:path_provider/path_provider.dart';
 import 'package:taleb/app/data/const_link.dart';
 
+import '../../../shared/back.dart';
+
 class Affichage extends StatefulWidget {
   String url;
   Affichage({Key? key, required this.url}) : super(key: key);
@@ -43,6 +45,7 @@ class _AffichageState extends State<Affichage> {
           "PDF",
           style: TextStyle(fontWeight: FontWeight.bold),
         ),
+        leading: ButtonBack(),
       ),
       body: localPath != null
           ? PDFView(

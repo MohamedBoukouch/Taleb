@@ -2,6 +2,7 @@ import "package:flutter/material.dart";
 import "package:get/get.dart";
 import "package:taleb/app/modules/Favorite/views/favorite_view.dart";
 import "package:taleb/app/modules/chat/views/chat_view.dart";
+import "package:taleb/app/modules/concours/views/concours_view.dart";
 import "package:taleb/app/modules/favorite/controllers/favorite_controller.dart";
 import "package:taleb/app/modules/home/controllers/home_controller.dart";
 import "package:taleb/app/modules/home/views/home_view.dart";
@@ -45,7 +46,7 @@ class _InitialViewState extends State<InitialView> {
               Get.off(() => const SettingView());
               break;
             case 1:
-              Get.off(() => SearchView());
+              Get.off(() => ConcoursView());
               break;
 
             case 2:
@@ -76,10 +77,10 @@ class _InitialViewState extends State<InitialView> {
           ),
           BottomNavigationBarItem(
             activeIcon: Icon(
-              Icons.search,
+              Icons.school,
               color: Colors.orange,
             ),
-            icon: Icon(Icons.search),
+            icon: Icon(Icons.school),
             label: "",
           ),
           BottomNavigationBarItem(

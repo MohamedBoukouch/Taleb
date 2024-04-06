@@ -3,19 +3,21 @@ import 'package:get/get.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
 import 'package:taleb/app/config/themes/app_theme.dart';
 import 'package:taleb/app/modules/initial/views/init_view.dart';
-import 'package:taleb/app/modules/setting/pages/cnc_pages/authers.dart';
-import 'package:taleb/app/modules/setting/pages/cnc_pages/bac+2.dart';
-import 'package:taleb/app/modules/setting/pages/cnc_pages/bac+3.dart';
-import 'package:taleb/app/modules/setting/pages/cnc_pages/bac.dart';
+import 'package:taleb/app/modules/concours/cnc_pages/authers.dart';
+import 'package:taleb/app/modules/concours/cnc_pages/bac+2.dart';
+import 'package:taleb/app/modules/concours/cnc_pages/bac+3.dart';
+import 'package:taleb/app/modules/concours/cnc_pages/bac.dart';
 
-class Councoures extends StatefulWidget {
-  const Councoures({Key? key}) : super(key: key);
+import '../../../shared/back.dart';
+
+class ConcoursView extends StatefulWidget {
+  const ConcoursView({Key? key}) : super(key: key);
 
   @override
-  State<Councoures> createState() => _CouncouresState();
+  State<ConcoursView> createState() => _ConcoursViewState();
 }
 
-class _CouncouresState extends State<Councoures> {
+class _ConcoursViewState extends State<ConcoursView> {
   int ctr = 0;
 
   Widget container() {
@@ -27,12 +29,13 @@ class _CouncouresState extends State<Councoures> {
   @override
   Widget build(BuildContext context) {
     return InitialView(
-      selectedindex: 0,
+      selectedindex: 1,
       appbar: AppBar(
         title: Text(
           'councoures'.tr,
           style: TextStyle(fontFamily: 'Bitter'),
         ),
+        leading: ButtonBack(),
         // centerTitle: true,
       ),
       body: Container(
@@ -172,3 +175,4 @@ class _CouncouresState extends State<Councoures> {
     );
   }
 }
+

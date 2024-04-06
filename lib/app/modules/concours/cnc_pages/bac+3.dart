@@ -5,17 +5,22 @@ import 'package:taleb/app/config/constants/app_constant.dart';
 import 'package:taleb/app/config/images/app_images.dart';
 import 'package:taleb/app/data/const_link.dart';
 import 'package:taleb/app/modules/setting/controllers/setting_controller.dart';
-import 'package:taleb/app/modules/setting/pages/types_of_one_cnc.dart';
-import 'package:taleb/app/modules/setting/widgets/type_concoure.dart';
+import 'package:taleb/app/modules/setting/controllers/setting_controller.dart';
+import 'package:taleb/app/modules/setting/controllers/setting_controller.dart';
+import 'package:taleb/app/modules/setting/controllers/setting_controller.dart';
+import 'package:taleb/app/modules/setting/controllers/setting_controller.dart';
+import 'package:taleb/app/modules/setting/controllers/setting_controller.dart';
+import 'package:taleb/app/modules/concours/pages/types_of_one_cnc.dart';
+import 'package:taleb/app/modules/concours/widgets/type_concoure.dart';
 
-class Authers extends StatefulWidget {
-  const Authers({Key? key}) : super(key: key);
+class Bac3 extends StatefulWidget {
+  const Bac3({Key? key}) : super(key: key);
 
   @override
-  State<Authers> createState() => _AuthersState();
+  State<Bac3> createState() => _Bac3State();
 }
 
-class _AuthersState extends State<Authers> {
+class _Bac3State extends State<Bac3> {
   final SettingController controller = Get.put(SettingController());
 
   @override
@@ -25,7 +30,7 @@ class _AuthersState extends State<Authers> {
         child: Column(
           children: [
             FutureBuilder(
-              future: controller.selectecole("auther"),
+              future: controller.selectecole("BAC+3"),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(

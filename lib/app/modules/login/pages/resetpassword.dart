@@ -7,6 +7,8 @@ import 'package:taleb/app/modules/login/pages/verifycompte.dart';
 import 'package:taleb/app/shared/bottun.dart';
 import 'package:taleb/app/shared/edittext.dart';
 
+import '../../../shared/back.dart';
+
 class ResetPassword extends StatefulWidget {
   final String email;
   const ResetPassword({Key? key, required this.email}) : super(key: key);
@@ -27,110 +29,92 @@ class _ResetPasswordState extends State<ResetPassword> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: true,
-        title: Text("Forgot Password"),
+        leading: const ButtonBack(),
       ),
-      body: Center(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Image.asset("assets/icons/close_lock.png"),
-              SizedBox(
-                height: AppConstant.screenHeight * .05,
-              ),
-              Text(
-                  "Plais Enter your Email Address To \n Recieve a verification code."),
-              SizedBox(
-                height: AppConstant.screenHeight * .05,
-              ),
-              Form(
-                key: _resetpasswordlKey,
-                child: Column(
-                  children: [
-                    Container(
-                      margin:
-                          EdgeInsets.only(right: AppConstant.screenWidth * .60),
-                      child: Text(
-                        "Password",
-                        style: TextStyle(color: Colors.grey),
-                      ),
+      body: Padding(
+        padding: const EdgeInsets.only(left: 16.0,right: 16), // Add left padding
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: 20,),
+            Text("Reset Password",style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Bitter',fontSize: 20),),
+            Text("Plais Enter your Email Address To  Recieve a verification code.",style: TextStyle(fontFamily: 'Bitter'),),
+            SizedBox(
+              height: AppConstant.screenHeight * .05,
+            ),
+            Form(
+              key: _resetpasswordlKey,
+              child: Column(
+                children: [
+                  Container(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      "Password",
+                      style: TextStyle(color: Colors.grey),
                     ),
-                    Container(
-                      padding: EdgeInsets.only(
-                          left: AppConstant.screenHeight * .035,
-                          right: AppConstant.screenHeight * .035,
-                          top: AppConstant.screenHeight * .01),
-                      child: Edittext(
-                        readonly: false,
-                        hint: "password",
-                        ispassword: true,
-                        icon: const Icon(Icons.lock),
-                        Controller: _passwordController,
-                        validator: (String? value) {
-                          if (value == null || value.isEmpty) {
-                            return "Vide";
-                          } else if (value.length < 6) {
-                            return "Entrez un mot de passe supérieur à 6 caractères";
-                          }
-
-                          return null; // Input is valid
-                        },
-                        onSaved: (value) {
-                          _password = value;
-                        },
-                      ),
+                  ),
+                  Edittext(
+                      readonly: false,
+                      hint: "password",
+                      ispassword: true,
+                      icon: const Icon(Icons.lock),
+                      Controller: _passwordController,
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return "Vide";
+                        } else if (value.length < 6) {
+                          return "Entrez un mot de passe supérieur à 6 caractères";
+                        }
+        
+                        return null; // Input is valid
+                      },
+                      onSaved: (value) {
+                        _password = value;
+                      },
                     ),
-                    Container(
-                      margin:
-                          EdgeInsets.only(right: AppConstant.screenWidth * .60),
-                      child: Text(
-                        "Confirm passwordl",
-                        style: TextStyle(color: Colors.grey),
-                      ),
+                    SizedBox(height: 15),
+                  Container(
+                    alignment: Alignment.topLeft,
+                    child: Text(
+                      "Confirm passwordl",
+                      style: TextStyle(color: Colors.grey),
                     ),
-                    Container(
-                      padding: EdgeInsets.only(
-                          left: AppConstant.screenHeight * .035,
-                          right: AppConstant.screenHeight * .035,
-                          top: AppConstant.screenHeight * .01),
-                      child: Edittext(
-                        hint: "Confirm password",
-                        readonly: false,
-                        ispassword: true,
-                        icon: const Icon(Icons.lock),
-                        Controller: _confirmpasswordController,
-                        validator: (String? value) {
-                          if (value == null || value.isEmpty) {
-                            return "Vide";
-                          } else if (value.length < 6) {
-                            return "Entrez un mot de passe supérieur à 6 caractères";
-                          } else {
-                            return null;
-                          }
-                        },
-                      ),
+                  ),
+                  Edittext(
+                      hint: "Confirm password",
+                      readonly: false,
+                      ispassword: true,
+                      icon: const Icon(Icons.lock),
+                      Controller: _confirmpasswordController,
+                      validator: (String? value) {
+                        if (value == null || value.isEmpty) {
+                          return "Vide";
+                        } else if (value.length < 6) {
+                          return "Entrez un mot de passe supérieur à 6 caractères";
+                        } else {
+                          return null;
+                        }
+                      },
                     ),
-                  ],
-                ),
+                ],
               ),
-              InkWell(
-                onTap: () async {
-                  if (_resetpasswordlKey.currentState!.validate()) {
-                    FocusScope.of(context).unfocus();
-                    try {
-                      await controller.resetpassword(
-                          widget.email, _passwordController.text, context);
-                    } catch (e) {}
-                  }
-                },
-                child: Button(
-                  txt: "Send",
-                ),
+            ),
+            const SizedBox(height: 20,),
+            InkWell(
+              onTap: () async {
+                if (_resetpasswordlKey.currentState!.validate()) {
+                  FocusScope.of(context).unfocus();
+                  try {
+                    await controller.resetpassword(
+                        widget.email, _passwordController.text, context);
+                  } catch (e) {}
+                }
+              },
+              child: Button(
+                txt: "Send",
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

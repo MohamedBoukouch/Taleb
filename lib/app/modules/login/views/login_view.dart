@@ -1,6 +1,7 @@
 import 'package:either_dart/either.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
 import 'package:taleb/app/modules/login/controllers/login_controller.dart';
@@ -34,16 +35,24 @@ class _LoginViewState extends State<LoginView> {
           SingleChildScrollView(
             child: Column(
               children: [
+                
                 Form(
                   key: _loginKey,
                   child: Container(
                     margin:
-                        EdgeInsets.only(top: AppConstant.screenHeight * .35),
+                        EdgeInsets.only(top: AppConstant.screenHeight * .2),
                     padding: EdgeInsets.only(
                         right: AppConstant.screenHeight * .02,
                         left: AppConstant.screenHeight * .02),
                     child: Column(
                       children: [
+                         SvgPicture.asset(
+          'assets/icons/shape.svg', // Path to your SVG image
+          width: AppConstant.screenWidth*.3,
+          height: AppConstant.screenHeight*.17,
+          color: Colors.red,
+        ),
+        SizedBox(height: 50,),
                         Edittext(
                           readonly: false,
                           hint: "Address".tr,

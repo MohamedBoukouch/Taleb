@@ -1,9 +1,10 @@
 import 'package:get/get.dart';
 
-import '../../main.dart';
 import '../modules/Favorite/views/favorite_view.dart';
 import '../modules/chat/bindings/chat_binding.dart';
 import '../modules/chat/views/chat_view.dart';
+import '../modules/concours/bindings/concours_binding.dart';
+import '../modules/concours/views/concours_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/initial/bindings/init_binding.dart';
@@ -12,8 +13,6 @@ import '../modules/login/bindings/login_binding.dart';
 import '../modules/login/views/login_view.dart';
 import '../modules/notification/bindings/notification_binding.dart';
 import '../modules/notification/views/notification_view.dart';
-import '../modules/search/bindings/search_binding.dart';
-import '../modules/search/views/search_view.dart';
 import '../modules/setting/bindings/setting_binding.dart';
 import '../modules/setting/views/setting_view.dart';
 import '../modules/signup/bindings/signup_binding.dart';
@@ -67,11 +66,6 @@ class AppPages {
       ],
     ),
     GetPage(
-      name: _Paths.SEARCH,
-      page: () => SearchView(),
-      binding: SearchBinding(),
-    ),
-    GetPage(
       name: _Paths.SETTING,
       page: () => SettingView(),
       binding: SettingBinding(),
@@ -80,6 +74,11 @@ class AppPages {
       name: _Paths.CHAT,
       page: () => ChatView(),
       binding: ChatBinding(),
+    ),
+    GetPage(
+      name: _Paths.CONCOURS,
+      page: () => const ConcoursView(),
+      binding: ConcoursBinding(),
     ),
   ];
 }

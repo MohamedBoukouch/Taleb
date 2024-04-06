@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:taleb/app/modules/initial/views/init_view.dart';
 
+import '../../../shared/back.dart';
+
 class Supporte extends StatelessWidget {
   const Supporte({Key? key}) : super(key: key);
 
@@ -14,6 +16,7 @@ class Supporte extends StatelessWidget {
             'Supporte'.tr,
             style: TextStyle(fontFamily: 'Bitter'),
           ),
+          leading: ButtonBack(),
           // centerTitle: true,
         ),
         body: SingleChildScrollView(

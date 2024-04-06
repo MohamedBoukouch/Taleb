@@ -6,8 +6,10 @@ import 'package:taleb/app/config/images/app_images.dart';
 import 'package:taleb/app/data/const_link.dart';
 import 'package:taleb/app/modules/initial/views/init_view.dart';
 import 'package:taleb/app/modules/setting/controllers/setting_controller.dart';
-import 'package:taleb/app/modules/setting/pages/content/concoures_content.dart';
-import 'package:taleb/app/modules/setting/widgets/type_concoure.dart';
+import 'package:taleb/app/modules/concours/content/concoures_content.dart';
+import 'package:taleb/app/modules/concours/widgets/type_concoure.dart';
+
+import '../../../shared/back.dart';
 
 class TypeOfOneCnc extends StatefulWidget {
   String type;
@@ -23,15 +25,15 @@ class _TypeOfOneCncState extends State<TypeOfOneCnc> {
   @override
   Widget build(BuildContext context) {
     return InitialView(
-      selectedindex: 0,
-      body: Scaffold(
-          appBar: AppBar(
-            title: Text(
-              'councoures'.tr,
-              style: TextStyle(fontFamily: 'Bitter'),
-            ),
-            // centerTitle: true,
-          ),
+      selectedindex: 1,
+      appbar: AppBar(
+        title: Text(
+          'councoures'.tr,
+          style: TextStyle(fontFamily: 'Bitter'),
+        ),
+        leading: ButtonBack(),
+        // centerTitle: true,
+      ),
           body: Column(
             children: [
               InkWell(
@@ -85,7 +87,7 @@ class _TypeOfOneCncState extends State<TypeOfOneCnc> {
                 // ),
               ),
             ],
-          )),
+          ),
     );
   }
 }

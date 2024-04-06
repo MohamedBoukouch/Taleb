@@ -6,9 +6,11 @@ import 'package:taleb/app/config/constants/app_constant.dart';
 import 'package:taleb/app/config/images/app_images.dart';
 import 'package:taleb/app/data/const_link.dart';
 import 'package:taleb/app/modules/setting/controllers/setting_controller.dart';
-import 'package:taleb/app/modules/setting/pages/content/affichage.dart';
+import 'package:taleb/app/modules/concours/content/affichage.dart';
 import 'package:taleb/app/modules/setting/widgets/apiservicesprovider.dart';
-import 'package:taleb/app/modules/setting/widgets/pdf_form.dart';
+import 'package:taleb/app/modules/concours/widgets/pdf_form.dart';
+
+import '../../../shared/back.dart';
 
 class ConcoureContent extends StatefulWidget {
   @override
@@ -36,9 +38,10 @@ class _ConcoureContentState extends State<ConcoureContent> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          "concores",
-          style: TextStyle(fontWeight: FontWeight.bold),
+          'councoures'.tr,
+          style: TextStyle(fontFamily: 'Bitter'),
         ),
+        leading: ButtonBack(),
       ),
       body: FutureBuilder(
         future: controller.selectpdf("bac", "ENSA", "agadir"),

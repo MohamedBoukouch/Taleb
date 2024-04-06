@@ -6,6 +6,8 @@ import 'package:taleb/app/modules/login/controllers/login_controller.dart';
 import 'package:taleb/app/modules/login/pages/ResetPassword.dart';
 import 'package:taleb/app/shared/bottun.dart';
 
+import '../../../shared/back.dart';
+
 class VerifyCompte extends StatefulWidget {
   final String email;
   const VerifyCompte({
@@ -20,82 +22,65 @@ class VerifyCompte extends StatefulWidget {
 class _VerifyCompteState extends State<VerifyCompte> {
   late String verificationCode;
   LoginController controller = Get.put(LoginController());
-  // final TextEditingController _otpcontroller = TextEditingController();
   late String otpcontroller;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Verify Your Email"),
+        leading: const ButtonBack(),
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Image.asset("assets/icons/close_lock.png"),
-          SizedBox(
-            height: AppConstant.screenHeight * .05,
-          ),
-          const Text("Plais Enter The 5 Digit Code  Sent To "),
-          const Text(
-            "boukouchmohames@gmail.com",
-            style: TextStyle(
-              color: Colors.blue,
+      body: Padding(
+        padding: const EdgeInsets.only(left: 20.0,top: 50), // Add left padding
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start, // Align content to the left
+          children: [
+            Text(
+              "Verify Your Email",
+              style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Bitter', fontSize: 20),
             ),
-          ),
-          SizedBox(
-            height: AppConstant.screenHeight * .05,
-          ),
-          OtpTextField(
-            numberOfFields: 5,
-            showCursor: false,
-            fieldWidth: 50,
-            borderRadius: BorderRadius.circular(10),
-            textStyle: TextStyle(
-              fontWeight: FontWeight.bold,
+            Text(
+              "Plais Enter The 5 Digit Code  Sent To ",
+              style: TextStyle(fontFamily: 'Bitter'),
             ),
-            disabledBorderColor: Colors.red,
-            focusedBorderColor: Colors.orange,
-            showFieldAsBox: true,
-
-            onCodeChanged: (String code) {
-              // verificationCode = code;
-            },
-
-            onSubmit: (String verificationCode) async {
-              otpcontroller = verificationCode;
-              //   Text("hello");
-              // try {
-              //   await controller.verifyemail(
-              //       widget.email, verificationCode, context);
-              // } catch ($e) {
-              //   print("error");
-              // }
-              // showDialog(
-              //     context: context,
-              //     builder: (context) {
-              //       return AlertDialog(
-              //         title: Text("Verification Code"),
-              //         content: Text('Code entered is $verificationCode'),
-              //       );
-              //     });
-            }, // end onSubmit
-          ),
-          SizedBox(
-            height: AppConstant.screenHeight * .04,
-          ),
-          InkWell(
+            Text(
+              widget.email,
+              style: TextStyle(color: Colors.blue, fontFamily: 'Bitter'),
+            ),
+            SizedBox(
+              height: AppConstant.screenHeight * .05,
+            ),
+            OtpTextField(
+              numberOfFields: 5,
+              showCursor: false,
+              fieldWidth: 50,
+              borderRadius: BorderRadius.circular(10),
+              textStyle: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),
+              disabledBorderColor: Colors.red,
+              focusedBorderColor: Colors.orange,
+              showFieldAsBox: true,
+              onCodeChanged: (String code) {
+                // verificationCode = code;
+              },
+              onSubmit: (String verificationCode) async {
+                otpcontroller = verificationCode;
+              },
+            ),
+            SizedBox(
+              height: AppConstant.screenHeight * .04,
+            ),
+            InkWell(
               onTap: () async {
                 print(otpcontroller);
                 try {
-                  await controller.verifycompte(
-                      widget.email, otpcontroller, context);
+                  await controller.verifycompte(widget.email, otpcontroller, context);
                 } catch ($e) {
                   print("error");
                 }
               },
-              child: Button(txt: "Verify")),
-        ],
+              child: Button(txt: "Verify"),
+            ),
+          ],
+        ),
       ),
     );
   }
