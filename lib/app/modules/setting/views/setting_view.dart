@@ -281,7 +281,7 @@ class _SettingViewState extends State<SettingView> {
                         InkWell(
                           onTap: () {
                             sharedpref.clear();
-                            Get.to(() => LoginView());
+                            Get.off(() => LoginView());
                           },
                           child: Container(
                             alignment: Alignment.center,

@@ -99,7 +99,7 @@ class _LoginViewState extends State<LoginView> {
                                 color: Color.fromARGB(255, 158, 158, 158),
                                 fontWeight: FontWeight.bold,
                                 fontFamily: 'Inspiration',
-                                fontSize: 18,
+                                fontSize: 14,
                               ),
                             ),
                           ),
@@ -117,7 +117,7 @@ class _LoginViewState extends State<LoginView> {
 
                               try {
                                 await controller.login(_emailController.text,
-                                    _passwordController.text);
+                                    _passwordController.text,context);
                               } catch (e) {
                                 // Handle errors here
                               } finally {
@@ -142,7 +142,7 @@ class _LoginViewState extends State<LoginView> {
                                   "creet_compte".tr,
                                   style: const TextStyle(
                                     fontFamily: 'Inspiration',
-                                    fontSize: 19,
+                                    fontSize: 14,
                                     fontWeight: FontWeight.bold,
                                     color: Color.fromARGB(255, 158, 158, 158),
                                     // fontSize: 16,
@@ -150,12 +150,12 @@ class _LoginViewState extends State<LoginView> {
                                 ),
                               ),
                               InkWell(
-                                onTap: () => Get.to(() => const SignupView()),
+                                onTap: () => Get.off(() => const SignupView()),
                                 child: Text(
                                   "Sinscrire".tr,
                                   style: const TextStyle(
                                       fontFamily: 'Inspiration',
-                                      fontSize: 19,
+                                      fontSize: 14,
                                       fontWeight: FontWeight.bold,
                                       color: Color.fromARGB(255, 255, 132, 0)),
                                 ),

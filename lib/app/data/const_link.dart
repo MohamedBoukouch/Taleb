@@ -68,3 +68,8 @@ const link_select_ecole = "$linkservername/Admin/concoures/SelectEcoles.php";
 const link_select_ville_ecole =
     "$linkservername/Admin/concoures/Villes/SelectVilleEcole.php";
 const link_select_pdfs = "$linkservername/Admin/concoures/PDF/SelectPdf.php";
+
+
+//Slider
+const fetch_slider_link = "$linkservername/slider/fetch_slider.php";
+

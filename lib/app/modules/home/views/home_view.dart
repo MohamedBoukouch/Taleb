@@ -146,7 +146,10 @@ class _HomeViewState extends State<HomeView> {
             } catch (e) {
               print(e);
             } finally {
-              setState(() {});
+              setState(() {
+                            notificationData =  controller.activenotification();
+
+              });
             }
             Get.to(() => NotificationView());
           },
@@ -270,6 +273,9 @@ Container(
                                   "${_controller.listdata[index]['description']}",
                               postImage:
                                   "${_controller.listdata[index]['file']}",
+                              link_titel:
+                                  "${_controller.listdata[index]['link_titel']}",
+                                  
                             );
                           },
                         ),

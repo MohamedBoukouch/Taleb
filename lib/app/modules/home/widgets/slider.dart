@@ -1,14 +1,14 @@
-import "package:flutter/material.dart";
-import "package:carousel_slider/carousel_slider.dart";
-import "package:get/get.dart";
-import "package:smooth_page_indicator/smooth_page_indicator.dart";
-import "package:taleb/app/config/constants/app_constant.dart";
+import 'package:flutter/material.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:get/get.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:url_launcher/link.dart';
 
-import "../controllers/home_controller.dart";
+import '../../../config/constants/app_constant.dart';
+import '../../../data/const_link.dart';
+import '../controllers/home_controller.dart';
 
 class Slidere extends StatefulWidget {
-  // const Slider({Key? key}) : super(key: key);
-
   @override
   State<Slidere> createState() => _SlidereState();
 }
@@ -17,24 +17,24 @@ class _SlidereState extends State<Slidere> {
   final HomeController controllers = Get.put(HomeController());
   int activeIndex = 0;
   final CarouselController controller = CarouselController();
-  final List<String> urlImages = <String>[
-    "https://media.istockphoto.com/id/1318291081/fr/photo/tour-eiffel-en-m%C3%A9tal.jpg?b=1&s=170667a&w=0&k=20&c=glQNxEe4MJYaCOzIFPyOxbUrHBvv818Aq6HGCqHh1D0=",
-    "https://www.visitmorocco.com/sites/default/files/styles/thumbnail_destination_background_top5/public/thumbnails/image/tour-hassan-rabat-morocco-by-migel.jpg?itok=YP8GLwSi",
-    "https://itourisme.net/wp-content/uploads/2016/09/visit-marrakesh-morocco.jpg",
-  ];
-  final List<String> villes = <String>["Paris", "Rabat", "Marakech"];
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
+    return Obx(() {
+      if (controllers.isLoading.value) {
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      } else {
+        return Stack(
       children: [
         CarouselSlider.builder(
           carouselController: controller,
-          itemCount: urlImages.length,
+          itemCount: controllers.ListSliders.length,
           itemBuilder: (BuildContext context, int index, int realIndex) {
-            final String urlImage = urlImages[index];
+            final String urlImage = "${controllers.ListSliders[index]['image']}";
             return SingleChildScrollView(
-              child: Card(
+              child: Card( 
                   shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(10))),
                   elevation: 2,
@@ -44,11 +44,16 @@ class _SlidereState extends State<Slidere> {
                         ClipRRect(
                           borderRadius:
                               const BorderRadius.all(Radius.circular(10)),
-                          child: Image.network(
-                            urlImage,
-                            fit: BoxFit.cover,
-                            height: AppConstant.screenHeight * 0.28,
-                          ),
+                          // child: Image.network(
+                          //   urlImage,
+                          //   fit: BoxFit.cover,
+                          //   height: AppConstant.screenHeight * 0.28,
+                          // ),
+                          child:  Image.network(
+                              "$linkservername/slider/upload/$urlImage",
+                              fit: BoxFit.cover,
+                              height: AppConstant.screenHeight * 0.28,
+                            ),
                         ),
                         Opacity(
                           opacity: 0.3,
@@ -69,8 +74,8 @@ class _SlidereState extends State<Slidere> {
                         Positioned(
                           left: AppConstant.screenWidth * 0.077,
                           top: AppConstant.screenHeight * 0.06,
-                          child: const Text(
-                            "Bonjour",
+                          child: Text(
+                            "${controllers.ListSliders[index]['titel1']}",
                             style: TextStyle(
                               color: Colors.white,
                               fontSize: 17.70,
@@ -81,7 +86,7 @@ class _SlidereState extends State<Slidere> {
                           left: AppConstant.screenWidth * 0.077,
                           top: AppConstant.screenHeight * 0.09,
                           child: Text(
-                            "Explorez ${villes[index]}",
+                            "${controllers.ListSliders[index]['titel2']}",
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 26.08,
@@ -92,29 +97,35 @@ class _SlidereState extends State<Slidere> {
                         ),
                         // }),
                         Positioned(
-                          child: Container(
-                            margin: EdgeInsets.only(
-                                left: AppConstant.screenWidth * 0.08,
-                                top: AppConstant.screenHeight * 0.14),
-                            width: AppConstant.screenWidth * 0.3,
-                            height: AppConstant.screenHeight * 0.035,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(32.36),
-                              color: const Color(0xfffebd2a),
-                            ),
-                            child: const Center(
-                              child: Text(
-                                "Decouvrir la visite",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 10.25,
-                                  fontFamily: "Poppins",
-                                  fontWeight: FontWeight.w500,
+                          child: Link(
+                            uri: Uri.parse("www.facebook.com"),
+                            builder: ((context, followLink) => TextButton(
+                              onPressed: followLink,
+                              child:  Container(
+                              margin: EdgeInsets.only(
+                                  left: AppConstant.screenWidth * 0.08,
+                                  top: AppConstant.screenHeight * 0.14),
+                              width: AppConstant.screenWidth * 0.3,
+                              height: AppConstant.screenHeight * 0.035,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(32.36),
+                                color: const Color(0xfffebd2a),
+                              ),
+                              child:  Center(
+                                child: Text(
+                                  "${controllers.ListSliders[index]['titel_link']}",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 10.25,
+                                    fontFamily: "Poppins",
+                                    fontWeight: FontWeight.w500,
+                                  ),
                                 ),
                               ),
                             ),
+                            )
                           ),
-                        ),
+                        ),),
                       ],
                     ),
                   ])),
@@ -196,17 +207,18 @@ class _SlidereState extends State<Slidere> {
         ),
       ],
     );
+      }
+    });
   }
 
   Widget buildIndicator() => AnimatedSmoothIndicator(
-        onDotClicked: animateToSlide,
         effect: ExpandingDotsEffect(
-            dotHeight: AppConstant.screenHeight * 0.01,
-            dotWidth: AppConstant.screenWidth * 0.019,
-            dotColor: Colors.white,
-            activeDotColor: const Color.fromARGB(255, 243, 212, 33)),
+          dotHeight: 10, // Set your desired height
+          dotWidth: 10, // Set your desired width
+          dotColor: Colors.white,
+          activeDotColor: const Color.fromARGB(255, 243, 212, 33),
+        ),
         activeIndex: activeIndex,
-        count: urlImages.length,
+        count: controllers.ListSliders.length,
       );
-  void animateToSlide(int index) => controller.animateToPage(index);
 }

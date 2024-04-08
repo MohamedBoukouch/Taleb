@@ -61,7 +61,7 @@ class SignupController extends GetxController {
     if (response['status'] == "success") {
       sharedpref.setString("id", response['data']['id'].toString());
       print(response['status']);
-      Get.off(() => const HomeView());
+      Get.offAll(() => const HomeView());
     } else {
       showDialog(
           context: context,

@@ -41,7 +41,7 @@ class LoginController extends GetxController {
 
   void increment() => count.value++;
 
-  login(String email, String password) async {
+  login(String email, String password,dynamic context) async {
     var response = await _crud.postRequest(linklogin, {
       "email": email,
       "password": password,
@@ -49,9 +49,15 @@ class LoginController extends GetxController {
     if (response['status'] == "success") {
       sharedpref.setString("id", response['data']['id'].toString());
       print(response['status']);
-      Get.off(() => const HomeView());
+      Get.offAll(() => const HomeView());
     } else {
-      print("signup fail");
+      CustomAlert.show(
+      context: context,
+      type: AlertType.error,
+      desc: 'Email Or Pasword incorrects',
+      onPressed: () {
+      Navigator.pop(context);
+      });
     }
   }
 

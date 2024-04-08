@@ -39,7 +39,7 @@ class _ButtonState extends State<Button> {
           style: const TextStyle(
               fontFamily: 'Inspiration',
               color: Colors.white,
-              fontSize: 19,
+              fontSize: 18,
               fontWeight: FontWeight.bold),
         ),
       ),

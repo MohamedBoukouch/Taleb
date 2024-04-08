@@ -1,31 +1,28 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:taleb/app/config/constants/app_constant.dart';
-import 'package:taleb/app/config/function/functions.dart';
 import 'package:taleb/app/data/Crud.dart';
 import 'package:taleb/app/data/const_link.dart';
 import 'package:taleb/app/data/remot/testdata.dart';
-import 'package:taleb/app/modules/home/pages/commentaires.dart';
 import 'package:taleb/app/modules/home/views/home_view.dart';
-import 'package:taleb/app/shared/publication.dart';
-import 'package:taleb/app/modules/login/views/login_view.dart';
 import 'package:taleb/main.dart';
 
 class HomeController extends GetxController {
   //TODO: Implement HomeController
   Crud _crud = Crud();
   TestData testData = TestData(Get.find());
+  RxBool isLoading = true.obs;
 
   List<dynamic> listdata = [];
-  List<dynamic> ListPicturesPub = [];
+  List<dynamic> ListSliders = [];
   List<dynamic> ListActiveNotification = [];
 
   final count = 0.obs;
   @override
   void onInit() {
-    // Showpub();
+    FetchSlider();
     FirebaseMessaging.instance.subscribeToTopic("users");
+    activenotification();
     super.onInit();
   }
 
@@ -203,7 +200,9 @@ class HomeController extends GetxController {
     // ListNotification.assignAll(response['data']);
     if (response['status'] == "success") {
       // update();
-      return response['data']; // Return the data directly
+      print(response['data']);
+      return response['data'];
+      
     } else {
       print("error");
       return null; // Return null or handle error accordingly
@@ -222,5 +221,23 @@ class HomeController extends GetxController {
       update();
     }
     update();
+  }
+
+
+  //Sliders
+  
+   FetchSlider() async {
+    // statusRequest = StatusRequest.loading;
+    var response = await _crud.postRequest(fetch_slider_link, {
+    });
+    if (response['status'] == "success") {
+      print("success");
+      ListSliders.assignAll(response['data']);
+      isLoading.value = false;
+      // update();
+      // return response['data'];
+    } else {
+      print("error");
+    }
   }
 }

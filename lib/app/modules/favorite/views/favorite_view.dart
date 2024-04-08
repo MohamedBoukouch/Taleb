@@ -93,6 +93,7 @@ class _FavoriteViewState extends State<FavoriteView> {
                         titel: "${snapshot.data[index]['titel']}",
                         description: "${snapshot.data[index]['description']}",
                         postImage: "${snapshot.data[index]['file']}",
+                        link_titel: "${snapshot.data[index]['link_titel']}",
                         // postImage:
                         //     "$linkservername/publication/upload/${snapshot.data[index]['file']}",
                       );

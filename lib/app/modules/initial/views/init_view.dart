@@ -46,7 +46,7 @@ class _InitialViewState extends State<InitialView> {
               Get.off(() => const SettingView());
               break;
             case 1:
-              Get.off(() => ConcoursView());
+              Get.off(() => const ConcoursView());
               break;
 
             case 2:

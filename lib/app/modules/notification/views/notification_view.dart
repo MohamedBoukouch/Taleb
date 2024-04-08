@@ -4,9 +4,9 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
 import 'package:taleb/app/config/images/app_images.dart';
-import 'package:taleb/app/modules/notification/pages/show_publication.dart';
 import 'package:taleb/app/modules/notification/widgets/notificationform.dart';
 
+import '../../home/pages/see_all.dart';
 import '../controllers/notification_controller.dart';
 
 class NotificationView extends GetView<NotificationController> {
@@ -22,10 +22,7 @@ class NotificationView extends GetView<NotificationController> {
           style: TextStyle(fontFamily: 'Bitter'),
         ),
       ),
-      body: Obx(
-        () {
-          if (controller.needsDataRefresh.value) {
-            return FutureBuilder(
+      body: FutureBuilder(
               future: _controller.allnotifications(),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
@@ -67,53 +64,19 @@ class NotificationView extends GetView<NotificationController> {
                           _controller.deletnotification(
                               "${snapshot.data[index]['id']}");
                         },
-                        child: NotificationForm(
-                            image: "${snapshot.data[index]['image']}",
-                            body: "${snapshot.data[index]['body']}",
-                            id_notification: "${snapshot.data[index]['id']}"),
+                        child: InkWell(
+                          onTap: () => Get.to(()=>SeeAll(type: "${controller.ListNotification[index]['id_publication']}")),
+                          child: NotificationForm(
+                              image: "${snapshot.data[index]['image']}",
+                              body: "${snapshot.data[index]['body']}",
+                              id_notification: "${snapshot.data[index]['id']}"),
+                        ),
                       );
                     },
                   );
                 }
               },
-            );
-          } else {
-            return ListView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: controller.ListNotification.length,
-              itemBuilder: (context, index) {
-                return Dismissible(
-                  key: Key("${controller.ListNotification[index]['id']}"),
-                  direction: DismissDirection.startToEnd,
-                  background: const Card(
-                    color: Color.fromARGB(255, 255, 34, 0),
-                    child: Icon(
-                      Icons.delete,
-                      color: Colors.white,
-                      size: 30,
-                    ),
-                  ),
-                  onDismissed: (direction) {
-                    _controller.deletnotification(
-                        "${controller.ListNotification[index]['id']}");
-                  },
-                  child: InkWell(
-                    onTap: () => Get.to(() => ShowPublication(
-                        publication_id:
-                            "${controller.ListNotification[index]['id_publication']}")),
-                    child: NotificationForm(
-                        image: "${controller.ListNotification[index]['image']}",
-                        body: "${controller.ListNotification[index]['body']}",
-                        id_notification: controller.ListNotification[index]
-                            ['id']),
-                  ),
-                );
-              },
-            );
-          }
-        },
-      ),
+            )
     );
   }
 }

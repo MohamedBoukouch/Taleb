@@ -43,7 +43,8 @@ class _EdittextState extends State<Edittext> {
         readOnly: widget.readonly,
         validator: widget.validator,
         style: TextStyle(
-          color: Colors.black, // Set the text color to red
+          color: Colors.black,
+          fontSize: 14 // Set the text color to red
         ),
         obscureText: widget.ispassword == true
             ? _eyeactive == true

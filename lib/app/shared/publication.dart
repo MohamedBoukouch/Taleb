@@ -11,8 +11,10 @@ import 'package:taleb/app/data/const_link.dart';
 import 'package:taleb/app/modules/home/controllers/home_controller.dart';
 import 'package:taleb/app/modules/home/pages/commentaires.dart';
 import 'package:taleb/app/modules/home/views/home_view.dart';
+import 'package:taleb/app/shared/description_style.dart';
 import 'package:taleb/app/shared/time.dart';
 import 'package:url_launcher/link.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class PostCard extends StatefulWidget {
   final String localisation;
@@ -27,6 +29,7 @@ class PostCard extends StatefulWidget {
   final int is_favorit;
   final int is_liked;
   final String link;
+  final String link_titel;
   PostCard({
     Key? key,
     required this.localisation,
@@ -40,6 +43,7 @@ class PostCard extends StatefulWidget {
     required this.is_favorit,
     required this.is_liked,
     required this.link,
+    required this.link_titel,
   }) : super(key: key);
 
   @override
@@ -93,17 +97,13 @@ class _PostCardState extends State<PostCard> {
           ListTile(
             title: Row(
               children: [
-                InkWell(
-                  onTap: () {
-                    print(widget.timeAgo);
-                  },
-                  child: const Icon(
+                  const Icon(
                     Icons.pin_drop,
                     color: Colors.red,
                     size: 20,
                   ),
-                ),
-                Text(widget.localisation),
+                
+                Text(widget.localisation,style: TextStyle(fontFamily: 'Bitter'),),
               ],
             ),
             subtitle: Row(
@@ -113,7 +113,7 @@ class _PostCardState extends State<PostCard> {
                   color: Colors.blue,
                   size: 19,
                 ),
-                Text("${widget.timeAgo}"),
+                Text("${widget.timeAgo}",style: TextStyle(fontFamily: 'Bitter'),),
               ],
             ),
           ),
@@ -127,6 +127,7 @@ class _PostCardState extends State<PostCard> {
                         widget.titel,
                         style: const TextStyle(
                           fontSize: 16,
+                          fontFamily: 'Bitter'
                         ),
                       )
                     : Text(
@@ -159,16 +160,22 @@ class _PostCardState extends State<PostCard> {
                   padding: const EdgeInsets.all(8.0),
                   child: Column(
                     children: [
-                      Row(
+                      StyledText(text: widget.description,),
+                     widget.link.length>0? Row(
                         children: [
-                          Text("Link :  "),
-                          Link(
-                              uri: Uri.parse(widget.link),
-                              builder: ((context, followLink) => TextButton(
-                                  onPressed: followLink,
-                                  child: Text("hello")))),
+                          Text(widget.link_titel,style: TextStyle(fontFamily: 'Bitter',),),
+                         Link(
+      uri: Uri.parse(widget.link),
+      builder: (context, followLink) => TextButton(
+        onPressed: followLink,
+        child: Text(
+          widget.link,
+          style: TextStyle(fontFamily: 'Bitter'),
+        ),
+      ),
+    ),
                         ],
-                      )
+                      ):Text("")
                     ],
                   ))
               : SizedBox.shrink(),
@@ -385,5 +392,15 @@ class _PostCardState extends State<PostCard> {
         ],
       ),
     );
+  
+  }
+
+    void _launchFacebook() async {
+    const facebookPageUrl = 'https://www.facebook.com'; // Replace 'example' with your Facebook page username or ID
+    if (await canLaunch(facebookPageUrl)) {
+      await launch(facebookPageUrl);
+    } else {
+      throw 'Could not launch $facebookPageUrl';
+    }
   }
 }
