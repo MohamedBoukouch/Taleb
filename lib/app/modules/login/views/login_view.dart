@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
+import 'package:taleb/app/config/themes/app_theme.dart';
 import 'package:taleb/app/modules/login/controllers/login_controller.dart';
 import 'package:taleb/app/modules/login/pages/checkemail.dart';
 import 'package:taleb/app/modules/setting/pages/language.dart';
@@ -57,7 +58,7 @@ class _LoginViewState extends State<LoginView> {
                           readonly: false,
                           hint: "Address".tr,
                           isemail: true,
-                          icon: Icon(Icons.email_outlined),
+                          icon: Icon(Icons.email_outlined,size: 20),
                           Controller: _emailController,
                           validator: (String? value) {
                             if (value == null || value.isEmpty) {
@@ -76,7 +77,7 @@ class _LoginViewState extends State<LoginView> {
                           readonly: false,
                           hint: "Mote_de_pass".tr,
                           ispassword: true,
-                          icon: const Icon(Icons.lock),
+                          icon: const Icon(Icons.lock,size: 20),
                           Controller: _passwordController,
                           validator: (String? value) {
                             if (value == null || value.isEmpty) {
@@ -157,7 +158,7 @@ class _LoginViewState extends State<LoginView> {
                                       fontFamily: 'Inspiration',
                                       fontSize: 14,
                                       fontWeight: FontWeight.bold,
-                                      color: Color.fromARGB(255, 255, 132, 0)),
+                                      color: AppTheme.main_color_1),
                                 ),
                               ),
                             ],
@@ -184,7 +185,7 @@ class _LoginViewState extends State<LoginView> {
               color: Colors.black.withOpacity(0.5),
               child: const Center(
                 child: CircularProgressIndicator(
-                  color: Colors.orange,
+                  color: AppTheme.main_color_1,
                   // strokeWidth: 30,
                 ),
               ),

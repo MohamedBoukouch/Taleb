@@ -50,7 +50,7 @@ class _TypeConcoureState extends State<TypeConcoure> {
         ),
         trailing:
             Icon(widget.type == 1 ? Icons.navigate_next_rounded : Icons.folder),
-        iconColor: AppTheme.yellow_color,
+        iconColor: AppTheme.main_color_1,
       ),
     );
   }

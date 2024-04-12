@@ -38,8 +38,8 @@ class _ResetPasswordState extends State<ResetPassword> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 20,),
-              Text("Reset Password",style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Bitter',fontSize: 20),),
-              Text("Plais Enter your Email Address To  Recieve a verification code.",style: TextStyle(fontFamily: 'Bitter'),),
+              Text("Reset_Password".tr,style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Bitter',fontSize: 20),),
+              Text("Reset_Password_info".tr,style: TextStyle(fontFamily: 'Bitter'),),
               SizedBox(
                 height: AppConstant.screenHeight * .05,
               ),
@@ -50,13 +50,13 @@ class _ResetPasswordState extends State<ResetPassword> {
                     Container(
                       alignment: Alignment.topLeft,
                       child: Text(
-                        "Password",
+                        "Mote_de_pass".tr,
                         style: TextStyle(color: Colors.grey),
                       ),
                     ),
                     Edittext(
                         readonly: false,
-                        hint: "password",
+                        hint: "Mote_de_pass".tr,
                         ispassword: true,
                         icon: const Icon(Icons.lock),
                         Controller: _passwordController,
@@ -77,12 +77,12 @@ class _ResetPasswordState extends State<ResetPassword> {
                     Container(
                       alignment: Alignment.topLeft,
                       child: Text(
-                        "Confirm passwordl",
+                        "Repeat_New_Password".tr,
                         style: TextStyle(color: Colors.grey),
                       ),
                     ),
                     Edittext(
-                        hint: "Confirm password",
+                        hint: "Repeat_New_Password".tr,
                         readonly: false,
                         ispassword: true,
                         icon: const Icon(Icons.lock),
@@ -112,7 +112,7 @@ class _ResetPasswordState extends State<ResetPassword> {
                   }
                 },
                 child: Button(
-                  txt: "Send",
+                  txt: "Envoyer".tr,
                 ),
               ),
             ],

@@ -52,60 +52,49 @@ class _SeeAllState extends State<SeeAll> {
     return InitialView(
       selectedindex: 3,
       appbar: AppBar(
-        backgroundColor: Colors.white,
-        title: Text(
-          'Taleb',
-          style: TextStyle(
-            color: Colors.black, // Text color
-          ),
-        ),
-        actions: [
-          Stack(
-            children: [
-              IconButton(
-                icon: Icon(Icons.notifications, size: 30),
-                onPressed: () async {
-                  notificationData = await controller.activenotification();
-                  print(notificationData);
+  backgroundColor: Colors.white,
+  automaticallyImplyLeading: false,
+  title: const Text(
+    'Taleb',
+    style: TextStyle(
+      color: Colors.black, // Text color
+    ),
+  ),
+  actions: [
+    InkWell(
+      onTap: ()async {
+            notificationData = await controller.activenotification();
+            print(notificationData);
 
-                  try {
-                    await controller.update_notification_status();
-                  } catch (e) {
-                    print(e);
-                  } finally {
-                    setState(() {});
-                  }
-                  Get.to(() => NotificationView());
-                },
-                color: Color.fromARGB(214, 112, 111, 111),
-              ),
-              notificationData == "1"
-                  ? Positioned(
-                      bottom: 5,
-                      right: 18,
-                      child: Container(
-                        width: 10,
-                        height: 10,
-                        decoration: BoxDecoration(
-                          color: Colors.red,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                      ),
-                    )
-                  : Positioned(
-                      child: Container(),
-                    )
-            ],
-          ),
-          IconButton(
-            icon: Icon(Icons.chat_bubble_outline_outlined, size: 30),
-            onPressed: () async {
-              Get.to(ChatView());
-            },
-            color: Color.fromARGB(214, 112, 111, 111),
-          ),
-        ],
-      ),
+            try {
+              await controller.update_notification_status();
+            } catch (e) {
+              print(e);
+            } finally {
+              setState(() {
+              notificationData =  controller.activenotification();
+              });
+            }
+            Get.to(() => NotificationView());
+          },
+      child: Container(
+    child: Image.asset("assets/icons/notification.png",width: 22,),
+    ),
+    ),
+    SizedBox(width: 15,),
+    InkWell(
+    onTap: () async {
+    Get.to(const ChatView());
+    },
+    child: Container(
+    child: Image.asset("assets/icons/message.png", color: Colors.orange,width: 25,),
+    ),
+),
+    SizedBox(width: 10,),
+
+
+  ],
+),
       body: ListView(
         children: [
           // Slidere(),

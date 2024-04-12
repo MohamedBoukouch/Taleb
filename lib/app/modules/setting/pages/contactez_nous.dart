@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
+import 'package:taleb/app/config/themes/app_theme.dart';
 import 'package:taleb/app/modules/initial/views/init_view.dart';
 import 'package:taleb/app/shared/back.dart';
 import 'package:taleb/app/shared/bottun.dart';
@@ -48,14 +49,15 @@ class _ContactezNousState extends State<ContactezNous> {
                     Container(
                         alignment: Alignment.centerLeft,
                         padding: EdgeInsets.only(bottom: 15, top: 15),
-                        child: Text("Nom_Prenom".tr)),
+                        // child: Text("Nom_Prenom".tr)),
+                        child: Text("Nom_Prenom".tr,style: TextStyle(fontSize: 14,fontFamily: 'Bitter'),),),
                     Edittext(
                       Controller: _nom_controller,
                       hint: "Nom_Complete".tr,
                       readonly: false,
                       icon: Icon(
                         Icons.person,
-                        color: Colors.orange,
+                        color: AppTheme.main_color_1,
                       ),
                     )
                   ],
@@ -65,7 +67,7 @@ class _ContactezNousState extends State<ContactezNous> {
                     Container(
                       alignment: Alignment.centerLeft,
                       padding: const EdgeInsets.only(bottom: 15, top: 15),
-                      child: Text("Address".tr),
+                      child: Text("Address".tr,style: TextStyle(fontSize: 14,fontFamily: 'Bitter')),
                     ),
                     Edittext(
                       Controller: _email_controller,
@@ -73,7 +75,7 @@ class _ContactezNousState extends State<ContactezNous> {
                       readonly: true,
                       icon: Icon(
                         Icons.mail,
-                        color: Colors.orange,
+                        color: AppTheme.main_color_1,
                       ),
                     )
                   ],
@@ -85,6 +87,7 @@ class _ContactezNousState extends State<ContactezNous> {
                       padding: EdgeInsets.only(bottom: 15, top: 15),
                       child: Text(
                         "Message".tr,
+                        style: TextStyle(fontSize: 14,fontFamily: 'Bitter')
                       ),
                     ),
                   ],
@@ -95,7 +98,7 @@ class _ContactezNousState extends State<ContactezNous> {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
                     border: Border.all(
-                      color: Colors.orange,
+                      color: AppTheme.main_color_1,
 
                       width: 2, // Adjust the width as needed
                     ),
@@ -107,12 +110,8 @@ class _ContactezNousState extends State<ContactezNous> {
                       color: Colors.black, // Set the text color to red
                     ),
                     decoration: InputDecoration(
-                        prefixIcon: const Icon(
-                          Icons.abc,
-                          color: Colors.white,
-                        ),
                         hintText: "Message".tr,
-                        hintStyle: const TextStyle(color: Color(0xFF555353)),
+                        hintStyle: const TextStyle(color: Color(0xFF555353),fontFamily: 'Bitter'),
                         alignLabelWithHint: true),
                   ),
                 ),

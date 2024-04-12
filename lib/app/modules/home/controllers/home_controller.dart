@@ -150,9 +150,9 @@ class HomeController extends GetxController {
     });
     if (response['status'] == "success") {
       print("is your favorit");
-      Get.rawSnackbar(
-          title: "Notification",
-          messageText: Text("You Are add the publication to list of favorit"));
+      // Get.rawSnackbar(
+      //     title: "Notification",
+      //     messageText: Text("You Are add the publication to list of favorit"));
     } else {
       print("error in favorit ");
     }
@@ -167,10 +167,10 @@ class HomeController extends GetxController {
     if (response['status'] == "success") {
       print("is not your favorit");
       // Get.to(FavoritView());
-      Get.rawSnackbar(
-          title: "Notification",
-          messageText:
-              Text("You Are Delet the publication to list of favorit"));
+      // Get.rawSnackbar(
+      //     title: "Notification",
+      //     messageText:
+      //         Text("You Are Delet the publication to list of favorit"));
     } else {
       print("error in favorit");
     }

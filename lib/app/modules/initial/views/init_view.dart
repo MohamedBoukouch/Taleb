@@ -1,5 +1,6 @@
 import "package:flutter/material.dart";
 import "package:get/get.dart";
+import "package:taleb/app/config/themes/app_theme.dart";
 import "package:taleb/app/modules/Favorite/views/favorite_view.dart";
 import "package:taleb/app/modules/chat/views/chat_view.dart";
 import "package:taleb/app/modules/concours/views/concours_view.dart";
@@ -59,7 +60,7 @@ class _InitialViewState extends State<InitialView> {
               Get.off(() => const HomeView());
           }
         },
-        selectedItemColor: const Color.fromARGB(255, 247, 134, 6),
+        selectedItemColor: AppTheme.main_color_1,
         unselectedItemColor: Color.fromARGB(255, 161, 161, 161),
         showSelectedLabels: false,
         showUnselectedLabels: false,
@@ -68,7 +69,7 @@ class _InitialViewState extends State<InitialView> {
           BottomNavigationBarItem(
             activeIcon: Icon(
               Icons.person,
-              color: Colors.orange,
+              color: AppTheme.main_color_1,
             ),
             icon: Icon(
               Icons.person,
@@ -78,7 +79,7 @@ class _InitialViewState extends State<InitialView> {
           BottomNavigationBarItem(
             activeIcon: Icon(
               Icons.school,
-              color: Colors.orange,
+              color: AppTheme.main_color_1,
             ),
             icon: Icon(Icons.school),
             label: "",
@@ -86,7 +87,7 @@ class _InitialViewState extends State<InitialView> {
           BottomNavigationBarItem(
             activeIcon: Icon(
               Icons.star_rate,
-              color: Colors.orange,
+              color: AppTheme.main_color_1,
             ),
             icon: Icon(Icons.star_rate),
             label: "",
@@ -94,7 +95,7 @@ class _InitialViewState extends State<InitialView> {
           BottomNavigationBarItem(
             activeIcon: Icon(
               Icons.home,
-              color: Colors.orange,
+              color: AppTheme.main_color_1,
             ),
             icon: Icon(Icons.home),
             label: "",

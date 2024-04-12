@@ -7,6 +7,7 @@ import 'package:intl/intl.dart';
 import 'package:jiffy/jiffy.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
+import 'package:taleb/app/config/themes/app_theme.dart';
 import 'package:taleb/app/data/const_link.dart';
 import 'package:taleb/app/modules/home/controllers/home_controller.dart';
 import 'package:taleb/app/modules/home/pages/commentaires.dart';
@@ -204,7 +205,7 @@ class _PostCardState extends State<PostCard> {
                     itemCount: charArray.length,
                     itemBuilder: (context, index) {
                       return Padding(
-                        padding: EdgeInsets.all(16),
+                        padding: EdgeInsets.all(3),
                         child: GestureDetector(
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute<void>(
@@ -246,7 +247,7 @@ class _PostCardState extends State<PostCard> {
                         position: currentPage,
                         decorator: const DotsDecorator(
                           // color: Colors.grey, // Inactive dot color
-                          activeColor: Colors.orange, // Active dot color
+                          activeColor: AppTheme.main_color_1, // Active dot color
                         ),
                       )
                     : Container(),

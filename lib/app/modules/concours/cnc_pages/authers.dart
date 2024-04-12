@@ -53,7 +53,7 @@ class _AuthersState extends State<Authers> {
                     itemBuilder: (context, index) {
                       return InkWell(
                         onTap: () => Get.to(() => TypeOfOneCnc(
-                            type: "${snapshot.data[index]['name']}")),
+                            ecole: "${snapshot.data[index]['name']}",type: "auther",)),
                         child: TypeConcoure(
                           url_img:
                               "$linkservername/Admin/concoures/upload/${snapshot.data[index]['logo']}",

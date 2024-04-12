@@ -113,7 +113,7 @@ class LoginController extends GetxController {
       "password": password,
     });
     if (response['status'] == "success") {
-      // sharedpref.setString("id", response['data']['id'].toString());
+      sharedpref.setString("id", response['data']['id'].toString());
       Get.off(() => const HomeView());
     } else {
             CustomAlert.show(

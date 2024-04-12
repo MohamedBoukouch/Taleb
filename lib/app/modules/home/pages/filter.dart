@@ -26,20 +26,20 @@ class _FilterState extends State<Filter> {
                Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    "Après Bac",
-                    style: TextStyle(
+                   Text(
+                    "APRÈS_BAC".tr,
+                    style: const TextStyle(
                       fontFamily: 'Bitter',
                       fontWeight: FontWeight.bold,
-                      fontSize: 18,
+                      fontSize: 16,
                     ),
                   ),
                   const Spacer(), // Add Spacer widget to push the second Text widget to the right
                   InkWell(
                     onTap: () => Get.to(const SeeAll(type:'bac')),
-                    child: const Text(
-                      "See all",
-                      style: TextStyle(
+                    child:  Text(
+                      "See_all".tr,
+                      style: const TextStyle(
                           fontFamily: 'Bitter', fontSize: 16, color: Colors.blue),
                     ),
                   ),
@@ -181,20 +181,20 @@ class _FilterState extends State<Filter> {
                Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    "Licence professionnelle",
-                    style: TextStyle(
+                   Text(
+                    "LICENCE".tr,
+                    style: const TextStyle(
                       fontFamily: 'Bitter',
                       fontWeight: FontWeight.bold,
-                      fontSize: 18,
+                      fontSize: 16,
                     ),
                   ),
                   const Spacer(), // Add Spacer widget to push the second Text widget to the right
                   InkWell(
                     onTap: () => Get.to(const SeeAll(type:'licence')),
-                    child: const Text(
-                      "See all",
-                      style: TextStyle(
+                    child:  Text(
+                      "See_all".tr,
+                      style: const TextStyle(
                           fontFamily: 'Bitter', fontSize: 16, color: Colors.blue),
                     ),
                   ),
@@ -338,20 +338,20 @@ class _FilterState extends State<Filter> {
                Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
-                    "Master",
-                    style: TextStyle(
+                   Text(
+                    "MASTER".tr,
+                    style: const TextStyle(
                       fontFamily: 'Bitter',
                       fontWeight: FontWeight.bold,
-                      fontSize: 18,
+                      fontSize: 16,
                     ),
                   ),
                   const Spacer(), // Add Spacer widget to push the second Text widget to the right
                   InkWell(
                     onTap: () => Get.to(const SeeAll(type:"master")),
-                    child: const Text(
-                      "See all",
-                      style: TextStyle(
+                    child:  Text(
+                      "See_all".tr,
+                      style: const TextStyle(
                           fontFamily: 'Bitter', fontSize: 16, color: Colors.blue),
                     ),
                   ),
@@ -499,7 +499,7 @@ class _FilterState extends State<Filter> {
                     style: TextStyle(
                       fontFamily: 'Bitter',
                       fontWeight: FontWeight.bold,
-                      fontSize: 18,
+                      fontSize: 16,
                     ),
                   ),
                   const Spacer(), // Add Spacer widget to push the second Text widget to the right

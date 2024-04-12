@@ -37,8 +37,9 @@ class _ButtonState extends State<Button> {
         child: Text(
           widget.txt,
           style: const TextStyle(
-              fontFamily: 'Inspiration',
+              // fontFamily: 'Inspiration',
               color: Colors.white,
+              fontFamily: 'Bitter',
               fontSize: 18,
               fontWeight: FontWeight.bold),
         ),

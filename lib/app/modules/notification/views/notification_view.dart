@@ -6,6 +6,7 @@ import 'package:taleb/app/config/constants/app_constant.dart';
 import 'package:taleb/app/config/images/app_images.dart';
 import 'package:taleb/app/modules/notification/widgets/notificationform.dart';
 
+import '../../../config/themes/app_theme.dart';
 import '../../home/pages/see_all.dart';
 import '../controllers/notification_controller.dart';
 
@@ -53,7 +54,7 @@ class NotificationView extends GetView<NotificationController> {
                         key: Key("${snapshot.data[index]['id']}"),
                         direction: DismissDirection.startToEnd,
                         background: const Card(
-                          color: Color.fromARGB(255, 255, 34, 0),
+                          color: AppTheme.reed_color,
                           child: Icon(
                             Icons.delete,
                             color: Colors.white,

@@ -13,7 +13,8 @@ import '../../../shared/back.dart';
 
 class TypeOfOneCnc extends StatefulWidget {
   String type;
-  TypeOfOneCnc({Key? key, required this.type}) : super(key: key);
+  String ecole;
+  TypeOfOneCnc({Key? key, required this.type,required this.ecole}) : super(key: key);
 
   @override
   State<TypeOfOneCnc> createState() => _TypeOfOneCncState();
@@ -37,9 +38,9 @@ class _TypeOfOneCncState extends State<TypeOfOneCnc> {
           body: Column(
             children: [
               InkWell(
-                onTap: () => Get.to(ConcoureContent()),
+                // onTap: () => Get.to(ConcoureContent(niveaux:widget.type , ville: "${snapshot.data[index]['ville']}",ecole: widget.ecole)),
                 child: FutureBuilder(
-                  future: controller.selectvilleecole("${widget.type}"),
+                  future: controller.selectvilleecole("${widget.ecole}","${widget.type}"),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(
@@ -66,7 +67,7 @@ class _TypeOfOneCncState extends State<TypeOfOneCnc> {
                         itemCount: snapshot.data.length,
                         itemBuilder: (context, index) {
                           return InkWell(
-                            onTap: () => Get.to(() => ConcoureContent()),
+                            onTap: () => Get.to(() => ConcoureContent(niveaux:widget.type , ville: "${snapshot.data[index]['ville']}",ecole: widget.ecole)),
                             child: TypeConcoure(
                               url_img:
                                   "$linkservername/Admin/concoures/Villes/upload/${snapshot.data[index]['logo']}",

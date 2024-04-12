@@ -5,6 +5,8 @@ import 'package:taleb/app/config/constants/app_constant.dart';
 import 'package:taleb/app/modules/signup/controllers/signup_controller.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../config/themes/app_theme.dart';
+
 class VerifyEmail extends StatefulWidget {
   final String email;
   const VerifyEmail({
@@ -37,15 +39,15 @@ class _VerifyEmailState extends State<VerifyEmail> {
             SizedBox(
               height: AppConstant.screenHeight * .07,
             ),
-            const Text(
-              "Verification Code",
+            Text(
+              "Verification_Code".tr,
               style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             ),
             SizedBox(
               height: AppConstant.screenHeight * .02,
             ),
-            const Text(
-              "Please enter the confirmation number\nthat has been sent to your mail ",
+            Text(
+              "Verification_Code_info".tr,
               style: TextStyle(
                 color: Color.fromARGB(255, 11, 7, 7),
                 fontSize: 15,
@@ -69,7 +71,7 @@ class _VerifyEmailState extends State<VerifyEmail> {
               textStyle:
                   TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
               disabledBorderColor: Colors.red,
-              focusedBorderColor: Colors.orange,
+              focusedBorderColor: AppTheme.main_color_1,
               showFieldAsBox: true,
               onCodeChanged: (String code) {},
               onSubmit: (String verificationCode) async {

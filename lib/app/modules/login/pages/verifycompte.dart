@@ -6,6 +6,7 @@ import 'package:taleb/app/modules/login/controllers/login_controller.dart';
 import 'package:taleb/app/modules/login/pages/ResetPassword.dart';
 import 'package:taleb/app/shared/bottun.dart';
 
+import '../../../config/themes/app_theme.dart';
 import '../../../shared/back.dart';
 
 class VerifyCompte extends StatefulWidget {
@@ -30,17 +31,17 @@ class _VerifyCompteState extends State<VerifyCompte> {
         leading: const ButtonBack(),
       ),
       body: Padding(
-        padding: const EdgeInsets.only(left: 20.0,top: 50), // Add left padding
+        padding: const EdgeInsets.only(left: 20.0,top: 50,right: 20), // Add left padding
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start, // Align content to the left
           children: [
             Text(
-              "Verify Your Email",
+              "Verify_Email".tr,
               style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Bitter', fontSize: 20),
             ),
             Text(
-              "Plais Enter The 5 Digit Code  Sent To ",
-              style: TextStyle(fontFamily: 'Bitter'),
+              "Verify_Email_info".tr,
+              style: const TextStyle(fontFamily: 'Bitter'),
             ),
             Text(
               widget.email,
@@ -56,7 +57,7 @@ class _VerifyCompteState extends State<VerifyCompte> {
               borderRadius: BorderRadius.circular(10),
               textStyle: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),
               disabledBorderColor: Colors.red,
-              focusedBorderColor: Colors.orange,
+              focusedBorderColor: AppTheme.main_color_1,
               showFieldAsBox: true,
               onCodeChanged: (String code) {
                 // verificationCode = code;
@@ -77,7 +78,7 @@ class _VerifyCompteState extends State<VerifyCompte> {
                   print("error");
                 }
               },
-              child: Button(txt: "Verify"),
+              child: Button(txt: "Envoyer".tr),
             ),
           ],
         ),

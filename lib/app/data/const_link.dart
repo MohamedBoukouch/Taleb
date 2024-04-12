@@ -1,4 +1,6 @@
 const linkservername = "http://172.20.128.1/Taleb_DB";
+// const linkservername = "https://kotlinboukouchtest.000webhostapp.com";
+
 
 //Auth
 const linksignup = "$linkservername/auth/signup.php";
@@ -36,8 +38,7 @@ const linkselectfavorit =
 const linksearch = "$linkservername/search/serch_publication.php";
 
 //Notification
-const link_notification =
-    "$linkservername/Notification/notification_active.php";
+const link_notification = "$linkservername/Notification/notification_active.php";
 const link_delet_notification =
     "$linkservername/Notification/deletnotification.php";
 const link_all_notifications =

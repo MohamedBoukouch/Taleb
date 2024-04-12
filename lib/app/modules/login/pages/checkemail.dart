@@ -33,11 +33,11 @@ class _CheckEmailState extends State<CheckEmail> {
           children: [
             const SizedBox(height: 50,),
             Text(
-              "Forgot Password",
+              "Forgot_Password".tr,
               style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Bitter',fontSize: 20),
             ),
             Text(
-              "Don’t Worry, Please to enter your email",
+              "Forgot_Password_info".tr,
               style: TextStyle(fontFamily: 'Bitter'),
             ),
             const SizedBox(height: 50,),
@@ -47,13 +47,13 @@ class _CheckEmailState extends State<CheckEmail> {
                 crossAxisAlignment: CrossAxisAlignment.start, // Align content to the left
                 children: [
                   Text(
-                    "Address Email",
+                    "Address".tr,
                     style: TextStyle(color: Colors.grey),
                   ),
-                  SizedBox(height: 5,),
+                  const SizedBox(height: 5,),
                   Edittext(
                       readonly: false,
-                      hint: "Adress Email",
+                      hint: "Address".tr,
                       isemail: true,
                       ispassword: false,
                       icon: const Icon(Icons.email_outlined),
@@ -83,7 +83,7 @@ class _CheckEmailState extends State<CheckEmail> {
                 }
               },
               child: Button(
-                txt: "Send",
+                txt: "Envoyer".tr,
               ),
             ),
           ],

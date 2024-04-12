@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:get/get.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:taleb/app/config/themes/app_theme.dart';
 import 'package:url_launcher/link.dart';
 
 import '../../../config/constants/app_constant.dart';
@@ -52,14 +53,14 @@ class _SlidereState extends State<Slidere> {
                           child:  Image.network(
                               "$linkservername/slider/upload/$urlImage",
                               fit: BoxFit.cover,
-                              height: AppConstant.screenHeight * 0.28,
+                              height: AppConstant.screenHeight * 0.23,
                             ),
                         ),
                         Opacity(
                           opacity: 0.3,
                           child: Container(
                             width: AppConstant.screenWidth * 0.8,
-                            height: AppConstant.screenHeight * 0.28,
+                            height: AppConstant.screenHeight * 0.23,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10),
                               color: const Color.fromARGB(255, 14, 13, 13),
@@ -69,7 +70,7 @@ class _SlidereState extends State<Slidere> {
                         Container(
                             alignment: Alignment.center,
                             margin: EdgeInsets.only(
-                                top: AppConstant.screenHeight * 0.26),
+                                top: AppConstant.screenHeight * 0.2),
                             child: buildIndicator()),
                         Positioned(
                           left: AppConstant.screenWidth * 0.077,
@@ -97,24 +98,24 @@ class _SlidereState extends State<Slidere> {
                         ),
                         // }),
                         Positioned(
-                          child: Link(
-                            uri: Uri.parse("www.facebook.com"),
-                            builder: ((context, followLink) => TextButton(
-                              onPressed: followLink,
-                              child:  Container(
-                              margin: EdgeInsets.only(
+                          child: Container(
+                            margin: EdgeInsets.only(
                                   left: AppConstant.screenWidth * 0.08,
                                   top: AppConstant.screenHeight * 0.14),
                               width: AppConstant.screenWidth * 0.3,
                               height: AppConstant.screenHeight * 0.035,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(32.36),
-                                color: const Color(0xfffebd2a),
+                                color: AppTheme.main_color_1,
                               ),
-                              child:  Center(
+                            child: Link(
+                            uri: Uri.parse("${controllers.ListSliders[index]['titel2']}"),
+                            builder: ((context, followLink) => TextButton(
+                              onPressed: followLink,
+                              child: Center(
                                 child: Text(
-                                  "${controllers.ListSliders[index]['titel_link']}",
-                                  style: TextStyle(
+                                  "${controllers.ListSliders[index]['link']}",
+                                  style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 10.25,
                                     fontFamily: "Poppins",
@@ -122,10 +123,11 @@ class _SlidereState extends State<Slidere> {
                                   ),
                                 ),
                               ),
-                            ),
                             )
                           ),
-                        ),),
+                        ),
+                          )
+                        ),
                       ],
                     ),
                   ])),
@@ -216,7 +218,7 @@ class _SlidereState extends State<Slidere> {
           dotHeight: 10, // Set your desired height
           dotWidth: 10, // Set your desired width
           dotColor: Colors.white,
-          activeDotColor: const Color.fromARGB(255, 243, 212, 33),
+          activeDotColor: AppTheme.main_color_2,
         ),
         activeIndex: activeIndex,
         count: controllers.ListSliders.length,

@@ -13,6 +13,12 @@ import 'package:taleb/app/modules/concours/widgets/pdf_form.dart';
 import '../../../shared/back.dart';
 
 class ConcoureContent extends StatefulWidget {
+  final String niveaux;
+  final String ville;
+  final String ecole;
+
+  ConcoureContent({Key? key,required this.niveaux, required this.ville, required this.ecole}) : super(key: key);
+
   @override
   _ConcoureContentState createState() => _ConcoureContentState();
 }
@@ -44,7 +50,7 @@ class _ConcoureContentState extends State<ConcoureContent> {
         leading: ButtonBack(),
       ),
       body: FutureBuilder(
-        future: controller.selectpdf("bac", "ENSA", "agadir"),
+        future: controller.selectpdf(widget.niveaux, widget.ecole, widget.ville),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(

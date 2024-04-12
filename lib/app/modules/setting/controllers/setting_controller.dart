@@ -170,8 +170,9 @@ class SettingController extends GetxController {
   }
 
   //Select_Ville_Ecoles
-  Future selectvilleecole(String type) async {
+  Future selectvilleecole(String ecole,String type) async {
     var response = await _crud.postRequest(link_select_ville_ecole, {
+      "ecole": ecole,
       "type": type,
     });
     if (response['status'] == "success") {

@@ -6,6 +6,8 @@ import 'package:taleb/app/modules/signup/controllers/signup_controller.dart';
 import 'package:taleb/app/shared/bottun.dart';
 import 'package:taleb/app/shared/edittext.dart';
 
+import '../../../config/themes/app_theme.dart';
+
 class SignupView extends StatefulWidget {
   const SignupView({Key? key}) : super(key: key);
 
@@ -45,7 +47,7 @@ class _SignupViewState extends State<SignupView> {
                     children: [
                       Edittext(
                         readonly: false,
-                        hint: "Nome",
+                        hint: "Nom".tr,
                         icon: const Icon(Icons.person_2_outlined),
                         Controller: _nomController,
                         validator: (String? value) {
@@ -153,8 +155,11 @@ class _SignupViewState extends State<SignupView> {
                               child: Text(
                                 "deja_account".tr,
                                 style: const TextStyle(
-                                  color: Color.fromARGB(255, 158, 158, 158),
-                                ),
+                                color: Color.fromARGB(255, 158, 158, 158),
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'Inspiration',
+                                fontSize: 14,
+                              ),
                               ),
                             ),
                             InkWell(
@@ -162,7 +167,8 @@ class _SignupViewState extends State<SignupView> {
                               child: Text(
                                 "Seconnecter".tr,
                                 style: const TextStyle(
-                                    color: Color.fromARGB(255, 255, 132, 0)),
+                                    color: AppTheme.main_color_1,fontSize: 14),
+                                    
                               ),
                             ),
                           ],
@@ -180,7 +186,7 @@ class _SignupViewState extends State<SignupView> {
             color: Colors.black.withOpacity(0.5),
             child: const Center(
               child: CircularProgressIndicator(
-                color: Colors.orange,
+                color: AppTheme.main_color_1,
                 // strokeWidth: 30,
               ),
             ),

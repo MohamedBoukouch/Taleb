@@ -10,6 +10,7 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
 import 'package:taleb/app/config/function/functions.dart';
 import 'package:taleb/app/config/themes/app_theme.dart';
@@ -28,6 +29,7 @@ import 'package:taleb/app/shared/edittext.dart';
 import 'package:taleb/app/shared/fullscreen.dart';
 import 'package:taleb/main.dart';
 
+import '../../../shared/CustomAlert.dart';
 import '../controllers/setting_controller.dart';
 
 class SettingView extends StatefulWidget {
@@ -43,39 +45,58 @@ class _SettingViewState extends State<SettingView> {
   File? _selectedImage;
   final picker = ImagePicker();
 
-  Future<void> _pickImage() async {
-    try {
-      final pickedImage = await picker.pickImage(source: ImageSource.gallery);
 
-      if (pickedImage != null) {
-        setState(() {
-          _selectedImage = File(pickedImage.path);
-        });
-        // ignore: use_build_context_synchronously
-        QuickAlert.show(
-          context: context,
-          type: QuickAlertType.confirm,
-          text: 'Do you want to Delete your compte',
-          confirmBtnText: 'Yes',
-          cancelBtnText: 'No',
-          confirmBtnColor: Colors.green,
-          onConfirmBtnTap: () async {
-            //await add_pic_profile(File? _selectedImage)
-            try {
-              await controller.add_pic_profile(_selectedImage);
-            } catch (e) {
-              print("$e");
-            }
-          },
-          onCancelBtnTap: () {
-            Get.back();
-          },
-        );
-      }
-    } catch (e) {
-      print("Error picking image: $e");
+  Future<void> _pickImage() async {
+  try {
+    final pickedImage = await picker.pickImage(source: ImageSource.gallery);
+
+    if (pickedImage != null) {
+      setState(() {
+        _selectedImage = File(pickedImage.path);
+      });
+      
+      // Show a custom alert dialog
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Center(child: Text('Confirmation')),
+            content: Text('Do you want to update your account?'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('Cancel'),
+              ),
+              TextButton(
+                onPressed: () async {
+                  Navigator.of(context).pop();
+                  try {
+                    await controller.add_pic_profile(_selectedImage);
+                    CustomAlert.show(
+      context: context,
+      type: AlertType.success,
+      desc: 'profile Update Sucssfull',
+      onPressed: () {
+      Navigator.pop(context);
+      });
+                  } catch (e) {
+                    print("$e");
+                  }
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
     }
+  } catch (e) {
+    print("Error picking image: $e");
   }
+}
+
 
   Future<bool> _showVerificationSnackbar() async {
     Completer<bool> completer = Completer<bool>();
@@ -164,8 +185,8 @@ class _SettingViewState extends State<SettingView> {
                                   right: 0,
                                   child: GestureDetector(
                                     onTap: _pickImage,
-                                    child: const CircleAvatar(
-                                      backgroundColor: Colors.orangeAccent,
+                                    child:  CircleAvatar(
+                                      backgroundColor: AppTheme.main_color_2,
                                       child: Icon(
                                         Icons.camera_alt_outlined,
                                         color: Colors.black,
@@ -247,16 +268,6 @@ class _SettingViewState extends State<SettingView> {
                             ),
                           ),
                         ),
-                        // InkWell(
-                        //   onTap: () => Get.to(() => const Councoures()),
-                        //   child: Slider_2(
-                        //     titel: "councoures".tr,
-                        //     icon: Icon(
-                        //       Icons.monetization_on_outlined,
-                        //       color: AppTheme.main_color_2,
-                        //     ),
-                        //   ),
-                        // ),
                         InkWell(
                           onTap: () => Get.to(Language()),
                           child: Slider_2(

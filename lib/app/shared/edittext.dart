@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:taleb/app/config/themes/app_theme.dart';
 
 typedef StringValidator = String? Function(String?);
 
@@ -56,6 +57,7 @@ class _EdittextState extends State<Edittext> {
         decoration: InputDecoration(
           hintStyle: TextStyle(
             color: Color(0xFF555353),
+            fontFamily: 'Bitter'
           ),
           labelStyle: TextStyle(color: Colors.black),
           errorStyle: GoogleFonts.poppins(
@@ -90,7 +92,7 @@ class _EdittextState extends State<Edittext> {
           ),
           enabledBorder: OutlineInputBorder(
             borderSide: BorderSide(
-              color: Colors.orange,
+              color: AppTheme.main_color_1,
               width: 1, //<-- SEE HERE
               //color: Colors.grey,
             ),
@@ -106,7 +108,7 @@ class _EdittextState extends State<Edittext> {
           focusedBorder: OutlineInputBorder(
             borderSide: BorderSide(
               width: 2, //<-- SEE HERE
-              color: Colors.orange,
+              color: AppTheme.main_color_1,
             ),
             borderRadius: BorderRadius.circular(20.0),
           ),

@@ -58,7 +58,7 @@ class _ConcoursViewState extends State<ConcoursView> {
                         width: 10,
                         height: 40,
                         decoration: BoxDecoration(
-                            color: ctr == 0 ? AppTheme.reed_color : null,
+                            color: ctr == 0 ? AppTheme.main_color_1 : null,
                             borderRadius: BorderRadius.circular(10)),
                         child: Center(
                           child: Text(
@@ -86,7 +86,7 @@ class _ConcoursViewState extends State<ConcoursView> {
                         width: 10,
                         height: 40,
                         decoration: BoxDecoration(
-                            color: ctr == 1 ? AppTheme.reed_color : null,
+                            color: ctr == 1 ? AppTheme.main_color_1 : null,
                             borderRadius: BorderRadius.circular(10)),
                         child: Center(
                           child: Text(
@@ -114,7 +114,7 @@ class _ConcoursViewState extends State<ConcoursView> {
                         width: 10,
                         height: 40,
                         decoration: BoxDecoration(
-                            color: ctr == 2 ? AppTheme.reed_color : null,
+                            color: ctr == 2 ? AppTheme.main_color_1 : null,
                             borderRadius: BorderRadius.circular(10)),
                         child: Center(
                           child: Text(
@@ -142,7 +142,7 @@ class _ConcoursViewState extends State<ConcoursView> {
                         width: 10,
                         height: 40,
                         decoration: BoxDecoration(
-                            color: ctr == 3 ? AppTheme.reed_color : null,
+                            color: ctr == 3 ? AppTheme.main_color_1 : null,
                             borderRadius: BorderRadius.circular(10)),
                         child: Center(
                           child: Text(
