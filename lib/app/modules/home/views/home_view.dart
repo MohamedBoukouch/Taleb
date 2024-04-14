@@ -1,14 +1,9 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
 import 'package:taleb/app/config/function/checkInternet.dart';
-import 'package:taleb/app/config/images/app_images.dart';
-import 'package:taleb/app/config/themes/app_theme.dart';
 import 'package:taleb/app/modules/chat/views/chat_view.dart';
-import 'package:taleb/app/modules/favorite/controllers/favorite_controller.dart';
 import 'package:taleb/app/modules/home/controllers/home_controller.dart';
 import 'package:taleb/app/modules/home/pages/filter.dart';
 import 'package:taleb/app/modules/notification/views/notification_view.dart';
@@ -24,26 +19,26 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
   final HomeController controller = Get.put(HomeController());
-
-  var notificationData;
-  final TextEditingController _emailController = TextEditingController();
-
-  final TextEditingController _searchController = TextEditingController();
-  final HomeController _controller = Get.put(HomeController());
-
+  late String activemessages = ''; // Declare activemessages here
+  late String activenotification = ''; // Declare activemessages here
   final List<String> suggestions = [];
-  var res;
-
-  initialdata() async {
-    res = await chekInternet();
-    print(res);
-  }
+  bool isSearchEmpty = true;
+  bool isSearching = false;
+  var notificationData;
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
-    initialdata();
     super.initState();
+    initialData();
     loadSuggestions();
+    fetchActiveMessages();
+    fetchActiveNotification(); // Call fetchActiveMessages in initState
+  }
+
+  void initialData() async {
+    var res = await chekInternet();
+    print(res);
   }
 
   void loadSuggestions() async {
@@ -57,19 +52,34 @@ class _HomeViewState extends State<HomeView> {
     }
   }
 
-  void saveSuggestions() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setStringList('suggestions', suggestions);
+  void fetchActiveMessages() async {
+    String activeMessages = await controller.activemessages();
+    setState(() {
+      activemessages = activeMessages;
+    });
   }
 
-  void _onSuggestionSelected(String suggestion) {
-    _searchController.text = suggestion;
+    void fetchActiveNotification() async {
+    String activeNotification = await controller.activenotification();
+    setState(() {
+      activenotification = activeNotification;
+    });
   }
 
   void handleSearch(String value) {
     setState(() {
       isSearchEmpty = value.isEmpty;
     });
+  }
+
+  onSearchItem() {
+    isSearching = true;
+  }
+
+  checkSearch(val) {
+    if (val == "") {
+      isSearching = false;
+    }
   }
 
   void cancelSearch() {
@@ -80,17 +90,9 @@ class _HomeViewState extends State<HomeView> {
     });
   }
 
-  bool isSearchEmpty = true;
-  bool isSearching = false;
-
-  checksearch(val) {
-    if (val == "") {
-      isSearching = false;
-    }
-  }
-
-  onsearchitem() {
-    isSearching = true;
+  void saveSuggestions() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setStringList('suggestions', suggestions);
   }
 
   @override
@@ -107,7 +109,7 @@ class _HomeViewState extends State<HomeView> {
           ),
         ),
         actions: [
-          InkWell(
+           InkWell(
             onTap: () async {
               notificationData = await controller.activenotification();
               print(notificationData);
@@ -121,28 +123,74 @@ class _HomeViewState extends State<HomeView> {
                   notificationData = controller.activenotification();
                 });
               }
-              print("taille is ${_controller.listdata.length}");
+              print("taille is ${controller.listdata.length}");
               Get.to(() => NotificationView());
             },
-            child: Container(
-              child: Image.asset(
-                "assets/icons/notification.png",
-                color: Colors.grey,
-                width: 22,
-              ),
+            child: Stack(
+              children: [
+                Container(
+                  width: 25,
+                  height: 25,
+                  child: Image.asset(
+                    "assets/icons/notification.png",
+                    color: Colors.grey,
+                  ),
+                ),
+                if (activenotification=="1")
+                  Positioned(
+                    right: 0,
+                    top: 0,
+                    child: Container(
+                      width: 10,
+                      height: 10,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.red,
+                      ),
+                    ),
+                  ),
+              ],
             ),
           ),
           SizedBox(width: 15),
           InkWell(
-            onTap: () async {
+            onTap: () async{
+              try {
+                await controller.update_message_status();
+              } catch (e) {
+                print(e);
+              } finally {
+                setState(() {
+                  notificationData = controller.activenotification();
+                });
+              }
+              // print(activemessages);
               Get.to(const ChatView());
             },
-            child: Container(
-              child: Image.asset(
-                "assets/icons/message.png",
-                color: Colors.grey,
-                width: 25,
-              ),
+            child: Stack(
+              children: [
+                Container(
+                  width: 25,
+                  height: 25,
+                  child: Image.asset(
+                    "assets/icons/message.png",
+                    color: Colors.grey,
+                  ),
+                ),
+                if (activemessages=="1") // Check if activemessages is not empty
+                  Positioned(
+                    right: 0,
+                    top: 0,
+                    child: Container(
+                      width: 10,
+                      height: 10,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.red,
+                      ),
+                    ),
+                  ),
+              ],
             ),
           ),
           SizedBox(width: 10),
@@ -159,8 +207,9 @@ class _HomeViewState extends State<HomeView> {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 border: Border.all(
-                    width: 1,
-                    color: Color.fromARGB(185, 199, 198, 198)),
+                  width: 1,
+                  color: Color.fromARGB(185, 199, 198, 198),
+                ),
               ),
               child: Row(
                 children: [
@@ -168,30 +217,27 @@ class _HomeViewState extends State<HomeView> {
                       ? IconButton(
                           onPressed: () async {
                             if (_searchController.text.isNotEmpty) {
-                              if (!suggestions
-                                  .contains(_searchController.text)) {
+                              if (!suggestions.contains(_searchController.text)) {
                                 suggestions.add(_searchController.text);
                                 saveSuggestions();
                               }
-                              onsearchitem();
+                              onSearchItem();
                               try {
-                                await _controller
-                                    .Search(_searchController.text);
+                                await controller.Search(_searchController.text);
                                 setState(() {});
-                                print("la taile is ${_controller.listdata.length}");
+                                print("la taile is ${controller.listdata.length}");
                               } catch (e) {
                                 print("ddd");
                               }
                               _searchController.clear();
                             }
                           },
-                          icon: Icon(Icons.search,size: 25,),
+                          icon: Icon(Icons.search, size: 25),
                         )
                       : Container(),
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 8.0), // Adjust the horizontal padding here
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       child: TextField(
                         controller: _searchController,
                         style: TextStyle(
@@ -199,12 +245,13 @@ class _HomeViewState extends State<HomeView> {
                         ),
                         onChanged: (value) {
                           handleSearch(value);
-                          checksearch(value);
+                          checkSearch(value);
                         },
                         decoration: InputDecoration(
-                            hintText: 'recherche'.tr,
-                            border: InputBorder.none,
-                            hintStyle: TextStyle(color: Colors.grey)),
+                          hintText: 'recherche'.tr,
+                          border: InputBorder.none,
+                          hintStyle: TextStyle(color: Colors.grey),
+                        ),
                       ),
                     ),
                   ),
@@ -225,44 +272,33 @@ class _HomeViewState extends State<HomeView> {
             ),
             isSearching == false
                 ? Filter()
-                : _controller.listdata.length > 0
-                    ? Expanded(child: ListView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: _controller.listdata.length,
-                  itemBuilder: (context, index) {
-                    return PostCard(
-                              link:
-                                  "${_controller.listdata[index]['link']}",
-                              is_liked:
-                                  _controller.listdata[index]['liked'] ?? false,
-                              is_favorit: _controller.listdata[index]
-                                      ['favorite'] ??
-                                  false,
-                              numberlike: _controller.listdata[index]
-                                      ['numberlike'] ??
-                                  0,
-                              numbercomment: _controller.listdata[index]
-                                      ['numbercomment'] ??
-                                  0,
-                              id_publication:
-                                  "${_controller.listdata[index]['id']}",
-                              localisation: " ${_controller.listdata[index]['localisation']}",
-                              timeAgo: "  ${_controller.listdata[index]['date']}",
-                              titel: "${_controller.listdata[index]['titel']}",
-                              description:
-                                  "${_controller.listdata[index]['description']}",
-                              postImage:
-                                  "${_controller.listdata[index]['file']}",
-                              link_titel:
-                                  "${_controller.listdata[index]['link_titel']}",
+                : controller.listdata.length > 0
+                    ? Expanded(
+                        child: ListView.builder(
+                          shrinkWrap: true,
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: controller.listdata.length,
+                          itemBuilder: (context, index) {
+                            return PostCard(
+                              link: "${controller.listdata[index]['link']}",
+                              is_liked: controller.listdata[index]['liked'] ?? false,
+                              is_favorit: controller.listdata[index]['favorite'] ?? false,
+                              numberlike: controller.listdata[index]['numberlike'] ?? 0,
+                              numbercomment: controller.listdata[index]['numbercomment'] ?? 0,
+                              id_publication: "${controller.listdata[index]['id']}",
+                              localisation: " ${controller.listdata[index]['localisation']}",
+                              timeAgo: "  ${controller.listdata[index]['date']}",
+                              titel: "${controller.listdata[index]['titel']}",
+                              description: "${controller.listdata[index]['description']}",
+                              postImage: "${controller.listdata[index]['file']}",
+                              link_titel: "${controller.listdata[index]['link_titel']}",
                             );
-                  },
-                ))
+                          },
+                        ),
+                      )
                     : Center(
                         child: Container(
-                          margin: EdgeInsets.only(
-                              top: AppConstant.screenHeight * .06),
+                          margin: EdgeInsets.only(top: AppConstant.screenHeight * .06),
                           child: Column(
                             children: [
                               Image.asset("assets/icons/Not_Found.png"),
@@ -286,33 +322,3 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 }
-
-
-
-// PostCard(
-//                               link:
-//                                   "${_controller.listdata[index]['link']}",
-//                               is_liked:
-//                                   _controller.listdata[index]['liked'] ?? false,
-//                               is_favorit: _controller.listdata[index]
-//                                       ['favorite'] ??
-//                                   false,
-//                               numberlike: _controller.listdata[index]
-//                                       ['numberlike'] ??
-//                                   0,
-//                               numbercomment: _controller.listdata[index]
-//                                       ['numbercomment'] ??
-//                                   0,
-//                               id_publication:
-//                                   "${_controller.listdata[index]['id']}",
-//                               localisation: " ${_controller.listdata[index]['localisation']}",
-//                               timeAgo: "  ${_controller.listdata[index]['date']}",
-//                               titel: "${_controller.listdata[index]['titel']}",
-//                               description:
-//                                   "${_controller.listdata[index]['description']}",
-//                               postImage:
-//                                   "${_controller.listdata[index]['file']}",
-//                               link_titel:
-//                                   "${_controller.listdata[index]['link_titel']}",
-//                             );
-

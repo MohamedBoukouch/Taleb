@@ -8,9 +8,14 @@ class ChatController extends GetxController {
   Crud _crud = Crud();
   final count = 0.obs;
   List<dynamic> ListMessages = [];
+
+
+
   @override
   void onInit() {
     ListMessages;
+    getProfileImage();
+    // activemessages();
     super.onInit();
   }
 
@@ -25,6 +30,22 @@ class ChatController extends GetxController {
   }
 
   void increment() => count.value++;
+
+
+//getimageprofle
+
+ String? getProfileImage() {
+  // Iterate through ListMessages
+  for (var message in ListMessages) {
+    // Check if user_to_admin is equal to 1 and it has a profile attribute
+    if (message['user_to_admin'] == 1) {
+      // Return the profile image URL
+      return message['profile'] as String?;
+    }
+  }
+  // Return null if no profile image found
+  return null;
+}
 
 //Send_Message
   sendmessage(String message) async {
@@ -49,7 +70,7 @@ class ChatController extends GetxController {
         link_show_messages, {"id_user": sharedpref.getString('id')});
     if (response['status'] == "success") {
       print("show messages sucssfull");
-      // ListMessages.addAll(response['data']);
+      ListMessages.addAll(response['data']);
       return response['data'];
     } else {
       print("show messages fail");
@@ -68,4 +89,7 @@ class ChatController extends GetxController {
       print("show messages fail");
     }
   }
+
+  //Active Notification
+
 }

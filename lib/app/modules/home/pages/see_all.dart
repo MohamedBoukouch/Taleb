@@ -11,6 +11,7 @@ import 'package:taleb/app/modules/home/controllers/home_controller.dart';
 import 'package:taleb/app/modules/home/widgets/appbar.dart';
 import 'package:taleb/app/modules/notification/controllers/notification_controller.dart';
 import 'package:taleb/app/modules/notification/views/notification_view.dart';
+import 'package:taleb/app/shared/back.dart';
 import 'package:taleb/app/shared/publication.dart';
 import 'package:taleb/app/modules/home/widgets/slider.dart';
 import 'package:taleb/app/modules/initial/views/init_view.dart';
@@ -27,6 +28,8 @@ class _SeeAllState extends State<SeeAll> {
   final HomeController controller = Get.put(HomeController());
 
   var notificationData;
+  late String activemessages = ''; // Declare activemessages here
+  late String activenotification = '';
 
   // final FavoriController favorit_controller = Get.put(FavoriController());
 
@@ -37,14 +40,27 @@ class _SeeAllState extends State<SeeAll> {
     print(res);
   }
 
-  @override
+    @override
   void initState() {
-    initialdata();
-    setState(() {
-      // splitString();
-    });
-    // controller.Showpub();
     super.initState();
+    initialdata();
+    fetchActiveMessages();
+    fetchActiveNotification(); // Call fetchActiveMessages in initState
+  }
+
+
+    void fetchActiveMessages() async {
+    String activeMessages = await controller.activemessages();
+    setState(() {
+      activemessages = activeMessages;
+    });
+  }
+
+    void fetchActiveNotification() async {
+    String activeNotification = await controller.activenotification();
+    setState(() {
+      activenotification = activeNotification;
+    });
   }
 
   @override
@@ -52,49 +68,98 @@ class _SeeAllState extends State<SeeAll> {
     return InitialView(
       selectedindex: 3,
       appbar: AppBar(
-  backgroundColor: Colors.white,
-  automaticallyImplyLeading: false,
-  title: const Text(
-    'Taleb',
-    style: TextStyle(
-      color: Colors.black, // Text color
-    ),
-  ),
-  actions: [
-    InkWell(
-      onTap: ()async {
-            notificationData = await controller.activenotification();
-            print(notificationData);
+         backgroundColor: Colors.white,
+        automaticallyImplyLeading: false,
+        title: Text('Taleb'),
+        leading: ButtonBack(),
+        actions: [
+           InkWell(
+            onTap: () async {
+              notificationData = await controller.activenotification();
+              print(notificationData);
 
-            try {
-              await controller.update_notification_status();
-            } catch (e) {
-              print(e);
-            } finally {
-              setState(() {
-              notificationData =  controller.activenotification();
-              });
-            }
-            Get.to(() => NotificationView());
-          },
-      child: Container(
-    child: Image.asset("assets/icons/notification.png",width: 22,),
-    ),
-    ),
-    SizedBox(width: 15,),
-    InkWell(
-    onTap: () async {
-    Get.to(const ChatView());
-    },
-    child: Container(
-    child: Image.asset("assets/icons/message.png", color: Colors.orange,width: 25,),
-    ),
-),
-    SizedBox(width: 10,),
-
-
-  ],
-),
+              try {
+                await controller.update_notification_status();
+              } catch (e) {
+                print(e);
+              } finally {
+                setState(() {
+                  notificationData = controller.activenotification();
+                });
+              }
+              print("taille is ${controller.listdata.length}");
+              Get.to(() => NotificationView());
+            },
+            child: Stack(
+              children: [
+                Container(
+                  width: 25,
+                  height: 25,
+                  child: Image.asset(
+                    "assets/icons/notification.png",
+                    color: Colors.grey,
+                  ),
+                ),
+                if (activenotification=="1")
+                  Positioned(
+                    right: 0,
+                    top: 0,
+                    child: Container(
+                      width: 10,
+                      height: 10,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.red,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+          SizedBox(width: 15),
+          InkWell(
+            onTap: () async{
+              try {
+                await controller.update_message_status();
+              } catch (e) {
+                print(e);
+              } finally {
+                setState(() {
+                  notificationData = controller.activenotification();
+                });
+              }
+              // print(activemessages);
+              Get.to(const ChatView());
+            },
+            child: Stack(
+              children: [
+                Container(
+                  width: 25,
+                  height: 25,
+                  child: Image.asset(
+                    "assets/icons/message.png",
+                    color: Colors.grey,
+                  ),
+                ),
+                if (activemessages=="1") // Check if activemessages is not empty
+                  Positioned(
+                    right: 0,
+                    top: 0,
+                    child: Container(
+                      width: 10,
+                      height: 10,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.red,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ),
+          SizedBox(width: 10),
+        ],
+      ),
       body: ListView(
         children: [
           // Slidere(),

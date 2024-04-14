@@ -78,9 +78,9 @@ class _CommentFormState extends State<CommentForm> {
                   context: context,
                   builder: (context) {
                     return AlertDialog(
-                      title: Text("Delete Comment"),
-                      content: const Text(
-                          "Do you really want to delete this comment?"),
+                      title: Text("Delete_Comment".tr),
+                      content:  Text(
+                          "Delete_Comment_info".tr),
                       actions: [
                         AppFunction.cancel(),
                         AppFunction.deletcomment(

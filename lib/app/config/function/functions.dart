@@ -33,9 +33,9 @@ class AppFunction {
 
   static cancel() {
     return TextButton(
-      child: const Text(
-        "Cancel",
-        style: TextStyle(
+      child:  Text(
+        "cancel".tr,
+        style: const TextStyle(
           color: Colors.red,
           fontWeight: FontWeight.bold,
         ),
@@ -66,9 +66,9 @@ class AppFunction {
   static deletcomment(String id_comment, String id_publication,
       String nbr_comment, dynamic context) {
     return TextButton(
-      child: const Text(
-        "Yes",
-        style: TextStyle(
+      child:  Text(
+        "delete".tr,
+        style: const TextStyle(
           color: Color.fromARGB(255, 44, 40, 40),
           fontWeight: FontWeight.bold,
         ),
@@ -76,6 +76,8 @@ class AppFunction {
       onPressed: () async {
         await home_controller.Deletcomment(
             id_comment, id_publication, nbr_comment, context);
+
+            Get.to(Commentaire(id_publication: "${id_publication}",));
       },
     );
   }

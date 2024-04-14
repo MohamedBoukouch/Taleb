@@ -5,6 +5,7 @@ import 'package:taleb/app/config/constants/app_constant.dart';
 import 'package:taleb/app/data/const_link.dart';
 import 'package:taleb/app/modules/home/controllers/home_controller.dart';
 import 'package:taleb/app/modules/home/widgets/comment_form.dart';
+import 'package:taleb/app/shared/back.dart';
 import 'package:taleb/main.dart';
 import 'package:taleb/main.dart';
 import 'package:taleb/main.dart';
@@ -30,17 +31,17 @@ class _CommentaireState extends State<Commentaire> {
   @override
   void initState() {
     super.initState();
+    controller.Showcomment("${widget.id_publication}");
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Comments"),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
-        ),
+        title: Text("Commentaires".tr),
+        backgroundColor: Colors.white,
+        automaticallyImplyLeading: false,
+        leading: ButtonBack(),
       ),
       body: Column(
         children: [
@@ -103,7 +104,7 @@ class _CommentaireState extends State<Commentaire> {
                       color: Colors.black, // Set the text color to red
                     ),
                     decoration: InputDecoration(
-                      hintText: 'Write a comment...',
+                      hintText: 'Write_comment'.tr,
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(25),
                       ),

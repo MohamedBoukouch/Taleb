@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
 import 'package:taleb/app/config/images/app_images.dart';
 import 'package:taleb/app/modules/notification/widgets/notificationform.dart';
+import 'package:taleb/app/shared/back.dart';
 
 import '../../../config/themes/app_theme.dart';
 import '../../home/pages/see_all.dart';
@@ -18,10 +19,13 @@ class NotificationView extends GetView<NotificationController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.white,
+        automaticallyImplyLeading: false,
         title: Text(
           'Notifications'.tr,
           style: TextStyle(fontFamily: 'Bitter'),
         ),
+        leading: ButtonBack(),
       ),
       body: FutureBuilder(
               future: _controller.allnotifications(),

@@ -334,7 +334,8 @@ class _PostCardState extends State<PostCard> {
                           onPressed: () {
                             Get.to(() => Commentaire(
                                   id_publication: "${widget.id_publication}",
-                                ));
+                                )
+                                );
                           },
                         ),
                       ),

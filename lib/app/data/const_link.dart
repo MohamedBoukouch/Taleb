@@ -1,5 +1,5 @@
-const linkservername = "http://172.20.128.1/Taleb_DB";
-// const linkservername = "https://kotlinboukouchtest.000webhostapp.com";
+// const linkservername = "http://172.20.128.1/Taleb_DB";
+const linkservername = "https://kotlinboukouchtest.000webhostapp.com";
 
 
 //Auth
@@ -54,6 +54,8 @@ const link_show_publication =
 const link_send_messages = "$linkservername/Chat/send_message.php";
 const link_show_messages = "$linkservername/Chat/show_message.php";
 const link_delet_message = "$linkservername/Chat/delet_message.php";
+const link_active_message = "$linkservername/Chat/active_messages.php";
+const link_update_status_message = "$linkservername/Chat/update_status.php";
 
 //Profile
 const link_profile = "$linkservername/profile/profile.php";

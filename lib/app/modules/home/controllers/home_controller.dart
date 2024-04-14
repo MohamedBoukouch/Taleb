@@ -23,6 +23,7 @@ class HomeController extends GetxController {
     FetchSlider();
     FirebaseMessaging.instance.subscribeToTopic("users");
     activenotification();
+    activemessages();
     super.onInit();
   }
 
@@ -239,5 +240,34 @@ class HomeController extends GetxController {
     } else {
       print("error");
     }
+  }
+
+  //Message Active
+    activemessages() async {
+    update();
+    var response = await _crud.getRequest(link_active_message);
+    if (response['status'] == "success") {
+      return response['data']; 
+    } else {
+      print("error");
+      return null; // Return null or handle error accordingly
+    }
+  }
+
+
+  //Update Status OF Message
+    update_message_status() async {
+    update();
+    var response = await _crud.postRequest(link_update_status_message, {
+      "id_user": sharedpref.getString("id"),
+    });
+    if (response['status'] == "success") {
+      print("success");
+      update();
+    } else {
+      print("error");
+      update();
+    }
+    update();
   }
 }
