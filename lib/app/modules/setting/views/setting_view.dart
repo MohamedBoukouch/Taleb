@@ -157,7 +157,7 @@ class _SettingViewState extends State<SettingView> {
                             Navigator.of(context).push(MaterialPageRoute(
                               builder: (context) => FullScreenImage(
                                 imageUrl:
-                                    "$linkservername/Admin/publication/upload/${snapshot.data[index]['profile']}",
+                                    "$linkserverimages/profile/${snapshot.data[index]['profile']}",
                               ),
                             ));
                           },
@@ -176,7 +176,7 @@ class _SettingViewState extends State<SettingView> {
                                             ? AssetImage(
                                                 "assets/profile/Profile_2.png")
                                             : NetworkImage(
-                                                    "$linkserverimages/${snapshot.data['profile']}")
+                                                    "$linkserverimages/profile/${snapshot.data['profile']}")
                                                 as ImageProvider<Object>),
                                   ),
                                 ),

@@ -112,8 +112,8 @@ class HomeController extends GetxController {
   //AddLike
   Addlike(String id_publication, String numberlike) async {
     var response = await _crud.postRequest(linkAddlike, {
-      "id_user": sharedpref.getString("id"),
-      "id_publication": id_publication,
+      "user_id": sharedpref.getString("id"),
+      "publication_id": id_publication,
     });
     if (response['status'] == "success") {
       print("you like publiaction");
@@ -129,8 +129,8 @@ class HomeController extends GetxController {
   //DropLike
   Droplike(String id_publication, String numberlike) async {
     var response = await _crud.postRequest(linkDroplike, {
-      "id_publication": id_publication,
-      "id_user": sharedpref.getString("id"),
+      "publication_id": id_publication,
+      "user_id": sharedpref.getString("id"),
     });
     if (response['status'] == "success") {
       print("u are drop like");
@@ -146,8 +146,8 @@ class HomeController extends GetxController {
   //Add_favorit
   Addfavorite(String id_publication) async {
     var response = await _crud.postRequest(linkAddfavorit, {
-      "id_user": sharedpref.getString("id"),
-      "id_publication": id_publication,
+      "user_id": sharedpref.getString("id"),
+      "publication_id": id_publication,
     });
     if (response['status'] == "success") {
       print("is your favorit");
@@ -162,8 +162,8 @@ class HomeController extends GetxController {
   //Drop_favorit
   Dropfavorite(String id_publication) async {
     var response = await _crud.postRequest(linkDropfavorit, {
-      "id_publication": id_publication,
-      "id_user": sharedpref.getString("id"),
+      "publication_id": id_publication,
+      "user_id": sharedpref.getString("id"),
     });
     if (response['status'] == "success") {
       print("is not your favorit");

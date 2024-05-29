@@ -8,7 +8,7 @@
 
 //TAWJIHI_EXEMPLE
 const linkservername = "http://10.0.2.2:8000/api";
-const linkserverimages = "http://10.0.2.2:8000/storage";
+const linkserverimages = "http://10.0.2.2:8000/images";
 
 
 
@@ -28,23 +28,21 @@ const linkresertpassword = "$linkservername/ResetPassword/resetpassword.php";
 const linkshowpubli = "$linkservername/publications/getPublications";
 
 //Comments
-const linkaddcomment = "$linkservername/publication/comment/Add_comment.php";
-const linkshowcomment = "$linkservername/publication/comment/Show_comment.php";
-const linkdeletcomment =
-    "$linkservername/publication/comment/delete_comment.php";
+const linkaddcomment = "$linkservername/comments/add";
+const linkshowcomment = "$linkservername/publications/show-comments";
+const linkdeletcomment ="$linkservername/comments/delete";
 const linkNumbercomment =
     "$linkservername/publication/comment/Number_comment.php";
 
 //Like_publication
-const linkLike = "$linkservername/publication/Like/like.php";
-const linkAddlike = "$linkservername/publication/Like/Add_like.php";
-const linkDroplike = "$linkservername/publication/Like/Drop_like.php";
+const linkLike = "$linkservername/publications/update-number-of-likes";
+const linkAddlike = "$linkservername/likes/add";
+const linkDroplike = "$linkservername/likes/drop";
 
 //favorit
-const linkAddfavorit = "$linkservername/publication/favorit/add_favorit.php";
-const linkDropfavorit = "$linkservername/publication/favorit/drop_favorit.php";
-const linkselectfavorit =
-    "$linkservername/publication/favorit/select_favorit.php";
+const linkAddfavorit = "$linkservername/favorites/add";
+const linkDropfavorit = "$linkservername/favorites/delete";
+const linkselectfavorit ="$linkservername/favorites/select";
 
 //Search
 const linksearch = "$linkservername/search/serch_publication.php";

@@ -71,19 +71,20 @@ class _CommentaireState extends State<Commentaire> {
                   return ListView.builder(
                     itemCount: snapshot.data.length,
                     itemBuilder: (context, index) {
+                      // return Text("${widget.id_publication}");
                       return Container(
                         padding: EdgeInsets.all(8),
                         child: CommentForm(
                           haveprofile: snapshot.data[index]['profile'],
                           profile:
-                              "$linkservername/profile/upload/${snapshot.data[index]['profile']}",
+                              "$linkserverimages/profile/${snapshot.data[index]['profile']}",
                           id_publication: "${widget.id_publication}",
-                          numbercomment: snapshot.data[index]['numbercomment'],
+                          numbercomment: snapshot.data[index]['number_comment'],
                           firstname: "${snapshot.data[index]['firstname']}",
                           lastname: "${snapshot.data[index]['lastname']}",
                           text: "${snapshot.data[index]['text']}",
                           id_user: "${snapshot.data[index]['id_user']}",
-                          id_comment: "${snapshot.data[index]['id_comment']}",
+                          id_comment: "${snapshot.data[index]['id']}",
                         ),
                       );
                     },

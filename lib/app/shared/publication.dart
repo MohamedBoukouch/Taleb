@@ -27,8 +27,8 @@ class PostCard extends StatefulWidget {
   bool? forcomment = false;
   final int numberlike;
   final int numbercomment;
-  final int is_favorit;
-  final int is_liked;
+  final bool is_favorit;
+  final bool is_liked;
   final String link;
   final String link_titel;
   PostCard({
@@ -53,8 +53,8 @@ class PostCard extends StatefulWidget {
 
 class _PostCardState extends State<PostCard> {
   bool _isExpanded = false;
-  late int _isliked = widget.is_liked;
-  late int _isfavorit = widget.is_favorit;
+  late bool _isliked = widget.is_liked;
+  late bool _isfavorit = widget.is_favorit;
   int _like = 0;
   int comment = 0;
   var nbr_cmt;
@@ -68,9 +68,11 @@ class _PostCardState extends State<PostCard> {
   late String inputImage = widget.postImage;
   List<String> charArray = [];
 
-  void splitString() {
-    charArray = inputImage.split(',');
-  }
+void splitString() {
+  String filenamesString = widget.postImage.substring(1, widget.postImage.length - 1); // Remove leading "[" and trailing "]"
+  charArray = filenamesString.split(',').map((filename) => filename.trim()).toList(); // Split by "," and trim whitespace
+  setState(() {});
+}
 
   @override
   void initState() {
@@ -200,46 +202,46 @@ class _PostCardState extends State<PostCard> {
               children: <Widget>[
                 Expanded(
                   child: PageView.builder(
-                    controller: _pageController,
-                    scrollDirection: Axis.horizontal,
-                    itemCount: charArray.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: EdgeInsets.all(3),
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute<void>(
-                              builder: (BuildContext context) {
-                                return Scaffold(
-                                  body: Center(
-                                    child: PhotoView(
-                                      imageProvider: NetworkImage(
-                                        "$linkservername/Admin/publication/upload/${charArray[currentPage]}",
-                                      ),
-                                      backgroundDecoration: BoxDecoration(
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              },
-                            ));
-                          },
-                          child: ClipRRect(
-                            child: Image.network(
-                              "$linkservername/Admin/publication/upload/${charArray[index]}",
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                    onPageChanged: (int page) {
-                      setState(() {
-                        currentPage = page.toInt();
-                      });
-                    },
+  controller: _pageController,
+  scrollDirection: Axis.horizontal,
+  itemCount: charArray.length,
+  itemBuilder: (context, index) {
+    return Padding(
+      padding: EdgeInsets.all(3),
+      child: GestureDetector(
+        onTap: () {
+          Navigator.of(context).push(MaterialPageRoute<void>(
+            builder: (BuildContext context) {
+              return Scaffold(
+                body: Center(
+                  child: PhotoView(
+                    imageProvider: NetworkImage(
+                      "$linkserverimages/publication/${charArray[index].trim()}",
+                    ),
+                    backgroundDecoration: BoxDecoration(
+                      color: Colors.black,
+                    ),
                   ),
+                ),
+              );
+            },
+          ));
+        },
+        child: ClipRRect(
+          child: Image.network(
+            "$linkserverimages/publication/${charArray[index].trim()}",
+            fit: BoxFit.cover,
+          ),
+        ),
+      ),
+    );
+  },
+  onPageChanged: (int page) {
+    setState(() {
+      currentPage = page;
+    });
+  },
+),
                 ),
                 charArray.length > 1
                     ? DotsIndicator(
@@ -271,7 +273,7 @@ class _PostCardState extends State<PostCard> {
                         margin: EdgeInsets.only(
                             left: AppConstant.screenWidth * .055),
                         child: IconButton(
-                          icon: _isliked == 0
+                          icon: _isliked == false
                               ? const Icon(
                                   Icons.favorite_border,
                                   size: 25,
@@ -283,11 +285,11 @@ class _PostCardState extends State<PostCard> {
                                 ),
                           onPressed: () async {
                             setState(() {
-                              _isliked == 0 ? _isliked = 1 : _isliked = 0;
-                              _isliked == 0 ? nbr_like-- : nbr_like++;
+                              _isliked == false ? _isliked = true : _isliked = false;
+                              _isliked == false ? nbr_like-- : nbr_like++;
                               // nbr_like++;
                             });
-                            if (_isliked == 1) {
+                            if (_isliked == true) {
                               // setState(()  {
                               try {
                                 await controller.Addlike(
@@ -353,7 +355,7 @@ class _PostCardState extends State<PostCard> {
                       color: const Color.fromARGB(64, 158, 158, 158),
                       borderRadius: BorderRadius.circular(50)),
                   child: IconButton(
-                    icon: _isfavorit == 0
+                    icon: _isfavorit == false
                         ? const Icon(
                             Icons.star_border,
                             size: 25,
@@ -366,14 +368,14 @@ class _PostCardState extends State<PostCard> {
                     onPressed: () async {
                       print(widget.postImage);
                       setState(() {
-                        _isfavorit == 0 ? _isfavorit = 1 : _isfavorit = 0;
+                        _isfavorit == false ? _isfavorit = true : _isfavorit = false;
                       });
-                      if (_isfavorit == 1) {
+                      if (_isfavorit == true) {
                         // setState(()  {
                         try {
                           await controller.Addfavorite(widget.id_publication);
                         } catch (e) {
-                          print("saba hhh");
+                          print("saba JJJ");
                         }
                         // });
                       } else {

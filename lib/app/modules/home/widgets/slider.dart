@@ -51,7 +51,7 @@ class _SlidereState extends State<Slidere> {
                           //   height: AppConstant.screenHeight * 0.28,
                           // ),
                           child:  Image.network(
-                              "$linkservername/slider/upload/$urlImage",
+                              "$linkserverimages/slider/$urlImage",
                               fit: BoxFit.cover,
                               height: AppConstant.screenHeight * 0.23,
                             ),

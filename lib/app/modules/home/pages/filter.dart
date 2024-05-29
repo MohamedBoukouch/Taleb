@@ -98,7 +98,7 @@ class _FilterState extends State<Filter> {
                   Expanded(
                     flex: 7,
                     child: Image.network(
-                      "$linkservername/Admin/publication/upload/${snapshot.data[index]['file'].split(',')[0]}",
+                      "$linkserverimages/publication/${snapshot.data[index]['file'][0]}",
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -253,7 +253,7 @@ class _FilterState extends State<Filter> {
                   Expanded(
                     flex: 7,
                     child: Image.network(
-                      "$linkservername/Admin/publication/upload/${snapshot.data[index]['file'].split(',')[0]}",
+                      "$linkserverimages/publication/${snapshot.data[index]['file'][0]}",
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -410,7 +410,7 @@ class _FilterState extends State<Filter> {
                   Expanded(
                     flex: 7,
                     child: Image.network(
-                      "$linkservername/Admin/publication/upload/${snapshot.data[index]['file'].split(',')[0]}",
+                      "$linkserverimages/publication/${snapshot.data[index]['file'][0]}",
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -563,7 +563,7 @@ class _FilterState extends State<Filter> {
                   Expanded(
                     flex: 7,
                     child: Image.network(
-                      "$linkservername/Admin/publication/upload/${snapshot.data[index]['file'].split(',')[0]}",
+                      "$linkserverimages/publication/${snapshot.data[index]['file'][0]}",
                       fit: BoxFit.cover,
                     ),
                   ),
@@ -718,7 +718,7 @@ class _FilterState extends State<Filter> {
                   Expanded(
                     flex: 7,
                     child: Image.network(
-                      "$linkservername/Admin/publication/upload/${snapshot.data[index]['file'].split(',')[0]}",
+                      "$linkserverimages/publication/${snapshot.data[index]['file'][0]}",
                       fit: BoxFit.cover,
                     ),
                   ),

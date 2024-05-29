@@ -38,7 +38,7 @@ class SettingController extends GetxController {
   //Profil
   profil() async {
     var response = await _crud.postRequest(link_profile, {
-      "id_user": sharedpref.getString("id"),
+      "id_user": "6",
     });
     if (response['status'] == "success") {
       print("Search sucssfule");

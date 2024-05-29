@@ -29,7 +29,7 @@ class FavoriteController extends GetxController {
 
   Future SelectFavorit() async {
     var response = await _crud.postRequest(linkselectfavorit, {
-      "id_user": sharedpref.getString("id"),
+      "user_id": sharedpref.getString("id"),
     });
     if (response['status'] == "success") {
       print("success");

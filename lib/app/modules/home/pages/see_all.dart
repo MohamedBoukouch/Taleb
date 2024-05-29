@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
 import 'package:taleb/app/config/function/checkInternet.dart';
 import 'package:taleb/app/config/images/app_images.dart';
+import 'package:taleb/app/config/themes/app_theme.dart';
 import 'package:taleb/app/data/const_link.dart';
 import 'package:taleb/app/modules/chat/views/chat_view.dart';
 import 'package:taleb/app/modules/home/controllers/home_controller.dart';
@@ -165,11 +166,12 @@ class _SeeAllState extends State<SeeAll> {
           // Slidere(),
           FutureBuilder(
             future: controller.Showpub("${widget.type}"),
+            // future: controller.Showpub("bac"),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
                   child: SpinKitCircle(
-                    color: Color.fromARGB(255, 246, 154, 7),
+                    color: AppTheme.main_color_1,
                     size: 60,
                   ),
                 );
@@ -190,6 +192,7 @@ class _SeeAllState extends State<SeeAll> {
                   physics: NeverScrollableScrollPhysics(),
                   itemCount: snapshot.data.length,
                   itemBuilder: (context, index) {
+                    // return Text("  ${snapshot.data[index]['date']}");
                     return PostCard(
                       link: "${snapshot.data[index]['link']}",
                       is_liked: snapshot.data[index]['liked'],
