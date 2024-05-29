@@ -41,8 +41,15 @@ class SignupController extends GetxController {
       "password": password,
       "profile": "0"
     });
+    // "firstname": "A",
+    // "lastname": "A",
+    // "email": "a@gmail.com",
+    // "password": "123456"
+
+    // Email sent successfully
+
     if (response['status'] == "success" &&
-        response['email'] == "email send Success") {
+        response['email'] == "Email sent successfully") {
       //sharedpref.setString("id", response['data']['id'].toString());
       Get.to(() => VerifyEmail(email: email));
     } else {

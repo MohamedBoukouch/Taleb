@@ -36,7 +36,8 @@ void main() async {
       ),
 
       // initialRoute: AppPages.INITIAL,
-      initialRoute: sharedpref.getString("id") == null ? '/login' : '/home',
+      // initialRoute: sharedpref.getString("id") == null ? '/login' : '/home',
+      initialRoute: '/login' ,
       initialBinding: initialBinding(),
       getPages: AppPages.routes,
     ),

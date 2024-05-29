@@ -145,7 +145,7 @@ class _SettingViewState extends State<SettingView> {
                 return ListView.builder(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
-                  itemCount: snapshot.data.length,
+                  itemCount: 1,
                   itemBuilder: (context, index) {
                     return Column(
                       children: [
@@ -171,12 +171,12 @@ class _SettingViewState extends State<SettingView> {
                                     radius: 80,
                                     backgroundImage: _selectedImage != null
                                         ? FileImage(_selectedImage!)
-                                        : (snapshot.data[index]['profile'] ==
+                                        : (snapshot.data['profile'] ==
                                                 "0"
                                             ? AssetImage(
                                                 "assets/profile/Profile_2.png")
                                             : NetworkImage(
-                                                    "$linkservername/profile/upload/${snapshot.data[index]['profile']}")
+                                                    "$linkserverimages/${snapshot.data['profile']}")
                                                 as ImageProvider<Object>),
                                   ),
                                 ),
@@ -202,14 +202,14 @@ class _SettingViewState extends State<SettingView> {
                           height: 20,
                         ),
                         Text(
-                          "${snapshot.data[index]['firstname']} ${snapshot.data[index]['lastname']}",
+                          "${snapshot.data['firstname']} ${snapshot.data['lastname']}",
                           style: TextStyle(
                               fontSize: 20,
                               fontFamily: 'Bitter',
                               fontWeight: FontWeight.bold),
                         ),
                         Text(
-                          "${snapshot.data[index]['email']}",
+                          "${snapshot.data['email']}",
                           style: TextStyle(
                               fontSize: 15, fontFamily: 'Bitter_italic'),
                         ),
@@ -219,9 +219,9 @@ class _SettingViewState extends State<SettingView> {
                         InkWell(
                           onTap: () {
                             Get.to(EditProfile(
-                              nom: "${snapshot.data[index]['firstname']}",
-                              prenom: "${snapshot.data[index]['lastname']}",
-                              email: "${snapshot.data[index]['email']}",
+                              nom: "${snapshot.data['firstname']}",
+                              prenom: "${snapshot.data['lastname']}",
+                              email: "${snapshot.data['email']}",
                             ));
                           },
                           child: Container(

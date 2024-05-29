@@ -68,6 +68,7 @@ class _EditProfileState extends State<EditProfile> {
                         radius: 25,
                         child: Image(
                           image: AssetImage("assets/icons/compte.png"),
+                          color: Colors.blue,
                         ),
                       ),
                       const SizedBox(
