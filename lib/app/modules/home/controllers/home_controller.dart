@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -6,6 +8,8 @@ import 'package:taleb/app/data/const_link.dart';
 import 'package:taleb/app/data/remot/testdata.dart';
 import 'package:taleb/app/modules/home/views/home_view.dart';
 import 'package:taleb/main.dart';
+import 'package:http/http.dart' as http;
+
 
 class HomeController extends GetxController {
   //TODO: Implement HomeController
@@ -178,18 +182,53 @@ class HomeController extends GetxController {
   }
 
   //Search
-  Search(String search_txt) async {
-    var response = await _crud.postRequest(linksearch, {
-      "search_txt": search_txt,
-      "id_user": sharedpref.getString("id"),
-    });
-    if (response['status'] == "success") {
-      print("Search sucssfule");
-      print(response['data']);
-      listdata.assignAll(response['data']);
-      return response['data'];
-    } else {
-      print("error in search ");
+  // Search(String search_txt) async {
+  //   var response = await _crud.postRequest(linksearch, {
+  //     "search_txt": search_txt,
+  //     "id_user": sharedpref.getString("id"),
+  //   });
+  //   if (response['status'] == "success") {
+  //     print("Search sucssfule");
+  //     print(response['data']);
+  //     listdata.assignAll(response['data']);
+  //     return response['data'];
+  //   } else {
+  //     print("error in search ");
+  //   }
+  // }
+
+Future<void> Search(String searchText) async {
+    var url = Uri.parse(linksearch);
+    Map<String, String> headers = {
+      'Content-Type': 'application/json',
+      // Add any additional headers as needed
+    };
+
+    Map<String, String> queryParams = {
+      "search_txt": searchText,
+      'id_user': sharedpref.getString("id") ?? '',
+    };
+
+    // Build the complete URL with query parameters
+    url = Uri.https(url.authority, url.path, queryParams);
+
+    try {
+      final http.Response response = await http.get(
+        url,
+        headers: headers,
+      );
+
+      if (response.statusCode == 200) {
+        List<dynamic> responseData = jsonDecode(response.body)['data'];
+        // Process responseData as needed
+        listdata.assignAll(responseData); // Assuming listdata is observable/list
+      } else {
+        print("Error in search: ${response.statusCode}");
+        // Handle error appropriately, e.g., show error message
+      }
+    } catch (e) {
+      print("Exception during search: $e");
+      // Handle exception, e.g., show error message
     }
   }
 

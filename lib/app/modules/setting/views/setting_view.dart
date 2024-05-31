@@ -73,14 +73,8 @@ class _SettingViewState extends State<SettingView> {
                 onPressed: () async {
                   Navigator.of(context).pop();
                   try {
-                    await controller.add_pic_profile(_selectedImage);
-                    CustomAlert.show(
-      context: context,
-      type: AlertType.success,
-      desc: 'profile Update Sucssfull',
-      onPressed: () {
-      Navigator.pop(context);
-      });
+                    await controller.add_pic_profile(_selectedImage,context);
+                    
                   } catch (e) {
                     print("$e");
                   }

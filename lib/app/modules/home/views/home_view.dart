@@ -160,46 +160,46 @@ class _HomeViewState extends State<HomeView> {
             ),
           ),
           SizedBox(width: 15),
-          InkWell(
-            onTap: () async {
-              try {
-                await controller.update_message_status();
-              } catch (e) {
-                print(e);
-              } finally {
-                setState(() {
-                  notificationData = controller.activenotification();
-                });
-              }
-              // print(activemessages);
-              Get.to(const ChatView());
-            },
-            child: Stack(
-              children: [
-                Container(
-                  width: 25,
-                  height: 25,
-                  child: Image.asset(
-                    "assets/icons/message.png",
-                    color: Colors.grey,
-                  ),
-                ),
-                if (activemessages == "1") // Check if activemessages is not empty
-                  Positioned(
-                    right: 0,
-                    top: 0,
-                    child: Container(
-                      width: 10,
-                      height: 10,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.red,
-                      ),
-                    ),
-                  ),
-              ],
-            ),
-          ),
+          // InkWell(
+          //   onTap: () async {
+          //     try {
+          //       await controller.update_message_status();
+          //     } catch (e) {
+          //       print(e);
+          //     } finally {
+          //       setState(() {
+          //         notificationData = controller.activenotification();
+          //       });
+          //     }
+          //     // print(activemessages);
+          //     Get.to(const ChatView());
+          //   },
+          //   child: Stack(
+          //     children: [
+          //       Container(
+          //         width: 25,
+          //         height: 25,
+          //         child: Image.asset(
+          //           "assets/icons/message.png",
+          //           color: Colors.grey,
+          //         ),
+          //       ),
+          //       if (activemessages == "1") // Check if activemessages is not empty
+          //         Positioned(
+          //           right: 0,
+          //           top: 0,
+          //           child: Container(
+          //             width: 10,
+          //             height: 10,
+          //             decoration: BoxDecoration(
+          //               shape: BoxShape.circle,
+          //               color: Colors.red,
+          //             ),
+          //           ),
+          //         ),
+          //     ],
+          //   ),
+          // ),
           SizedBox(width: 10),
         ],
       ),
@@ -230,7 +230,7 @@ class _HomeViewState extends State<HomeView> {
                               }
                               onSearchItem();
                               try {
-                                await controller.Search(_searchController.text);
+                                await controller.Search("fes");
                                 setState(() {});
                                 print("la taile is ${controller.listdata.length}");
                               } catch (e) {
@@ -286,20 +286,38 @@ class _HomeViewState extends State<HomeView> {
                           physics: NeverScrollableScrollPhysics(),
                           itemCount: controller.listdata.length,
                           itemBuilder: (context, index) {
-                            return PostCard(
-                              link: "${controller.listdata[index]['link']}",
-                              is_liked: controller.listdata[index]['liked'] ?? false,
-                              is_favorit: controller.listdata[index]['favorite'] ?? false,
-                              numberlike: controller.listdata[index]['numberlike'] ?? 0,
-                              numbercomment: controller.listdata[index]['numbercomment'] ?? 0,
-                              id_publication: "${controller.listdata[index]['id']}",
-                              localisation: " ${controller.listdata[index]['localisation']}",
-                              timeAgo: "  ${controller.listdata[index]['date']}",
-                              titel: "${controller.listdata[index]['titel']}",
-                              description: "${controller.listdata[index]['description']}",
-                              postImage: "${controller.listdata[index]['file']}",
-                              link_titel: "${controller.listdata[index]['link_titel']}",
-                            );
+                            // return PostCard(
+                            //   link: "${controller.listdata[index]['link']}",
+                            //   is_liked: controller.listdata[index]['liked'] ?? false,
+                            //   is_favorit: controller.listdata[index]['favorite'] ?? false,
+                            //   numberlike: controller.listdata[index]['numberlike'] ?? 0,
+                            //   numbercomment: controller.listdata[index]['numbercomment'] ?? 0,
+                            //   id_publication: "${controller.listdata[index]['id']}",
+                            //   localisation: " ${controller.listdata[index]['localisation']}",
+                            //   timeAgo: "  ${controller.listdata[index]['date']}",
+                            //   titel: "${controller.listdata[index]['titel']}",
+                            //   description: "${controller.listdata[index]['description']}",
+                            //   postImage: "${controller.listdata[index]['file']}",
+                            //   link_titel: "${controller.listdata[index]['link_titel']}",
+                            // );
+
+                    //         PostCard(
+                    //   link: "${controller.listdata[index]['link']}",
+                    //   is_liked: controller.listdata[index]['liked'],
+                    //   is_favorit: controller.listdata[index]['favorite'],
+                    //   numberlike: controller.listdata[index]['numberlike'],
+                    //   numbercomment: controller.listdata[index]['numbercomment'],
+                    //   id_publication: "${controller.listdata[index]['id']}",
+                    //   localisation: " ${controller.listdata[index]['localisation']}",
+                    //   timeAgo: "  ${controller.listdata[index]['date']}",
+                    //   titel: "${controller.listdata[index]['titel']}",
+                    //   description: "${controller.listdata[index]['description']}",
+                    //   postImage: "${controller.listdata[index]['file']}",
+                    //   link_titel: "${controller.listdata[index]['link_titel']}",
+                    // );
+                    return Text("AAAA");
+                    
+
                           },
                         ),
                       )

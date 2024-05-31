@@ -20,9 +20,9 @@ const linklogin = "$linkservername/login";
 const linkverifyEmail = "$linkservername/verifyEmail";
 
 //ResetPassword
-const linkcheckEmail = "$linkservername/ResetPassword/CheckEmail.php";
-const linkverifycompte = "$linkservername/ResetPassword/verifycompte.php";
-const linkresertpassword = "$linkservername/ResetPassword/resetpassword.php";
+const linkcheckEmail = "$linkservername/reset_password/check-email";
+const linkverifycompte = "$linkservername/reset_password/verify-compte";
+const linkresertpassword = "$linkservername/reset-password/reset";
 
 //Publication
 const linkshowpubli = "$linkservername/publications/getPublications";
@@ -45,7 +45,7 @@ const linkDropfavorit = "$linkservername/favorites/delete";
 const linkselectfavorit ="$linkservername/favorites/select";
 
 //Search
-const linksearch = "$linkservername/search/serch_publication.php";
+const linksearch = "$linkservername/publications/search";
 
 //Notification
 const link_notification = "$linkservername/Notification/notification_active.php";

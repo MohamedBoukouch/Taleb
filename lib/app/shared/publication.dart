@@ -27,8 +27,8 @@ class PostCard extends StatefulWidget {
   bool? forcomment = false;
   final int numberlike;
   final int numbercomment;
-  final bool is_favorit;
-  final bool is_liked;
+  final int is_favorit;
+  final int is_liked;
   final String link;
   final String link_titel;
   PostCard({
@@ -53,8 +53,8 @@ class PostCard extends StatefulWidget {
 
 class _PostCardState extends State<PostCard> {
   bool _isExpanded = false;
-  late bool _isliked = widget.is_liked;
-  late bool _isfavorit = widget.is_favorit;
+  late int _isliked = widget.is_liked;
+  late int _isfavorit = widget.is_favorit;
   int _like = 0;
   int comment = 0;
   var nbr_cmt;
@@ -273,7 +273,7 @@ void splitString() {
                         margin: EdgeInsets.only(
                             left: AppConstant.screenWidth * .055),
                         child: IconButton(
-                          icon: _isliked == false
+                          icon: _isliked == 0
                               ? const Icon(
                                   Icons.favorite_border,
                                   size: 25,
@@ -285,7 +285,7 @@ void splitString() {
                                 ),
                           onPressed: () async {
                             setState(() {
-                              _isliked == false ? _isliked = true : _isliked = false;
+                              _isliked == false ? _isliked = 1 : _isliked = 0;
                               _isliked == false ? nbr_like-- : nbr_like++;
                               // nbr_like++;
                             });
@@ -368,9 +368,9 @@ void splitString() {
                     onPressed: () async {
                       print(widget.postImage);
                       setState(() {
-                        _isfavorit == false ? _isfavorit = true : _isfavorit = false;
+                        _isfavorit == false ? _isfavorit = 1 : _isfavorit = 0;
                       });
-                      if (_isfavorit == true) {
+                      if (_isfavorit == 1) {
                         // setState(()  {
                         try {
                           await controller.Addfavorite(widget.id_publication);
