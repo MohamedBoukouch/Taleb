@@ -14,10 +14,10 @@ import '../../../shared/back.dart';
 
 class ConcoureContent extends StatefulWidget {
   final String niveaux;
-  final String ville;
-  final String ecole;
+  final String ville_id;
+  final int ecole_id;
 
-  ConcoureContent({Key? key,required this.niveaux, required this.ville, required this.ecole}) : super(key: key);
+  ConcoureContent({Key? key,required this.niveaux, required this.ville_id, required this.ecole_id}) : super(key: key);
 
   @override
   _ConcoureContentState createState() => _ConcoureContentState();
@@ -50,7 +50,7 @@ class _ConcoureContentState extends State<ConcoureContent> {
         leading: ButtonBack(),
       ),
       body: FutureBuilder(
-        future: controller.selectpdf(widget.niveaux, widget.ecole, widget.ville),
+        future: controller.selectpdf(widget.niveaux, "${widget.ecole_id}", widget.ville_id),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
@@ -80,7 +80,7 @@ class _ConcoureContentState extends State<ConcoureContent> {
                   return InkWell(
                     onTap: () => Get.to(() => Affichage(
                           url:
-                              "$linkservername/Admin/concoures/PDF/upload/${snapshot.data[index]['pdf']}",
+                              "$linkserverimages/concours/${snapshot.data[index]['pdf']}",
                         )),
                     child: PdfForm(
                         annee_scolaire:

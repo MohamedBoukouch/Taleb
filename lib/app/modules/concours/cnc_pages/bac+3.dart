@@ -58,10 +58,10 @@ class _Bac3State extends State<Bac3> {
                     itemBuilder: (context, index) {
                       return InkWell(
                         onTap: () => Get.to(() => TypeOfOneCnc(
-                            ecole: "${snapshot.data[index]['name']}",type:"bac+3")),
+                            ecole_id: snapshot.data[index]['name'],type:"bac+3")),
                         child: TypeConcoure(
                           url_img:
-                              "$linkservername/Admin/concoures/upload/${snapshot.data[index]['logo']}",
+                              "$linkserverimages/ecoleLogo/${snapshot.data[index]['logo']}",
                           titel:
                               "${snapshot.data[index]['name']}".toUpperCase(),
                           type: 1,

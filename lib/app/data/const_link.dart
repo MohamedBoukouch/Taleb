@@ -49,14 +49,16 @@ const linksearch = "$linkservername/search/serch_publication.php";
 
 //Notification
 const link_notification = "$linkservername/Notification/notification_active.php";
-const link_delet_notification =
-    "$linkservername/Notification/deletnotification.php";
-const link_all_notifications =
-    "$linkservername/Notification/all_notification.php";
+const link_delet_notification = "$linkservername/notifications/delete";
+
+const link_all_notifications ="$linkservername/notifications/select";
+
 const link_update_notification_status =
-    "$linkservername/Notification/update_status_notification.php";
+    "$linkservername/notifications/update-status";
+
 const link_notification_active =
-    "$linkservername/Notification/notification_active.php";
+    "$linkservername/notifications/check_is_active";
+
 const link_show_publication =
     "$linkservername/Notification/show_publication.php";
 
@@ -70,16 +72,16 @@ const link_update_status_message = "$linkservername/Chat/update_status.php";
 //Profile
 const link_profile = "$linkservername/profile/fetch-profile";
 const link_add_pic_profile = "$linkservername/profile/add-profile-image";
+
 //Compte
 const link_edit_compte = "$linkservername/compte/edit-compte";
 const link_edit_password = "$linkservername/compte/edit-password";
 const link_delet_compte = "$linkservername/compte/delete-compte";
 
 //Councoures
-const link_select_ecole = "$linkservername/Admin/concoures/SelectEcoles.php";
-const link_select_ville_ecole =
-    "$linkservername/Admin/concoures/Villes/SelectVilleEcole.php";
-const link_select_pdfs = "$linkservername/Admin/concoures/PDF/SelectPdf.php";
+const link_select_ecole = "$linkservername/ecoles/select";
+const link_select_ville_ecole = "$linkservername/ecolevilles/select";
+const link_select_pdfs = "$linkservername/pdfconcours/select";
 
 
 //Slider

@@ -68,7 +68,7 @@ class NotificationController extends GetxController {
     update();
     // statusRequest = StatusRequest.loading;
     var response = await _crud.postRequest(link_delet_notification, {
-      "id_notification": id_notification,
+      "id": id_notification,
     });
     if (response['status'] == "success") {
       print("success");

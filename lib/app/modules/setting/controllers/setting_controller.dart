@@ -38,7 +38,7 @@ class SettingController extends GetxController {
   //Profil
   profil() async {
     var response = await _crud.postRequest(link_profile, {
-      "id_user": "6",
+      "id_user": sharedpref.getString("id"),
     });
     if (response['status'] == "success") {
       print("Search sucssfule");
@@ -172,7 +172,7 @@ class SettingController extends GetxController {
   //Select_Ville_Ecoles
   Future selectvilleecole(String ecole,String type) async {
     var response = await _crud.postRequest(link_select_ville_ecole, {
-      "ecole": ecole,
+      "ecole_id": ecole,
       "type": type,
     });
     if (response['status'] == "success") {
@@ -186,8 +186,8 @@ class SettingController extends GetxController {
   Future selectpdf(String niveau, String ecole, String ville) async {
     var response = await _crud.postRequest(link_select_pdfs, {
       "niveau": niveau,
-      "ecole": ecole,
-      "ville": ville,
+      "ecole_id": ecole,
+      "ville_id": ville,
     });
     if (response['status'] == "success") {
       return response['data'];

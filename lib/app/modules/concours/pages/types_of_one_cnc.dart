@@ -13,8 +13,8 @@ import '../../../shared/back.dart';
 
 class TypeOfOneCnc extends StatefulWidget {
   String type;
-  String ecole;
-  TypeOfOneCnc({Key? key, required this.type,required this.ecole}) : super(key: key);
+  int ecole_id;
+  TypeOfOneCnc({Key? key, required this.type,required this.ecole_id}) : super(key: key);
 
   @override
   State<TypeOfOneCnc> createState() => _TypeOfOneCncState();
@@ -40,7 +40,7 @@ class _TypeOfOneCncState extends State<TypeOfOneCnc> {
               InkWell(
                 // onTap: () => Get.to(ConcoureContent(niveaux:widget.type , ville: "${snapshot.data[index]['ville']}",ecole: widget.ecole)),
                 child: FutureBuilder(
-                  future: controller.selectvilleecole("${widget.ecole}","${widget.type}"),
+                  future: controller.selectvilleecole("${widget.ecole_id}","${widget.type}"),
                   builder: (BuildContext context, AsyncSnapshot snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(
@@ -67,10 +67,10 @@ class _TypeOfOneCncState extends State<TypeOfOneCnc> {
                         itemCount: snapshot.data.length,
                         itemBuilder: (context, index) {
                           return InkWell(
-                            onTap: () => Get.to(() => ConcoureContent(niveaux:widget.type , ville: "${snapshot.data[index]['ville']}",ecole: widget.ecole)),
+                            onTap: () => Get.to(() => ConcoureContent(niveaux:widget.type , ville_id: "${snapshot.data[index]['id_ville']}",ecole_id: widget.ecole_id)),
                             child: TypeConcoure(
                               url_img:
-                                  "$linkservername/Admin/concoures/Villes/upload/${snapshot.data[index]['logo']}",
+                                  "$linkserverimages/ecolevilleLogo/${snapshot.data[index]['logo']}",
                               titel: "${snapshot.data[index]['ville']}"
                                   .toUpperCase(),
                               type: 2,

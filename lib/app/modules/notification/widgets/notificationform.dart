@@ -38,7 +38,7 @@ class _NotificationFormState extends State<NotificationForm> {
         leading: CircleAvatar(
           radius: 30,
           backgroundImage: NetworkImage(
-            "$linkservername/Admin/publication/upload/${widget.image}",
+            "$linkserverimages/publication/${widget.image}",
           ),
         ),
       ),

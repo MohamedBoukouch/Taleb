@@ -70,7 +70,7 @@ class NotificationView extends GetView<NotificationController> {
                               "${snapshot.data[index]['id']}");
                         },
                         child: InkWell(
-                          onTap: () => Get.to(()=>SeeAll(type: "${controller.ListNotification[index]['id_publication']}")),
+                          onTap: () => Get.to(()=>SeeAll(type: "${controller.ListNotification[index]['publication_id']}")),
                           child: NotificationForm(
                               image: "${snapshot.data[index]['image']}",
                               body: "${snapshot.data[index]['body']}",

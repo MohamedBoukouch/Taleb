@@ -59,7 +59,7 @@ class _HomeViewState extends State<HomeView> {
     });
   }
 
-    void fetchActiveNotification() async {
+  void fetchActiveNotification() async {
     String activeNotification = await controller.activenotification();
     setState(() {
       activenotification = activeNotification;
@@ -72,13 +72,17 @@ class _HomeViewState extends State<HomeView> {
     });
   }
 
-  onSearchItem() {
-    isSearching = true;
+  void onSearchItem() {
+    setState(() {
+      isSearching = true;
+    });
   }
 
-  checkSearch(val) {
+  void checkSearch(val) {
     if (val == "") {
-      isSearching = false;
+      setState(() {
+        isSearching = false;
+      });
     }
   }
 
@@ -109,9 +113,12 @@ class _HomeViewState extends State<HomeView> {
           ),
         ),
         actions: [
-           InkWell(
+          InkWell(
             onTap: () async {
-              notificationData = await controller.activenotification();
+              setState(() {
+                notificationData = controller.activenotification();
+              });
+
               print(notificationData);
 
               try {
@@ -123,7 +130,7 @@ class _HomeViewState extends State<HomeView> {
                   notificationData = controller.activenotification();
                 });
               }
-              print("taille is ${controller.listdata.length}");
+              // print("taille is ${controller.listdata.length}");
               Get.to(() => NotificationView());
             },
             child: Stack(
@@ -136,7 +143,7 @@ class _HomeViewState extends State<HomeView> {
                     color: Colors.grey,
                   ),
                 ),
-                if (activenotification=="1")
+                if (notificationData == "1")
                   Positioned(
                     right: 0,
                     top: 0,
@@ -154,7 +161,7 @@ class _HomeViewState extends State<HomeView> {
           ),
           SizedBox(width: 15),
           InkWell(
-            onTap: () async{
+            onTap: () async {
               try {
                 await controller.update_message_status();
               } catch (e) {
@@ -177,7 +184,7 @@ class _HomeViewState extends State<HomeView> {
                     color: Colors.grey,
                   ),
                 ),
-                if (activemessages=="1") // Check if activemessages is not empty
+                if (activemessages == "1") // Check if activemessages is not empty
                   Positioned(
                     right: 0,
                     top: 0,
