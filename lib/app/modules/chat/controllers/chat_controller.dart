@@ -40,7 +40,7 @@ class ChatController extends GetxController {
     // Check if user_to_admin is equal to 1 and it has a profile attribute
     if (message['user_to_admin'] == 1) {
       // Return the profile image URL
-      return message['profile'] as String?;
+      return message['sender']['profile'] as String?;
     }
   }
   // Return null if no profile image found
@@ -67,7 +67,7 @@ class ChatController extends GetxController {
   //show messages
   showmessage() async {
     var response = await _crud.postRequest(
-        link_show_messages, {"id_user": sharedpref.getString('id')});
+        link_show_messages, {"expediteur": sharedpref.getString('id')});
     if (response['status'] == "success") {
       print("show messages sucssfull");
       ListMessages.addAll(response['data']);
@@ -80,7 +80,7 @@ class ChatController extends GetxController {
   //delet_message
   delet_message(String id_message) async {
     var response =
-        await _crud.postRequest(link_delet_message, {"id_message": id_message});
+        await _crud.postRequest(link_delet_message, {"id": id_message});
     if (response['status'] == "success") {
       print("messages deleted sucssfull");
       // ListMessages.addAll(response['data']);

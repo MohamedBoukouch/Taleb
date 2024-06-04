@@ -71,7 +71,14 @@ class _SeeAllState extends State<SeeAll> {
       appbar: AppBar(
          backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
-        title: Text('Taleb'),
+        title: const Text(
+          'Tawjihi',
+          style: TextStyle(
+            color: Colors.black,
+            fontFamily: 'Fontspring',
+            fontSize: 35 // Text color
+          ),
+        ),
         leading: ButtonBack(),
         actions: [
            InkWell(

@@ -54,37 +54,17 @@ class _SettingViewState extends State<SettingView> {
       setState(() {
         _selectedImage = File(pickedImage.path);
       });
-      
-      // Show a custom alert dialog
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Center(child: Text('Confirmation')),
-            content: Text('Do you want to update your account?'),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text('Cancel'),
-              ),
-              TextButton(
-                onPressed: () async {
-                  Navigator.of(context).pop();
-                  try {
-                    await controller.add_pic_profile(_selectedImage,context);
-                    
-                  } catch (e) {
-                    print("$e");
-                  }
-                },
-                child: Text('OK'),
-              ),
-            ],
-          );
-        },
-      );
+      CustomAlert.show(
+      context: context,
+      type: AlertType.success,
+      desc: 'Your profile update was successful',
+      onPressed: () async{
+        try {
+        await controller.add_pic_profile(_selectedImage,context);
+        } catch (e) {
+        print("$e");
+        }
+      });
     }
   } catch (e) {
     print("Error picking image: $e");

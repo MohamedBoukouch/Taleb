@@ -47,12 +47,20 @@ class _LoginViewState extends State<LoginView> {
                         left: AppConstant.screenHeight * .02),
                     child: Column(
                       children: [
-                         SvgPicture.asset(
+                         Stack(
+                          children: [
+                            SvgPicture.asset(
           'assets/icons/shape.svg', // Path to your SVG image
           width: AppConstant.screenWidth*.3,
           height: AppConstant.screenHeight*.17,
-          color: Colors.red,
+          color: AppTheme.main_color_1,
         ),
+        Positioned(
+          top: 45,
+          left: 35,
+          child: Text("Tawjihi",style: TextStyle(fontFamily: 'Fontspring',color: Colors.white,fontSize: 35),))
+                          ],
+                         ),
         SizedBox(height: 50,),
                         Edittext(
                           readonly: false,
@@ -118,7 +126,8 @@ class _LoginViewState extends State<LoginView> {
 
                               try {
                                 await controller.login(_emailController.text,
-                                    _passwordController.text,context);
+                                _passwordController.text,context);
+                                    
                               } catch (e) {
                                 // Handle errors here
                               } finally {

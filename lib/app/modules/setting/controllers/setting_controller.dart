@@ -62,20 +62,13 @@ class SettingController extends GetxController {
     });
     if (response['status'] == "success") {
       print("edit_profile succufule");
-      showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-                title: Image.asset(
-                  "assets/icons/succefully.png",
-                  width: AppConstant.screenWidth * .03,
-                ),
-                content: const Text(
-                    "Your personal information has been changed successfully"),
-                actions: [
-                  AppFunction.cancel(),
-                ]);
-          });
+      CustomAlert.show(
+      context: context,
+      type: AlertType.success,
+      desc: 'Your personal information has been changed successfully',
+      onPressed: () {
+      Navigator.pop(context);
+      });
     } else {
       print("error in edit text");
     }
@@ -88,22 +81,22 @@ class SettingController extends GetxController {
       "oldpassword": oldpassword,
       "newpassword": newpassword,
     });
-    if (response['status'] == "success") {
-      print("edit_password sucssfule");
-      QuickAlert.show(
-        context: context,
-        type: QuickAlertType.success,
-        text: 'Password Changed Successfully!',
-      );
-      //return response['data'];
+    if (response['status'] == "success") {      
+      CustomAlert.show(
+      context: context,
+      type: AlertType.success,
+      desc: 'Password Changed Successfully!',
+      onPressed: () {
+      Navigator.pop(context);
+      });
     } else {
-      print("error in edit password ");
-      QuickAlert.show(
-        context: context,
-        type: QuickAlertType.error,
-        title: 'Oops...',
-        text: 'Sorry, May be your password is incorrect',
-      );
+      CustomAlert.show(
+      context: context,
+      type: AlertType.error,
+      desc: 'Sorry, May be your password is incorrect',
+      onPressed: () {
+      Navigator.pop(context);
+      });
     }
   }
 
@@ -212,13 +205,7 @@ Future<void> deletcompte(BuildContext context) async {
       var response = await request.send();
       if (response.statusCode == 200) {
 
-        CustomAlert.show(
-      context: context,
-      type: AlertType.success,
-      desc: 'profile Update Sucssfull',
-      onPressed: () {
-      Navigator.pop(context);
-      });
+        Navigator.pop(context);
 
         print("Image upload successful");
       } else {

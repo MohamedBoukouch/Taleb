@@ -182,56 +182,63 @@ class HomeController extends GetxController {
   }
 
   //Search
-  // Search(String search_txt) async {
-  //   var response = await _crud.postRequest(linksearch, {
-  //     "search_txt": search_txt,
-  //     "id_user": sharedpref.getString("id"),
-  //   });
-  //   if (response['status'] == "success") {
-  //     print("Search sucssfule");
-  //     print(response['data']);
-  //     listdata.assignAll(response['data']);
-  //     return response['data'];
-  //   } else {
-  //     print("error in search ");
-  //   }
-  // }
-
-Future<void> Search(String searchText) async {
-    var url = Uri.parse(linksearch);
-    Map<String, String> headers = {
-      'Content-Type': 'application/json',
-      // Add any additional headers as needed
-    };
-
-    Map<String, String> queryParams = {
-      "search_txt": searchText,
-      'id_user': sharedpref.getString("id") ?? '',
-    };
-
-    // Build the complete URL with query parameters
-    url = Uri.https(url.authority, url.path, queryParams);
-
-    try {
-      final http.Response response = await http.get(
-        url,
-        headers: headers,
-      );
-
-      if (response.statusCode == 200) {
-        List<dynamic> responseData = jsonDecode(response.body)['data'];
-        // Process responseData as needed
-        listdata.assignAll(responseData); // Assuming listdata is observable/list
-      } else {
-        print("Error in search: ${response.statusCode}");
-        // Handle error appropriately, e.g., show error message
-      }
-    } catch (e) {
-      print("Exception during search: $e");
-      // Handle exception, e.g., show error message
+  Search(String search_txt) async {
+    var response = await _crud.postRequest(linksearch, {
+      "search_txt": search_txt,
+      "id_user": sharedpref.getString("id"),
+    });
+    if (response['status'] == "success") {
+      print("Search sucssfule");
+      print(response['data']);
+      listdata.assignAll(response['data']);
+      return response['data'];
+    } else {
+      print("error in search ");
     }
   }
 
+// Future<void> Search(String searchText) async {
+//   var url = Uri.parse(linksearch);
+
+//   Map<String, String> queryParams = {
+//     "search_txt": searchText,
+//     "id_user": '17', // Replace with your user ID retrieval logic
+//   };
+
+//   // Build the complete URL with query parameters
+//   url = Uri.https(url.authority, url.path, queryParams);
+
+//   try {
+//     final http.Response response = await http.get(
+//       url,
+//       headers: {
+//         'Content-Type': 'application/json',
+//         // Add any additional headers as needed
+//       },
+//     );
+
+//     if (response.statusCode == 200) {
+//       Map<String, dynamic> responseData = jsonDecode(response.body);
+//       if (responseData['status'] == 'success') {
+//         print("Search successful");
+//         print(responseData['data']);
+
+//         listdata.assignAll(responseData['data']);
+//   //     return response['data'];
+//         // Process responseData['data'] as needed
+//       } else {
+//         print("Error in search: ${responseData['status']}");
+//         // Handle error appropriately, e.g., show error message
+//       }
+//     } else {
+//       print("Error in search: ${response.statusCode}");
+//       // Handle error appropriately, e.g., show error message
+//     }
+//   } catch (e) {
+//     print("Exception during search: $e");
+//     // Handle exception, e.g., show error message
+//   }
+// }
   //Active_Notification
   Future activenotification() async {
     update();
@@ -298,7 +305,7 @@ Future<void> Search(String searchText) async {
     update_message_status() async {
     update();
     var response = await _crud.postRequest(link_update_status_message, {
-      "id_user": sharedpref.getString("id"),
+      "user_id": sharedpref.getString("id"),
     });
     if (response['status'] == "success") {
       print("success");

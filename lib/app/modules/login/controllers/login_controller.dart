@@ -50,7 +50,7 @@ class LoginController extends GetxController {
       sharedpref.setString("id", response['data']['id'].toString());
       print(response['status']);
       Get.offAll(() => const HomeView());
-    } else {
+    } else{
       CustomAlert.show(
       context: context,
       type: AlertType.error,

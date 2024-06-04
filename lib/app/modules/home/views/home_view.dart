@@ -6,6 +6,7 @@ import 'package:taleb/app/config/function/checkInternet.dart';
 import 'package:taleb/app/modules/chat/views/chat_view.dart';
 import 'package:taleb/app/modules/home/controllers/home_controller.dart';
 import 'package:taleb/app/modules/home/pages/filter.dart';
+import 'package:taleb/app/modules/home/widgets/publication_search.dart';
 import 'package:taleb/app/modules/notification/views/notification_view.dart';
 import 'package:taleb/app/shared/publication.dart';
 import 'package:taleb/app/modules/initial/views/init_view.dart';
@@ -20,10 +21,11 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   final HomeController controller = Get.put(HomeController());
   late String activemessages = ''; // Declare activemessages here
-  late String activenotification = ''; // Declare activemessages here
+  late String activenotification = ''; // Declare activenotification here
   final List<String> suggestions = [];
   bool isSearchEmpty = true;
   bool isSearching = false;
+  bool isLoading = false; // Loading indicator for search
   var notificationData;
   final TextEditingController _searchController = TextEditingController();
 
@@ -33,7 +35,7 @@ class _HomeViewState extends State<HomeView> {
     initialData();
     loadSuggestions();
     fetchActiveMessages();
-    fetchActiveNotification(); // Call fetchActiveMessages in initState
+    fetchActiveNotification(); // Call fetchActiveNotification in initState
   }
 
   void initialData() async {
@@ -75,6 +77,7 @@ class _HomeViewState extends State<HomeView> {
   void onSearchItem() {
     setState(() {
       isSearching = true;
+      isLoading = true; // Start loading when search begins
     });
   }
 
@@ -107,9 +110,11 @@ class _HomeViewState extends State<HomeView> {
         backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
         title: const Text(
-          'Taleb',
+          'Tawjihi',
           style: TextStyle(
-            color: Colors.black, // Text color
+            color: Colors.black,
+            fontFamily: 'Fontspring',
+            fontSize: 35, // Text color
           ),
         ),
         actions: [
@@ -130,7 +135,6 @@ class _HomeViewState extends State<HomeView> {
                   notificationData = controller.activenotification();
                 });
               }
-              // print("taille is ${controller.listdata.length}");
               Get.to(() => NotificationView());
             },
             child: Stack(
@@ -160,46 +164,46 @@ class _HomeViewState extends State<HomeView> {
             ),
           ),
           SizedBox(width: 15),
-          // InkWell(
-          //   onTap: () async {
-          //     try {
-          //       await controller.update_message_status();
-          //     } catch (e) {
-          //       print(e);
-          //     } finally {
-          //       setState(() {
-          //         notificationData = controller.activenotification();
-          //       });
-          //     }
-          //     // print(activemessages);
-          //     Get.to(const ChatView());
-          //   },
-          //   child: Stack(
-          //     children: [
-          //       Container(
-          //         width: 25,
-          //         height: 25,
-          //         child: Image.asset(
-          //           "assets/icons/message.png",
-          //           color: Colors.grey,
-          //         ),
-          //       ),
-          //       if (activemessages == "1") // Check if activemessages is not empty
-          //         Positioned(
-          //           right: 0,
-          //           top: 0,
-          //           child: Container(
-          //             width: 10,
-          //             height: 10,
-          //             decoration: BoxDecoration(
-          //               shape: BoxShape.circle,
-          //               color: Colors.red,
-          //             ),
-          //           ),
-          //         ),
-          //     ],
-          //   ),
-          // ),
+          InkWell(
+            onTap: () async {
+              try {
+                await controller.update_message_status();
+              } catch (e) {
+                print(e);
+              } finally {
+                setState(() {
+                  notificationData = controller.activenotification();
+                });
+              }
+              // print(activemessages);
+              Get.to(const ChatView());
+            },
+            child: Stack(
+              children: [
+                Container(
+                  width: 25,
+                  height: 25,
+                  child: Image.asset(
+                    "assets/icons/message.png",
+                    color: Colors.grey,
+                  ),
+                ),
+                if (activemessages == "1") // Check if activemessages is not empty
+                  Positioned(
+                    right: 0,
+                    top: 0,
+                    child: Container(
+                      width: 10,
+                      height: 10,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Colors.red,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ),
           SizedBox(width: 10),
         ],
       ),
@@ -230,11 +234,13 @@ class _HomeViewState extends State<HomeView> {
                               }
                               onSearchItem();
                               try {
-                                await controller.Search("fes");
-                                setState(() {});
+                                await controller.Search(_searchController.text);
+                                setState(() {
+                                  isLoading = false; // Stop loading after search completes
+                                });
                                 print("la taile is ${controller.listdata.length}");
                               } catch (e) {
-                                print("ddd");
+                                print("error catch: $e");
                               }
                               _searchController.clear();
                             }
@@ -279,57 +285,41 @@ class _HomeViewState extends State<HomeView> {
             ),
             isSearching == false
                 ? Filter()
-                : controller.listdata.length > 0
-                    ? Expanded(
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          physics: NeverScrollableScrollPhysics(),
-                          itemCount: controller.listdata.length,
-                          itemBuilder: (context, index) {
-                            // return PostCard(
-                            //   link: "${controller.listdata[index]['link']}",
-                            //   is_liked: controller.listdata[index]['liked'] ?? false,
-                            //   is_favorit: controller.listdata[index]['favorite'] ?? false,
-                            //   numberlike: controller.listdata[index]['numberlike'] ?? 0,
-                            //   numbercomment: controller.listdata[index]['numbercomment'] ?? 0,
-                            //   id_publication: "${controller.listdata[index]['id']}",
-                            //   localisation: " ${controller.listdata[index]['localisation']}",
-                            //   timeAgo: "  ${controller.listdata[index]['date']}",
-                            //   titel: "${controller.listdata[index]['titel']}",
-                            //   description: "${controller.listdata[index]['description']}",
-                            //   postImage: "${controller.listdata[index]['file']}",
-                            //   link_titel: "${controller.listdata[index]['link_titel']}",
-                            // );
-
-                    //         PostCard(
-                    //   link: "${controller.listdata[index]['link']}",
-                    //   is_liked: controller.listdata[index]['liked'],
-                    //   is_favorit: controller.listdata[index]['favorite'],
-                    //   numberlike: controller.listdata[index]['numberlike'],
-                    //   numbercomment: controller.listdata[index]['numbercomment'],
-                    //   id_publication: "${controller.listdata[index]['id']}",
-                    //   localisation: " ${controller.listdata[index]['localisation']}",
-                    //   timeAgo: "  ${controller.listdata[index]['date']}",
-                    //   titel: "${controller.listdata[index]['titel']}",
-                    //   description: "${controller.listdata[index]['description']}",
-                    //   postImage: "${controller.listdata[index]['file']}",
-                    //   link_titel: "${controller.listdata[index]['link_titel']}",
-                    // );
-                    return Text("AAAA");
-                    
-
-                          },
-                        ),
+                : isLoading
+                    ? Center(
+                        child: CircularProgressIndicator(),
                       )
-                    : Center(
-                        child: Container(
-                          margin: EdgeInsets.only(top: AppConstant.screenHeight * .06),
-                          child: Column(
-                            children: [
-                              Image.asset("assets/icons/Not_Found.png"),
-                              SizedBox(
-                                height: AppConstant.screenHeight * .06,
-                              ),
+                    : controller.listdata.length > 0
+                        ? ListView.builder(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            itemCount: controller.listdata.length,
+                            itemBuilder: (context, index) {
+                              return PostCardSearch(
+                                link: "${controller.listdata[index]['link']}",
+                                is_liked: controller.listdata[index]['liked'],
+                                is_favorit: controller.listdata[index]['favorite'],
+                                numberlike: controller.listdata[index]['numberlike'],
+                                numbercomment: controller.listdata[index]['numbercomment'],
+                                id_publication: "${controller.listdata[index]['id']}",
+                                localisation: " ${controller.listdata[index]['localisation']}",
+                                timeAgo: "  ${controller.listdata[index]['date']}",
+                                titel: "${controller.listdata[index]['titel']}",
+                                description: "${controller.listdata[index]['description']}",
+                                postImage: "${controller.listdata[index]['file']}",
+                                link_titel: "${controller.listdata[index]['link_titel']}",
+                              );
+                            },
+                          )
+                        : Center(
+                            child: Container(
+                              margin: EdgeInsets.only(top: AppConstant.screenHeight * .06),
+                              child: Column(
+                                children: [
+                                  Image.asset("assets/icons/Not_Found.png"),
+                                  SizedBox(
+                                    height: AppConstant.screenHeight * .06,
+                                  ),
                               Text(
                                 "Désolé, la publication que vous recherchez n'existe pas.",
                                 style: TextStyle(

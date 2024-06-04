@@ -73,3 +73,7 @@ flutter:
     - family: Bitter_italic
       fonts:
         - asset: fonts/Bitter-Mediumitalic.ttf
+    
+    - family: Fontspring
+      fonts:
+        - asset: fonts/Fontspring.otf

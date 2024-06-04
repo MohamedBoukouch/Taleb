@@ -58,10 +58,7 @@ class _CommentaireState extends State<Commentaire> {
                   );
                 } else if (snapshot.hasError) {
                   return Center(
-                    child: Image.asset(
-                      "assets/icons/error.png",
-                      width: AppConstant.screenWidth * .8,
-                    ),
+                    child: Text("No comments yet"),
                   );
                 } else if (!snapshot.hasData) {
                   return const Center(

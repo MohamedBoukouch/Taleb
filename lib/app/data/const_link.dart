@@ -63,11 +63,11 @@ const link_show_publication =
     "$linkservername/Notification/show_publication.php";
 
 //Messages
-const link_send_messages = "$linkservername/Chat/send_message.php";
-const link_show_messages = "$linkservername/Chat/show_message.php";
-const link_delet_message = "$linkservername/Chat/delet_message.php";
-const link_active_message = "$linkservername/Chat/active_messages.php";
-const link_update_status_message = "$linkservername/Chat/update_status.php";
+const link_send_messages = "$linkservername/chat/send_message";
+const link_show_messages = "$linkservername/chat/select_messages";
+const link_delet_message = "$linkservername/chat/delete_message";
+const link_active_message = "$linkservername/chat/active";
+const link_update_status_message = "$linkservername/chat/update_status";
 
 //Profile
 const link_profile = "$linkservername/profile/fetch-profile";

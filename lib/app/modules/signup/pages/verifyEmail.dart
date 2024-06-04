@@ -32,10 +32,10 @@ class _VerifyEmailState extends State<VerifyEmail> {
           crossAxisAlignment:
               CrossAxisAlignment.center, // Center content horizontally
           children: [
-            Image.asset(
-              "assets/icons/email.png",
-              width: AppConstant.screenWidth * .3,
-            ),
+            // Image.asset(
+            //   "assets/icons/email.png",
+            //   width: AppConstant.screenWidth * .3,
+            // ),
             SizedBox(
               height: AppConstant.screenHeight * .07,
             ),

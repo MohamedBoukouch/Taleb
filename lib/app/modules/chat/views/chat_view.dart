@@ -18,7 +18,7 @@ class _ChatViewState extends State<ChatView> {
   final TextEditingController _messageController = TextEditingController();
   final ChatController controller = Get.put(ChatController());
   String _selected = "null";
-  String _idmessage = "2";
+  String _idmessage = "0";
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -36,7 +36,7 @@ class _ChatViewState extends State<ChatView> {
               icon: Icon(Icons.delete, color: Colors.red),
               onPressed: () async {
                 try {
-                  controller.delet_message("$_idmessage");
+                  controller.delet_message(_idmessage);
                   setState(() {
                     _selected = "null";
                   });
@@ -65,7 +65,7 @@ class _ChatViewState extends State<ChatView> {
                         "https://th.bing.com/th/id/OIP.3IsXMskZyheEWqtE3Dr7JwHaGe?rs=1&pid=ImgDetMain")
                 : CommentBox.commentImageParser(
                     imageURLorPath:
-                        "$linkservername/profile/upload/${controller.getProfileImage()}"),
+                        "$linkserverimages/profile/${controller.getProfileImage()}"),
             labelText: _messageController.text.isEmpty ? 'Message'.tr : '',
             withBorder: false,
             sendButtonMethod: () async {
@@ -102,10 +102,7 @@ class _ChatViewState extends State<ChatView> {
                   );
                 } else if (snapshot.hasError) {
                   return Center(
-                    child: Image.asset(
-                      "assets/icons/error.png",
-                      width: AppConstant.screenWidth * 0.8,
-                    ),
+                    child: Text("${snapshot.error}")
                   );
                 } else if (!snapshot.hasData) {
                   return Center(
@@ -116,10 +113,10 @@ class _ChatViewState extends State<ChatView> {
                     itemCount: snapshot.data.length,
                     itemBuilder: (context, index) {
                       return GestureDetector(
-                        onLongPress: () {
+                        onTap: () {
                           setState(() {
                             _selected = "ee";
-                            _idmessage = "${snapshot.data[index]['id_message']}";
+                            _idmessage = "${snapshot.data[index]['id']}";
                           });
                         },
                         child: Container(

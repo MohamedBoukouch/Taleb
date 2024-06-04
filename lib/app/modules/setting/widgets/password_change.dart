@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
 import 'package:taleb/app/modules/login/pages/resetpassword.dart';
 import 'package:taleb/app/modules/setting/controllers/setting_controller.dart';
+import 'package:taleb/app/shared/CustomAlert.dart';
 import 'package:taleb/app/shared/bottun.dart';
 import 'package:taleb/app/shared/edittext.dart';
 
@@ -130,7 +132,7 @@ class _ChangePasswordState extends State<ChangePassword> {
                   onTap: () async {
                     if (_edit_passwordKey.currentState!.validate()) {
                       FocusScope.of(context).unfocus();
-
+                      if(new_password_controller.text == confirme_new_password_controller.text){
                       try {
                         await controller.changepassword(
                             old_password_controller.text,
@@ -142,6 +144,16 @@ class _ChangePasswordState extends State<ChangePassword> {
                       } catch (e) {
                         print(e);
                       }
+                      }else{
+                        CustomAlert.show(
+                        context: context,
+                        type: AlertType.info,
+                        desc: 'assword and confirm password do not match',
+                        onPressed: () {
+                        Navigator.pop(context);
+                        });                       
+                      }
+                    
                     }
                   },
                   child: Button(txt: "Save_Password".tr)),
