@@ -1,32 +1,10 @@
-import 'dart:async';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:quickalert/models/quickalert_type.dart';
-import 'package:quickalert/widgets/quickalert_dialog.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
-import 'package:taleb/app/config/constants/app_constant.dart';
-import 'package:taleb/app/config/themes/app_theme.dart';
-import 'package:taleb/app/data/const_link.dart';
-import 'package:taleb/app/modules/initial/views/init_view.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:taleb/app/modules/home/pages/filter.dart';
 import 'package:taleb/app/modules/login/views/login_view.dart';
-import 'package:taleb/app/modules/setting/pages/contactez_nous.dart';
-import 'package:taleb/app/modules/setting/pages/edit_profile.dart';
-import 'package:taleb/app/modules/setting/pages/language.dart';
-import 'package:taleb/app/modules/setting/pages/supporte.dart';
-import 'package:taleb/app/modules/setting/widgets/delet_compte.dart';
-import 'package:taleb/app/modules/setting/widgets/slider_1.dart';
-import 'package:taleb/app/modules/setting/widgets/slider_2.dart';
-import 'package:taleb/app/shared/bottun.dart';
-import 'package:taleb/app/shared/edittext.dart';
-import 'package:taleb/app/shared/fullscreen.dart';
+import 'package:taleb/app/modules/setting/controllers/setting_controller.dart';
 import 'package:taleb/main.dart';
-
-import '../../../shared/CustomAlert.dart';
-import '../controllers/setting_controller.dart';
 
 class SettingView extends StatefulWidget {
   const SettingView({Key? key}) : super(key: key);
@@ -36,278 +14,442 @@ class SettingView extends StatefulWidget {
 }
 
 class _SettingViewState extends State<SettingView> {
+  static const Color _primary = Color(0xFF1565C0);
+  static const Color _textSecondary = Color(0xFF78909C);
+
   final SettingController controller = Get.put(SettingController());
-  final TextEditingController _nom = TextEditingController();
-  File? _selectedImage;
-  final picker = ImagePicker();
 
-  Future<void> _pickImage() async {
-    try {
-      final pickedImage = await picker.pickImage(source: ImageSource.gallery);
-
-      if (pickedImage != null) {
-        setState(() {
-          _selectedImage = File(pickedImage.path);
-        });
-        CustomAlert.show(
-            context: context,
-            type: AlertType.success,
-            desc: 'Your profile update was successful',
-            onPressed: () async {
-              try {
-                await controller.add_pic_profile(_selectedImage, context);
-              } catch (e) {
-                print("$e");
-              }
-            });
-      }
-    } catch (e) {
-      print("Error picking image: $e");
-    }
-  }
-
-  Future<bool> _showVerificationSnackbar() async {
-    Completer<bool> completer = Completer<bool>();
-
-    QuickAlert.show(
-      context: context,
-      type: QuickAlertType.confirm,
-      text: 'Do you want to Delete your compte',
-      confirmBtnText: 'Yes',
-      cancelBtnText: 'No',
-      confirmBtnColor: Colors.green,
-      onConfirmBtnTap: () {
-        completer.complete(true);
-      },
-      onCancelBtnTap: () {
-        completer.complete(false);
-      },
-    );
-
-    return completer.future;
-  }
+  bool _notificationsEnabled = true;
+  bool _darkModeEnabled = false;
+  String _selectedLanguage = 'English';
 
   @override
   Widget build(BuildContext context) {
-    return InitialView(
-      selectedindex: 0,
+    return Scaffold(
+      backgroundColor: const Color(0xFFF5F7FA),
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        title: const Text(
+          'Settings',
+          style: TextStyle(
+            color: Color(0xFF1A237E),
+            fontSize: 18,
+            fontWeight: FontWeight.w700,
+          ),
+        ),
+        centerTitle: true,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back_ios_rounded,
+              color: Color(0xFF1A237E), size: 18),
+          onPressed: () => Get.back(),
+        ),
+      ),
       body: ListView(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
         children: [
-          FutureBuilder(
-            future: controller.profil(),
-            builder: (BuildContext context, AsyncSnapshot snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: SpinKitCircle(
-                    color: Color.fromARGB(255, 246, 154, 7),
-                    size: 60,
-                  ),
-                );
-              } else if (snapshot.hasError) {
-                return Center(child: Text("Error"));
-              } else if (!snapshot.hasData) {
-                return const Center(
-                  child: Center(child: Text("No data available")),
-                );
-              } else {
-                return ListView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: 1,
-                  itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        SizedBox(
-                          height: AppConstant.screenHeight * .05,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => FullScreenImage(
-                                imageUrl:
-                                    "$linkserverimages/profile/${snapshot.data[index]['profile']}",
-                              ),
-                            ));
-                          },
-                          child: Center(
-                            child: Stack(
-                              children: [
-                                Hero(
-                                  tag:
-                                      "profileImage_$index", // Same unique tag as in onTap
-                                  child: CircleAvatar(
-                                    radius: 80,
-                                    backgroundImage: _selectedImage != null
-                                        ? FileImage(_selectedImage!)
-                                        : (snapshot.data['profile'] == "0"
-                                            ? AssetImage(
-                                                "assets/profile/Profile_2.png")
-                                            : NetworkImage(
-                                                    "$linkserverimages/profile/${snapshot.data['profile']}")
-                                                as ImageProvider<Object>),
-                                  ),
-                                ),
-                                Positioned(
-                                  bottom: 0,
-                                  right: 0,
-                                  child: GestureDetector(
-                                    onTap: _pickImage,
-                                    child: CircleAvatar(
-                                      backgroundColor: AppTheme.main_color_2,
-                                      child: Icon(
-                                        Icons.camera_alt_outlined,
-                                        color: Colors.black,
-                                      ),
-                                    ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        Text(
-                          "${snapshot.data['firstname']} ${snapshot.data['lastname']}",
-                          style: TextStyle(
-                              fontSize: 20,
-                              fontFamily: 'Bitter',
-                              fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          "${snapshot.data['email']}",
-                          style: TextStyle(
-                              fontSize: 15, fontFamily: 'Bitter_italic'),
-                        ),
-                        SizedBox(
-                          height: AppConstant.screenHeight * .02,
-                        ),
-                        InkWell(
-                          onTap: () {
-                            Get.to(EditProfile(
-                              nom: "${snapshot.data['firstname']}",
-                              prenom: "${snapshot.data['lastname']}",
-                              email: "${snapshot.data['email']}",
-                            ));
-                          },
-                          child: Container(
-                            padding: EdgeInsets.only(
-                                right: AppConstant.screenWidth * .15,
-                                left: AppConstant.screenWidth * .15,
-                                top: AppConstant.screenHeight * .015,
-                                bottom: AppConstant.screenHeight * .015),
-                            decoration: BoxDecoration(
-                                color: AppTheme.main_color_1,
-                                borderRadius: BorderRadius.circular(30)),
-                            child: Text(
-                              "edit_profile".tr,
-                              style: const TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Bitter',
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 17),
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: AppConstant.screenHeight * .03,
-                        ),
-                        InkWell(
-                          onTap: () {
-                            // Get.to(() => EditProfile());
-                          },
-                          child: InkWell(
-                            onTap: () {
-                              // Get.to(EditProfile());
-                            },
-                            child: InkWell(
-                              onTap: () {
-                                Get.to(ContactezNous());
-                              },
-                              child: Slider_2(
-                                titel: "Contactez-nous".tr,
-                                icon: Icon(
-                                  Icons.support_agent,
-                                  color: AppTheme.main_color_2,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () => Get.to(Language()),
-                          child: Slider_2(
-                              titel: "1".tr,
-                              icon: Icon(
-                                Icons.language,
-                                color: AppTheme.main_color_2,
-                              )),
-                        ),
-                        //Slider_2(),
+          // ── Profile Card ──────────────────────────────────
+          _buildProfileCard(),
+          const SizedBox(height: 20),
 
-                        InkWell(
-                          onTap: () => Get.to(() => Supporte()),
-                          child: Slider_2(
-                            titel: "Supporte".tr,
-                            icon: Icon(
-                              Icons.info_outline_rounded,
-                              color: AppTheme.main_color_2,
-                            ),
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            sharedpref.clear();
-                            Get.off(() => LoginView());
-                          },
-                          child: Container(
-                            alignment: Alignment.center,
-                            padding: const EdgeInsets.only(
-                              top: 12,
-                              bottom: 12,
-                            ),
-                            margin: EdgeInsets.only(
-                                right: AppConstant.screenWidth * .1,
-                                left: AppConstant.screenWidth * .1,
-                                top: 10),
-                            decoration: BoxDecoration(
-                                color: AppTheme.main_color_1,
-                                borderRadius: BorderRadius.circular(40)),
-                            child: Center(
-                              child: Text(
-                                "Log_Out".tr,
-                                style: const TextStyle(
-                                    fontFamily: 'Bitter',
-                                    fontSize: 18,
-                                    color: Colors.white),
-                              ),
-                            ),
-                          ),
-                        ),
-                        InkWell(
-                            //in this link i can find all type of quiqkalert ->  https://pub.dev/packages/quickalert
-                            onTap: () {
-                              QuickAlert.show(
-                                  context: context,
-                                  type: QuickAlertType.confirm,
-                                  text: 'Message_delet_compte'.tr,
-                                  confirmBtnText: 'Yes',
-                                  cancelBtnText: 'No',
-                                  confirmBtnColor: Colors.green,
-                                  onConfirmBtnTap: () async {
-                                    await controller.deletcompte(context);
-                                  });
-                            },
-                            child: const DeletCompte()),
-                      ],
-                    );
-                  },
-                );
-              }
-            },
+          // ── Account ───────────────────────────────────────
+          _buildSectionLabel('Account'),
+          _buildCard([
+            _buildNavTile(
+              icon: Icons.person_outline_rounded,
+              label: 'Edit Profile',
+              onTap: () {},
+            ),
+            _buildDivider(),
+            _buildNavTile(
+              icon: Icons.lock_outline_rounded,
+              label: 'Change Password',
+              onTap: () {},
+            ),
+            _buildDivider(),
+            _buildNavTile(
+              icon: Icons.email_outlined,
+              label: 'Email Address',
+              trailing: const Text(
+                'boukouchmohamed7@gmail.com',
+                style: TextStyle(fontSize: 12, color: _textSecondary),
+              ),
+              onTap: () {},
+            ),
+          ]),
+          const SizedBox(height: 16),
+
+          // ── Preferences ───────────────────────────────────
+          _buildSectionLabel('Preferences'),
+          _buildCard([
+            _buildSwitchTile(
+              icon: Icons.notifications_outlined,
+              label: 'Notifications',
+              value: _notificationsEnabled,
+              onChanged: (v) => setState(() => _notificationsEnabled = v),
+            ),
+            _buildDivider(),
+            _buildSwitchTile(
+              icon: Icons.dark_mode_outlined,
+              label: 'Dark Mode',
+              value: _darkModeEnabled,
+              onChanged: (v) => setState(() => _darkModeEnabled = v),
+            ),
+            _buildDivider(),
+            _buildNavTile(
+              icon: Icons.language_outlined,
+              label: 'Language',
+              trailing: Text(
+                _selectedLanguage,
+                style: const TextStyle(
+                    fontSize: 13,
+                    color: _textSecondary,
+                    fontWeight: FontWeight.w500),
+              ),
+              onTap: () => _showLanguagePicker(),
+            ),
+          ]),
+          const SizedBox(height: 16),
+
+          // ── Support ───────────────────────────────────────
+          _buildSectionLabel('Support'),
+          _buildCard([
+            _buildNavTile(
+              icon: Icons.help_outline_rounded,
+              label: 'Help & FAQ',
+              onTap: () {},
+            ),
+            _buildDivider(),
+            _buildNavTile(
+              icon: Icons.privacy_tip_outlined,
+              label: 'Privacy Policy',
+              onTap: () {},
+            ),
+            _buildDivider(),
+            _buildNavTile(
+              icon: Icons.info_outline_rounded,
+              label: 'About Tawjihi',
+              trailing: const Text(
+                'v1.0.0',
+                style: TextStyle(fontSize: 12, color: _textSecondary),
+              ),
+              onTap: () {},
+            ),
+          ]),
+          const SizedBox(height: 24),
+
+          // ── Logout Button ──────────────────────────────────
+          _buildLogoutButton(),
+          const SizedBox(height: 32),
+        ],
+      ),
+    );
+  }
+
+  // ── Widgets ───────────────────────────────────────────────
+
+  Widget _buildProfileCard() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: const Color(0xFFE3F2FD), width: 1.5),
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 56,
+            height: 56,
+            decoration: BoxDecoration(
+              color: const Color(0xFFE3F2FD),
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: const Center(
+              child: Text(
+                'MB',
+                style: TextStyle(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w700,
+                  color: _primary,
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(width: 14),
+          const Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'Mohamed Boukouch',
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                    color: Color(0xFF1A237E),
+                  ),
+                ),
+                SizedBox(height: 3),
+                Text(
+                  'boukouchmohamed7@gmail.com',
+                  style: TextStyle(fontSize: 12, color: _textSecondary),
+                ),
+                SizedBox(height: 6),
+                Row(
+                  children: [
+                    Icon(Icons.verified_rounded,
+                        size: 13, color: Color(0xFF43A047)),
+                    SizedBox(width: 4),
+                    Text(
+                      'Verified',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: Color(0xFF43A047),
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          IconButton(
+            icon: const Icon(Icons.edit_outlined, color: _primary, size: 20),
+            onPressed: () {},
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildSectionLabel(String label) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 4, bottom: 8),
+      child: Text(
+        label.toUpperCase(),
+        style: const TextStyle(
+          fontSize: 11,
+          fontWeight: FontWeight.w700,
+          color: _textSecondary,
+          letterSpacing: 1.2,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCard(List<Widget> children) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: const Color(0xFFEEEEEE), width: 1),
+      ),
+      child: Column(children: children),
+    );
+  }
+
+  Widget _buildNavTile({
+    required IconData icon,
+    required String label,
+    required VoidCallback onTap,
+    Widget? trailing,
+  }) {
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(16),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        child: Row(
+          children: [
+            Container(
+              width: 34,
+              height: 34,
+              decoration: BoxDecoration(
+                color: const Color(0xFFF8FBFF),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Icon(icon, color: _primary, size: 18),
+            ),
+            const SizedBox(width: 14),
+            Expanded(
+              child: Text(
+                label,
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: Color(0xFF263238),
+                ),
+              ),
+            ),
+            trailing ??
+                const Icon(Icons.chevron_right_rounded,
+                    color: Color(0xFFB0BEC5), size: 20),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSwitchTile({
+    required IconData icon,
+    required String label,
+    required bool value,
+    required ValueChanged<bool> onChanged,
+  }) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      child: Row(
+        children: [
+          Container(
+            width: 34,
+            height: 34,
+            decoration: BoxDecoration(
+              color: const Color(0xFFF8FBFF),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Icon(icon, color: _primary, size: 18),
+          ),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Text(
+              label,
+              style: const TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
+                color: Color(0xFF263238),
+              ),
+            ),
+          ),
+          Switch.adaptive(
+            value: value,
+            onChanged: onChanged,
+            activeColor: _primary,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildDivider() {
+    return const Divider(
+      height: 1,
+      indent: 64,
+      endIndent: 16,
+      color: Color(0xFFF0F0F0),
+    );
+  }
+
+  void _confirmLogout() {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        title: const Text(
+          'Log Out',
+          style: TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w700,
+            color: Color(0xFF1A237E),
+          ),
+        ),
+        content: const Text(
+          'Are you sure you want to log out?',
+          style: TextStyle(fontSize: 14, color: Color(0xFF78909C)),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () async {
+              Navigator.pop(ctx);
+
+              // 👉 CALL CONTROLLER FUNCTION
+              await controller.logout();
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xFFE53935),
+              foregroundColor: Colors.white,
+            ),
+            child: const Text('Log Out'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLogoutButton() {
+    return SizedBox(
+      width: double.infinity,
+      height: 52,
+      child: OutlinedButton.icon(
+        onPressed: () => _confirmLogout(),
+        icon: const Icon(Icons.logout_rounded,
+            color: Color(0xFFE53935), size: 20),
+        label: const Text(
+          'Log Out',
+          style: TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.w600,
+            color: Color(0xFFE53935),
+          ),
+        ),
+        style: OutlinedButton.styleFrom(
+          side: const BorderSide(color: Color(0xFFFFCDD2), width: 1.5),
+          backgroundColor: const Color(0xFFFFF8F8),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(14),
+          ),
+        ),
+      ),
+    );
+  }
+
+  // ── Helpers ───────────────────────────────────────────────
+
+  void _showLanguagePicker() {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (ctx) => Padding(
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              width: 36,
+              height: 4,
+              margin: const EdgeInsets.only(bottom: 16),
+              decoration: BoxDecoration(
+                color: const Color(0xFFE0E0E0),
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+            const Text('Select Language',
+                style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w700,
+                    color: Color(0xFF1A237E))),
+            const SizedBox(height: 12),
+            for (final lang in ['English', 'Français', 'العربية'])
+              ListTile(
+                title: Text(lang, style: const TextStyle(fontSize: 14)),
+                trailing: _selectedLanguage == lang
+                    ? const Icon(Icons.check_rounded, color: _primary, size: 20)
+                    : null,
+                onTap: () {
+                  setState(() => _selectedLanguage = lang);
+                  Navigator.pop(ctx);
+                },
+              ),
+            const SizedBox(height: 8),
+          ],
+        ),
       ),
     );
   }

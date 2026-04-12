@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:taleb/app/config/services/services.dart';
 import 'package:taleb/app/config/translations/localization/changelocal.dart';
 import 'package:taleb/app/config/translations/localization/my_translation.dart';
@@ -18,6 +19,11 @@ void main() async {
   await initialServices();
   sharedpref = await SharedPreferences.getInstance();
   localeController controller = Get.put(localeController());
+
+  await Supabase.initialize(
+    url: 'https://uqluzscyuoynxwdkvpbj.supabase.co',
+    anonKey: 'sb_publishable_QmMr4fDlu9L9CwuBPn7mkA_lEGDC5YE',
+  );
   runApp(
     GetMaterialApp(
       title: "Application",

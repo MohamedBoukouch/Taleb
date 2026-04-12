@@ -117,10 +117,10 @@ class _ResetPasswordState extends State<ResetPassword> {
                 onTap: () async {
                   if (_resetpasswordlKey.currentState!.validate()) {
                     FocusScope.of(context).unfocus();
-                    try {
-                      await controller.resetpassword(
-                          widget.email, _passwordController.text, context);
-                    } catch (e) {}
+                    // try {
+                    //   await controller.resetpassword(
+                    //       widget.email, _passwordController.text, context);
+                    // } catch (e) {}
                   }
                 },
                 child: Button(

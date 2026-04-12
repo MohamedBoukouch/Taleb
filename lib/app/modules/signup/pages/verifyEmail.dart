@@ -74,12 +74,12 @@ class _VerifyEmailState extends State<VerifyEmail> {
               showFieldAsBox: true,
               onCodeChanged: (String code) {},
               onSubmit: (String verificationCode) async {
-                try {
-                  await controller.verifyemail(
-                      widget.email, verificationCode, context);
-                } catch ($e) {
-                  print("error");
-                }
+                // try {
+                //   await controller.verifyemail(
+                //       widget.email, verificationCode, context);
+                // } catch ($e) {
+                //   print("error");
+                // }
                 // showDialog(
                 //     context: context,
                 //     builder: (context) {

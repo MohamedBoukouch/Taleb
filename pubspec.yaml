@@ -43,6 +43,8 @@ dependencies:
   photo_manager: ^3.9.0
   gal: ^2.3.2
   shared_preferences: ^2.5.5
+  video_player: ^2.11.1
+  supabase_flutter: ^2.12.2
 
   # syncfusion_flutter_pdfviewer: ^24.2.3
   # syncfusion_flutter_pdfviewer: ^24.2.3

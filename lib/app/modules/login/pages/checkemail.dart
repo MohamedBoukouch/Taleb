@@ -87,9 +87,9 @@ class _CheckEmailState extends State<CheckEmail> {
               onTap: () async {
                 if (_checkemailKey.currentState!.validate()) {
                   FocusScope.of(context).unfocus();
-                  try {
-                    await controller.checkemail(_emailController.text, context);
-                  } catch (e) {}
+                  // try {
+                  //   await controller.checkemail(_emailController.text, context);
+                  // } catch (e) {}
                 }
               },
               child: Button(

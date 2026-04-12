@@ -6,6 +6,8 @@ import 'package:get/get.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
 import 'package:taleb/app/config/function/functions.dart';
 import 'package:taleb/app/data/Crud.dart';
@@ -238,6 +240,28 @@ class SettingController extends GetxController {
       return response['data'];
     } else {
       print("error");
+    }
+  }
+
+// ------------------ New Codes ------------------
+
+  Future<void> logout() async {
+    try {
+      // 1. Logout from Supabase
+      await Supabase.instance.client.auth.signOut();
+
+      // 2. Clear SharedPreferences
+      final prefs = await SharedPreferences.getInstance();
+      await prefs.clear();
+
+      // 3. Redirect to Login and remove all routes
+      Get.offAll(() => const LoginView());
+    } catch (e) {
+      Get.snackbar(
+        "Error",
+        "Logout failed",
+        snackPosition: SnackPosition.BOTTOM,
+      );
     }
   }
 }

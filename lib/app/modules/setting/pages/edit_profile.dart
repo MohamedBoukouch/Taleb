@@ -157,15 +157,15 @@ class _EditProfileState extends State<EditProfile> {
                         right: AppConstant.screenWidth * .15),
                     child: InkWell(
                       onTap: () async {
-                        try {
-                          await controller.edit_compte(
-                              nom_controller.text,
-                              prenom_controller.text,
-                              email_controller.text,
-                              context);
-                        } catch (e) {
-                          print("ggggg");
-                        }
+                        // try {
+                        //   await controller.edit_compte(
+                        //       nom_controller.text,
+                        //       prenom_controller.text,
+                        //       email_controller.text,
+                        //       context);
+                        // } catch (e) {
+                        //   print("ggggg");
+                        // }
                       },
                       child: Button(
                         txt: "Enreristrer".tr,

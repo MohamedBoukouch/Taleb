@@ -77,12 +77,12 @@ class _VerifyCompteState extends State<VerifyCompte> {
             InkWell(
               onTap: () async {
                 print(otpcontroller);
-                try {
-                  await controller.verifycompte(
-                      widget.email, otpcontroller, context);
-                } catch ($e) {
-                  print("error");
-                }
+                // try {
+                //   await controller.verifycompte(
+                //       widget.email, otpcontroller, context);
+                // } catch ($e) {
+                //   print("error");
+                // }
               },
               child: Button(txt: "Envoyer".tr),
             ),

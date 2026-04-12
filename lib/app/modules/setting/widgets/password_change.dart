@@ -132,28 +132,28 @@ class _ChangePasswordState extends State<ChangePassword> {
                   onTap: () async {
                     if (_edit_passwordKey.currentState!.validate()) {
                       FocusScope.of(context).unfocus();
-                      if(new_password_controller.text == confirme_new_password_controller.text){
-                      try {
-                        await controller.changepassword(
-                            old_password_controller.text,
-                            new_password_controller.text,
-                            context);
-                        old_password_controller.text = "";
-                        new_password_controller.text = "";
-                        confirme_new_password_controller.text = "";
-                      } catch (e) {
-                        print(e);
-                      }
-                      }else{
+                      if (new_password_controller.text ==
+                          confirme_new_password_controller.text) {
+                        // try {
+                        //   await controller.changepassword(
+                        //       old_password_controller.text,
+                        //       new_password_controller.text,
+                        //       context);
+                        //   old_password_controller.text = "";
+                        //   new_password_controller.text = "";
+                        //   confirme_new_password_controller.text = "";
+                        // } catch (e) {
+                        //   print(e);
+                        // }
+                      } else {
                         CustomAlert.show(
-                        context: context,
-                        type: AlertType.info,
-                        desc: 'assword and confirm password do not match',
-                        onPressed: () {
-                        Navigator.pop(context);
-                        });                       
+                            context: context,
+                            type: AlertType.info,
+                            desc: 'assword and confirm password do not match',
+                            onPressed: () {
+                              Navigator.pop(context);
+                            });
                       }
-                    
                     }
                   },
                   child: Button(txt: "Save_Password".tr)),
