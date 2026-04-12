@@ -25,8 +25,8 @@ class _AffichageState extends State<Affichage> {
   }
 
   Future<void> loadPDF() async {
-    final String BASE_URL = "${widget.url}";
-    var response = await http.get(Uri.parse(BASE_URL));
+    final String baseUrl = widget.url;
+    var response = await http.get(Uri.parse(baseUrl));
 
     var dir = await getApplicationDocumentsDirectory();
     File file = File("${dir.path}/data.pdf");

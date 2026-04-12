@@ -5,7 +5,7 @@ import 'package:taleb/main.dart';
 
 class InitController extends GetxController {
   //TODO: Implement InitController
-  Crud _crud = Crud();
+  final Crud _crud = Crud();
 
   List<dynamic> List_Active_Notification = [];
   final count = 0.obs;
@@ -13,16 +13,6 @@ class InitController extends GetxController {
   void onInit() {
     List_Active_Notification;
     super.onInit();
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
   }
 
   void increment() => count.value++;

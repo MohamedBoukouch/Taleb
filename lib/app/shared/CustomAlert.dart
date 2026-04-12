@@ -1,9 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class CustomAlert {
-  static show(
+  static Future<void> show(
       {context,
       AlertType type = AlertType.success,
       desc = "",
@@ -40,7 +39,7 @@ class CustomAlert {
         animationDuration: Duration(milliseconds: duration),
         alertBorder: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(20.0),
-          side:const  BorderSide(
+          side: const BorderSide(
             color: Colors.grey,
           ),
         ),
@@ -54,7 +53,7 @@ class CustomAlert {
         DialogButton(
           onPressed: onPressed,
           width: 120,
-          child:const Text(
+          child: const Text(
             "OK",
             style: TextStyle(color: Colors.white, fontSize: 20),
           ),

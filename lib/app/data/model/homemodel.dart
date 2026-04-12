@@ -42,19 +42,19 @@ class HomeModel {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['localisation'] = this.localisation;
-    data['type'] = this.type;
-    data['date'] = this.date;
-    data['titel'] = this.titel;
-    data['description'] = this.description;
-    data['file'] = this.file;
-    data['numberlike'] = this.numberlike;
-    data['numbercomment'] = this.numbercomment;
-    data['link'] = this.link;
-    data['favorite'] = this.favorite;
-    data['liked'] = this.liked;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['localisation'] = localisation;
+    data['type'] = type;
+    data['date'] = date;
+    data['titel'] = titel;
+    data['description'] = description;
+    data['file'] = file;
+    data['numberlike'] = numberlike;
+    data['numbercomment'] = numbercomment;
+    data['link'] = link;
+    data['favorite'] = favorite;
+    data['liked'] = liked;
     return data;
   }
 }

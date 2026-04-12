@@ -3,7 +3,6 @@ import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:get/get.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
 import 'package:taleb/app/modules/signup/controllers/signup_controller.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../config/themes/app_theme.dart';
 

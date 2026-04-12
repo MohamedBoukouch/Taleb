@@ -1,11 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:get/get.dart';
-import 'package:taleb/app/modules/notification/controllers/notification_controller.dart';
-import 'package:taleb/app/modules/notification/views/notification_view.dart';
 
-requestpermissionnotification() async {
+Future<void> requestpermissionnotification() async {
   NotificationSettings settings =
       await FirebaseMessaging.instance.requestPermission(
     alert: true,
@@ -18,11 +14,11 @@ requestpermissionnotification() async {
   );
 }
 
-fctconfing() {
+void fctconfing() {
   FirebaseMessaging.onMessage.listen((message) {
     print(message.notification!.title);
     print(message.notification!.body);
-    FlutterRingtonePlayer.playNotification();
+    // FlutterRingtonePlayer.playNotification();
 
     Get.snackbar(message.notification!.title!, message.notification!.body!);
     // refrechpagenotification(message.data);

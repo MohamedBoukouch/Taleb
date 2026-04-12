@@ -5,7 +5,7 @@ class TestData {
   Crud crud;
   TestData(this.crud);
 
-  getData() async {
+  Future<dynamic> getData() async {
     var response = await crud.getRequest(linkshowpubli);
     return response;
   }

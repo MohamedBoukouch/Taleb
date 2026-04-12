@@ -18,7 +18,7 @@ import 'package:taleb/main.dart';
 class LoginController extends GetxController {
   //TODO: Implement LoginController
 
-  Crud _crud = Crud();
+  final Crud _crud = Crud();
   final count = 0.obs;
   @override
   void onInit() {
@@ -29,19 +29,9 @@ class LoginController extends GetxController {
     super.onInit();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
   void increment() => count.value++;
 
-  login(String email, String password,dynamic context) async {
+  Future<void> login(String email, String password, dynamic context) async {
     var response = await _crud.postRequest(linklogin, {
       "email": email,
       "password": password,
@@ -50,19 +40,19 @@ class LoginController extends GetxController {
       sharedpref.setString("id", response['data']['id'].toString());
       print(response['status']);
       Get.offAll(() => const HomeView());
-    } else{
+    } else {
       CustomAlert.show(
-      context: context,
-      type: AlertType.error,
-      desc: 'Email Or Pasword incorrects',
-      onPressed: () {
-      Navigator.pop(context);
-      });
+          context: context,
+          type: AlertType.error,
+          desc: 'Email Or Pasword incorrects',
+          onPressed: () {
+            Navigator.pop(context);
+          });
     }
   }
 
   //checkEmail
-  checkemail(String email, dynamic context) async {
+  Future<void> checkemail(String email, dynamic context) async {
     var response = await _crud.postRequest(linkcheckEmail, {
       "email": email,
     });
@@ -73,18 +63,19 @@ class LoginController extends GetxController {
           ));
     } else {
       CustomAlert.show(
-      context: context,
-      type: AlertType.error,
-      desc: 'Infos incorrects',
-      onPressed: () {
-      Navigator.pop(context);
-      });
+          context: context,
+          type: AlertType.error,
+          desc: 'Infos incorrects',
+          onPressed: () {
+            Navigator.pop(context);
+          });
     }
   }
 
   //VerifyCompte
 
-  verifycompte(String email, String verifycode, dynamic context) async {
+  Future<void> verifycompte(
+      String email, String verifycode, dynamic context) async {
     update();
     var response = await _crud.postRequest(linkverifycompte, {
       "email": email,
@@ -96,18 +87,19 @@ class LoginController extends GetxController {
           ));
     } else {
       CustomAlert.show(
-                          context: context,
-                          type: AlertType.error,
-                          desc: 'Code incorrects',
-                          onPressed: () {
-                            Navigator.pop(context);
-                          });
+          context: context,
+          type: AlertType.error,
+          desc: 'Code incorrects',
+          onPressed: () {
+            Navigator.pop(context);
+          });
     }
     update();
   }
 
   //Restpassword
-  resetpassword(String email, String password, dynamic context) async {
+  Future<void> resetpassword(
+      String email, String password, dynamic context) async {
     var response = await _crud.postRequest(linkresertpassword, {
       "email": email,
       "password": password,
@@ -116,13 +108,13 @@ class LoginController extends GetxController {
       sharedpref.setString("id", response['data']['id'].toString());
       Get.off(() => const HomeView());
     } else {
-            CustomAlert.show(
-                          context: context,
-                          type: AlertType.error,
-                          desc: 'Information incorrects',
-                          onPressed: () {
-                            Navigator.pop(context);
-                          });
+      CustomAlert.show(
+          context: context,
+          type: AlertType.error,
+          desc: 'Information incorrects',
+          onPressed: () {
+            Navigator.pop(context);
+          });
     }
     update();
   }

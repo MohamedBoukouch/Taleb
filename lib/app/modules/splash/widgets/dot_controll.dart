@@ -1,8 +1,5 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:taleb/app/config/function/functions.dart';
 import 'package:taleb/app/data/datasource/static/splash_List.dart';
 import 'package:taleb/app/modules/splash/controllers/splash_controller.dart';
 

@@ -159,9 +159,9 @@ class _EditProfileState extends State<EditProfile> {
                       onTap: () async {
                         try {
                           await controller.edit_compte(
-                              "${nom_controller.text}",
-                              "${prenom_controller.text}",
-                              "${email_controller.text}",
+                              nom_controller.text,
+                              prenom_controller.text,
+                              email_controller.text,
                               context);
                         } catch (e) {
                           print("ggggg");

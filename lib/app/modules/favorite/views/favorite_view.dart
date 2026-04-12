@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:get/get.dart';
@@ -49,7 +48,8 @@ class _FavoriteViewState extends State<FavoriteView> {
                 );
               } else if (!snapshot.hasData) {
                 return Padding(
-                  padding: EdgeInsets.only(top: AppConstant.screenHeight*.2,right: 20,left: 20),
+                  padding: EdgeInsets.only(
+                      top: AppConstant.screenHeight * .2, right: 20, left: 20),
                   child: Image.asset(
                     Appimages.data_empty,
                     width: AppConstant.screenWidth * .8,

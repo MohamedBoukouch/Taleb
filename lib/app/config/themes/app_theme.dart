@@ -12,9 +12,9 @@ class AppTheme {
   static const Color red_color = Color(0xfffd0000);
 
   /// TODO : Main colors
-  static const Color main_color_1 = Color(0xFFF008080 );
-  static const Color main_color_2 = Color(0xFFF20b2aa );
-  static const Color main_color_3 = Color(0xFFF367588 );
+  static const Color main_color_1 = Color(0xfff008080);
+  static const Color main_color_2 = Color(0xfff20b2aa);
+  static const Color main_color_3 = Color(0xfff367588);
 
   /// TODO : Backs
   static const Color blue_color_1 = Color.fromARGB(57, 37, 37, 37);

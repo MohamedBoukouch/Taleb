@@ -15,7 +15,8 @@ class Edittext extends StatefulWidget {
   final TextEditingController Controller;
   final StringValidator? validator;
   final Function(dynamic value)? onSaved;
-  Edittext({
+  const Edittext({
+    Key? key,
     // super.key,
     this.hint,
     this.ispassword,
@@ -26,7 +27,7 @@ class Edittext extends StatefulWidget {
     required this.Controller,
     this.validator,
     this.onSaved,
-  });
+  }) : super(key: key);
 
   @override
   State<Edittext> createState() => _EdittextState();
@@ -44,9 +45,8 @@ class _EdittextState extends State<Edittext> {
         readOnly: widget.readonly,
         validator: widget.validator,
         style: TextStyle(
-          color: Colors.black,
-          fontSize: 14 // Set the text color to red
-        ),
+            color: Colors.black, fontSize: 14 // Set the text color to red
+            ),
         obscureText: widget.ispassword == true
             ? _eyeactive == true
                 ? false
@@ -55,10 +55,7 @@ class _EdittextState extends State<Edittext> {
         keyboardType:
             widget.isemail == true ? TextInputType.emailAddress : null,
         decoration: InputDecoration(
-          hintStyle: TextStyle(
-            color: Color(0xFF555353),
-            fontFamily: 'Bitter'
-          ),
+          hintStyle: TextStyle(color: Color(0xFF555353), fontFamily: 'Bitter'),
           labelStyle: TextStyle(color: Colors.black),
           errorStyle: GoogleFonts.poppins(
             color: Colors.red,

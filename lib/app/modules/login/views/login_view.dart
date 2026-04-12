@@ -1,5 +1,3 @@
-import 'package:either_dart/either.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
@@ -36,37 +34,43 @@ class _LoginViewState extends State<LoginView> {
           SingleChildScrollView(
             child: Column(
               children: [
-                
                 Form(
                   key: _loginKey,
                   child: Container(
-                    margin:
-                        EdgeInsets.only(top: AppConstant.screenHeight * .2),
+                    margin: EdgeInsets.only(top: AppConstant.screenHeight * .2),
                     padding: EdgeInsets.only(
                         right: AppConstant.screenHeight * .02,
                         left: AppConstant.screenHeight * .02),
                     child: Column(
                       children: [
-                         Stack(
+                        Stack(
                           children: [
                             SvgPicture.asset(
-          'assets/icons/shape.svg', // Path to your SVG image
-          width: AppConstant.screenWidth*.3,
-          height: AppConstant.screenHeight*.17,
-          color: AppTheme.main_color_1,
-        ),
-        Positioned(
-          top: 45,
-          left: 35,
-          child: Text("Tawjihi",style: TextStyle(fontFamily: 'Fontspring',color: Colors.white,fontSize: 35),))
+                              'assets/icons/shape.svg', // Path to your SVG image
+                              width: AppConstant.screenWidth * .3,
+                              height: AppConstant.screenHeight * .17,
+                              color: AppTheme.main_color_1,
+                            ),
+                            Positioned(
+                                top: 45,
+                                left: 35,
+                                child: Text(
+                                  "Tawjihi",
+                                  style: TextStyle(
+                                      fontFamily: 'Fontspring',
+                                      color: Colors.white,
+                                      fontSize: 35),
+                                ))
                           ],
-                         ),
-        SizedBox(height: 50,),
+                        ),
+                        SizedBox(
+                          height: 50,
+                        ),
                         Edittext(
                           readonly: false,
                           hint: "Address".tr,
                           isemail: true,
-                          icon: Icon(Icons.email_outlined,size: 20),
+                          icon: Icon(Icons.email_outlined, size: 20),
                           Controller: _emailController,
                           validator: (String? value) {
                             if (value == null || value.isEmpty) {
@@ -85,7 +89,7 @@ class _LoginViewState extends State<LoginView> {
                           readonly: false,
                           hint: "Mote_de_pass".tr,
                           ispassword: true,
-                          icon: const Icon(Icons.lock,size: 20),
+                          icon: const Icon(Icons.lock, size: 20),
                           Controller: _passwordController,
                           validator: (String? value) {
                             if (value == null || value.isEmpty) {
@@ -126,8 +130,7 @@ class _LoginViewState extends State<LoginView> {
 
                               try {
                                 await controller.login(_emailController.text,
-                                _passwordController.text,context);
-                                    
+                                    _passwordController.text, context);
                               } catch (e) {
                                 // Handle errors here
                               } finally {

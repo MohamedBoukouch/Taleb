@@ -3,7 +3,6 @@ import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:get/get.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
 import 'package:taleb/app/modules/login/controllers/login_controller.dart';
-import 'package:taleb/app/modules/login/pages/ResetPassword.dart';
 import 'package:taleb/app/shared/bottun.dart';
 
 import '../../../config/themes/app_theme.dart';
@@ -31,13 +30,18 @@ class _VerifyCompteState extends State<VerifyCompte> {
         leading: const ButtonBack(),
       ),
       body: Padding(
-        padding: const EdgeInsets.only(left: 20.0,top: 50,right: 20), // Add left padding
+        padding: const EdgeInsets.only(
+            left: 20.0, top: 50, right: 20), // Add left padding
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start, // Align content to the left
+          crossAxisAlignment:
+              CrossAxisAlignment.start, // Align content to the left
           children: [
             Text(
               "Verify_Email".tr,
-              style: TextStyle(fontWeight: FontWeight.bold, fontFamily: 'Bitter', fontSize: 20),
+              style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'Bitter',
+                  fontSize: 20),
             ),
             Text(
               "Verify_Email_info".tr,
@@ -55,7 +59,8 @@ class _VerifyCompteState extends State<VerifyCompte> {
               showCursor: false,
               fieldWidth: 50,
               borderRadius: BorderRadius.circular(10),
-              textStyle: TextStyle(fontWeight: FontWeight.bold,color: Colors.black),
+              textStyle:
+                  TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
               disabledBorderColor: Colors.red,
               focusedBorderColor: AppTheme.main_color_1,
               showFieldAsBox: true,
@@ -73,7 +78,8 @@ class _VerifyCompteState extends State<VerifyCompte> {
               onTap: () async {
                 print(otpcontroller);
                 try {
-                  await controller.verifycompte(widget.email, otpcontroller, context);
+                  await controller.verifycompte(
+                      widget.email, otpcontroller, context);
                 } catch ($e) {
                   print("error");
                 }

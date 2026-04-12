@@ -16,7 +16,7 @@ final SettingController compte_controller = Get.put(SettingController());
 class AppFunction {
   AppFunction._();
 
-  static get configureDependencies {
+  static void get configureDependencies {
     SystemChrome.setPreferredOrientations(
         <DeviceOrientation>[DeviceOrientation.portraitUp]);
     SystemChrome.setSystemUIOverlayStyle(
@@ -31,9 +31,9 @@ class AppFunction {
     );
   }
 
-  static cancel() {
+  static TextButton cancel() {
     return TextButton(
-      child:  Text(
+      child: Text(
         "cancel".tr,
         style: const TextStyle(
           color: Colors.red,
@@ -47,7 +47,7 @@ class AppFunction {
   }
 
 //delet_compte
-  static delet_compte(cxt) {
+  static TextButton delet_compte(cxt) {
     return TextButton(
       child: const Text(
         "Delet",
@@ -63,10 +63,10 @@ class AppFunction {
   }
 
 //delet comment
-  static deletcomment(String id_comment, String id_publication,
-      String nbr_comment, dynamic context) {
+  static TextButton deletcomment(String idComment, String idPublication,
+      String nbrComment, dynamic context) {
     return TextButton(
-      child:  Text(
+      child: Text(
         "delete".tr,
         style: const TextStyle(
           color: Color.fromARGB(255, 44, 40, 40),
@@ -75,14 +75,17 @@ class AppFunction {
       ),
       onPressed: () async {
         await home_controller.Deletcomment(
-            id_comment, id_publication, nbr_comment, context);
+            idComment, idPublication, nbrComment, context);
 
-            Get.to(Commentaire(id_publication: "${id_publication}",));
+        Get.to(Commentaire(
+          id_publication: idPublication,
+        ));
       },
     );
   }
 
-  static snackBar({required String label, Color color = AppTheme.red_color}) {
+  static SnackBar snackBar(
+      {required String label, Color color = AppTheme.red_color}) {
     return SnackBar(
       content: Text(
         label,

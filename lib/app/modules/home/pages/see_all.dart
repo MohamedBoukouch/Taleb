@@ -19,7 +19,7 @@ import 'package:taleb/app/modules/initial/views/init_view.dart';
 
 class SeeAll extends StatefulWidget {
   final String type;
-  const SeeAll({Key? key,required this.type}) : super(key: key);
+  const SeeAll({Key? key, required this.type}) : super(key: key);
 
   @override
   State<SeeAll> createState() => _SeeAllState();
@@ -36,12 +36,12 @@ class _SeeAllState extends State<SeeAll> {
 
   var res;
 
-  initialdata() async {
-    res = await chekInternet();
+  Future<void> initialdata() async {
+    res = await checkInternet();
     print(res);
   }
 
-    @override
+  @override
   void initState() {
     super.initState();
     initialdata();
@@ -49,15 +49,14 @@ class _SeeAllState extends State<SeeAll> {
     fetchActiveNotification(); // Call fetchActiveMessages in initState
   }
 
-
-    void fetchActiveMessages() async {
+  void fetchActiveMessages() async {
     String activeMessages = await controller.activemessages();
     setState(() {
       activemessages = activeMessages;
     });
   }
 
-    void fetchActiveNotification() async {
+  void fetchActiveNotification() async {
     String activeNotification = await controller.activenotification();
     setState(() {
       activenotification = activeNotification;
@@ -69,19 +68,19 @@ class _SeeAllState extends State<SeeAll> {
     return InitialView(
       selectedindex: 3,
       appbar: AppBar(
-         backgroundColor: Colors.white,
+        backgroundColor: Colors.white,
         automaticallyImplyLeading: false,
         title: const Text(
           'Tawjihi',
           style: TextStyle(
-            color: Colors.black,
-            fontFamily: 'Fontspring',
-            fontSize: 35 // Text color
-          ),
+              color: Colors.black,
+              fontFamily: 'Fontspring',
+              fontSize: 35 // Text color
+              ),
         ),
         leading: ButtonBack(),
         actions: [
-           InkWell(
+          InkWell(
             onTap: () async {
               notificationData = await controller.activenotification();
               print(notificationData);
@@ -100,7 +99,7 @@ class _SeeAllState extends State<SeeAll> {
             },
             child: Stack(
               children: [
-                Container(
+                SizedBox(
                   width: 25,
                   height: 25,
                   child: Image.asset(
@@ -108,7 +107,7 @@ class _SeeAllState extends State<SeeAll> {
                     color: Colors.grey,
                   ),
                 ),
-                if (activenotification=="1")
+                if (activenotification == "1")
                   Positioned(
                     right: 0,
                     top: 0,
@@ -126,7 +125,7 @@ class _SeeAllState extends State<SeeAll> {
           ),
           SizedBox(width: 15),
           InkWell(
-            onTap: () async{
+            onTap: () async {
               try {
                 await controller.update_message_status();
               } catch (e) {
@@ -141,7 +140,7 @@ class _SeeAllState extends State<SeeAll> {
             },
             child: Stack(
               children: [
-                Container(
+                SizedBox(
                   width: 25,
                   height: 25,
                   child: Image.asset(
@@ -149,7 +148,8 @@ class _SeeAllState extends State<SeeAll> {
                     color: Colors.grey,
                   ),
                 ),
-                if (activemessages=="1") // Check if activemessages is not empty
+                if (activemessages ==
+                    "1") // Check if activemessages is not empty
                   Positioned(
                     right: 0,
                     top: 0,
@@ -172,7 +172,7 @@ class _SeeAllState extends State<SeeAll> {
         children: [
           // Slidere(),
           FutureBuilder(
-            future: controller.Showpub("${widget.type}"),
+            future: controller.Showpub(widget.type),
             // future: controller.Showpub("bac"),
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {

@@ -1,18 +1,14 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:gallery_saver/files.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:quickalert/models/quickalert_type.dart';
 import 'package:quickalert/widgets/quickalert_dialog.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
-import 'package:taleb/app/config/function/functions.dart';
 import 'package:taleb/app/config/themes/app_theme.dart';
 import 'package:taleb/app/data/const_link.dart';
 import 'package:taleb/app/modules/initial/views/init_view.dart';
@@ -41,36 +37,34 @@ class SettingView extends StatefulWidget {
 
 class _SettingViewState extends State<SettingView> {
   final SettingController controller = Get.put(SettingController());
-  TextEditingController _nom = TextEditingController();
+  final TextEditingController _nom = TextEditingController();
   File? _selectedImage;
   final picker = ImagePicker();
 
-
   Future<void> _pickImage() async {
-  try {
-    final pickedImage = await picker.pickImage(source: ImageSource.gallery);
+    try {
+      final pickedImage = await picker.pickImage(source: ImageSource.gallery);
 
-    if (pickedImage != null) {
-      setState(() {
-        _selectedImage = File(pickedImage.path);
-      });
-      CustomAlert.show(
-      context: context,
-      type: AlertType.success,
-      desc: 'Your profile update was successful',
-      onPressed: () async{
-        try {
-        await controller.add_pic_profile(_selectedImage,context);
-        } catch (e) {
-        print("$e");
-        }
-      });
+      if (pickedImage != null) {
+        setState(() {
+          _selectedImage = File(pickedImage.path);
+        });
+        CustomAlert.show(
+            context: context,
+            type: AlertType.success,
+            desc: 'Your profile update was successful',
+            onPressed: () async {
+              try {
+                await controller.add_pic_profile(_selectedImage, context);
+              } catch (e) {
+                print("$e");
+              }
+            });
+      }
+    } catch (e) {
+      print("Error picking image: $e");
     }
-  } catch (e) {
-    print("Error picking image: $e");
   }
-}
-
 
   Future<bool> _showVerificationSnackbar() async {
     Completer<bool> completer = Completer<bool>();
@@ -140,13 +134,12 @@ class _SettingViewState extends State<SettingView> {
                               children: [
                                 Hero(
                                   tag:
-                                      "profileImage_${index}", // Same unique tag as in onTap
+                                      "profileImage_$index", // Same unique tag as in onTap
                                   child: CircleAvatar(
                                     radius: 80,
                                     backgroundImage: _selectedImage != null
                                         ? FileImage(_selectedImage!)
-                                        : (snapshot.data['profile'] ==
-                                                "0"
+                                        : (snapshot.data['profile'] == "0"
                                             ? AssetImage(
                                                 "assets/profile/Profile_2.png")
                                             : NetworkImage(
@@ -159,7 +152,7 @@ class _SettingViewState extends State<SettingView> {
                                   right: 0,
                                   child: GestureDetector(
                                     onTap: _pickImage,
-                                    child:  CircleAvatar(
+                                    child: CircleAvatar(
                                       backgroundColor: AppTheme.main_color_2,
                                       child: Icon(
                                         Icons.camera_alt_outlined,

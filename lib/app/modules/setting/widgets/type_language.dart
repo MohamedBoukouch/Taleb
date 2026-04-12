@@ -7,7 +7,7 @@ class TypeLanguage extends StatefulWidget {
   final bool isSelected;
   final VoidCallback onSelect;
 
-  TypeLanguage({
+  const TypeLanguage({
     Key? key,
     required this.text,
     required this.urlImage,

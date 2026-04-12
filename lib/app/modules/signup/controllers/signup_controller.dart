@@ -12,27 +12,13 @@ import 'package:taleb/main.dart';
 class SignupController extends GetxController {
   //TODO: Implement SignupController
 
-  Crud _crud = Crud();
+  final Crud _crud = Crud();
 
   final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
 
   void increment() => count.value++;
 
-  signup(
+  Future<void> signup(
       String firstname, String lastname, String email, String password) async {
     var response = await _crud.postRequest(linksignup, {
       "firstname": firstname,
@@ -59,7 +45,8 @@ class SignupController extends GetxController {
 
   //VerifyEmail
 
-  verifyemail(String email, String verifycode, dynamic context) async {
+  Future<void> verifyemail(
+      String email, String verifycode, dynamic context) async {
     update();
     var response = await _crud.postRequest(linkverifyEmail, {
       "email": email,

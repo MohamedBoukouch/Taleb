@@ -42,7 +42,7 @@ class _TypeConcoureState extends State<TypeConcoure> {
             borderRadius: BorderRadius.circular(10),
           ),
           // child: Image.asset(widget.url_img)),
-          child: Image.network("${widget.url_img}"),
+          child: Image.network(widget.url_img),
         ),
         title: Text(
           widget.titel,

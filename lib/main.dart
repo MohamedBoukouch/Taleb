@@ -25,19 +25,20 @@ void main() async {
       locale: controller.Language,
       theme: ThemeData(
         textTheme: const TextTheme(
-          headline1: TextStyle(
-              fontFamily: 'Bitter', fontWeight: FontWeight.bold, fontSize: 40),
-          bodyText1: TextStyle(
-              fontFamily: 'Bitter_italic',
-              fontSize: 17,
-              height: 2,
-              color: Colors.white),
-        ),
+            //   headline1: TextStyle(
+            //       fontFamily: 'Bitter', fontWeight: FontWeight.bold, fontSize: 40),
+            //   bodyText1: TextStyle(
+            //       fontFamily: 'Bitter_italic',
+            //       fontSize: 17,
+            //       height: 2,
+            //       color: Colors.white),
+            // ),
+            ),
       ),
 
       // initialRoute: AppPages.INITIAL,
       // initialRoute: sharedpref.getString("id") == null ? '/login' : '/home',
-      initialRoute: '/login' ,
+      initialRoute: '/login',
       initialBinding: initialBinding(),
       getPages: AppPages.routes,
     ),

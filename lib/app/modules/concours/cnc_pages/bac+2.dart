@@ -19,6 +19,7 @@ class _Bac2State extends State<Bac2> {
   @override
   final SettingController controller = Get.put(SettingController());
 
+  @override
   Widget build(BuildContext context) {
     return Container(
       child: Center(
@@ -53,7 +54,8 @@ class _Bac2State extends State<Bac2> {
                     itemBuilder: (context, index) {
                       return InkWell(
                         onTap: () => Get.to(() => TypeOfOneCnc(
-                            ecole_id: snapshot.data[index]['name'],type:"bac+2")),
+                            ecole_id: snapshot.data[index]['name'],
+                            type: "bac+2")),
                         child: TypeConcoure(
                           url_img:
                               "$linkserverimages/ecoleLogo/${snapshot.data[index]['logo']}",

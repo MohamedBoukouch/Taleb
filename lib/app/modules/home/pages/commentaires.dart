@@ -31,7 +31,7 @@ class _CommentaireState extends State<Commentaire> {
   @override
   void initState() {
     super.initState();
-    controller.Showcomment("${widget.id_publication}");
+    controller.Showcomment(widget.id_publication);
   }
 
   @override
@@ -47,7 +47,7 @@ class _CommentaireState extends State<Commentaire> {
         children: [
           Expanded(
             child: FutureBuilder(
-              future: controller.Showcomment("${widget.id_publication}"),
+              future: controller.Showcomment(widget.id_publication),
               builder: (BuildContext context, AsyncSnapshot snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(
@@ -75,7 +75,7 @@ class _CommentaireState extends State<Commentaire> {
                           haveprofile: snapshot.data[index]['profile'],
                           profile:
                               "$linkserverimages/profile/${snapshot.data[index]['profile']}",
-                          id_publication: "${widget.id_publication}",
+                          id_publication: widget.id_publication,
                           numbercomment: snapshot.data[index]['number_comment'],
                           firstname: "${snapshot.data[index]['firstname']}",
                           lastname: "${snapshot.data[index]['lastname']}",
@@ -125,8 +125,8 @@ class _CommentaireState extends State<Commentaire> {
                       try {
                         await controller.Addcommentaire(
                             "${sharedpref.getString('id')}",
-                            "${widget.id_publication}",
-                            "${_commentController.text}");
+                            widget.id_publication,
+                            _commentController.text);
                       } catch (e) {
                         print(e);
                       } finally {

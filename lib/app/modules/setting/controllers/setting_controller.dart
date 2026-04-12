@@ -15,32 +15,17 @@ import 'package:taleb/app/shared/CustomAlert.dart';
 import 'package:taleb/main.dart';
 import 'package:http/http.dart' as http;
 
-
 class SettingController extends GetxController {
   //TODO: Implement SettingController
 
-  Crud _crud = Crud();
+  final Crud _crud = Crud();
   final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
 
   void increment() => count.value++;
   List<dynamic> ListEcole = [];
 
   //Profil
-  profil() async {
+  Future<dynamic> profil() async {
     var response = await _crud.postRequest(link_profile, {
       "id_user": sharedpref.getString("id"),
     });
@@ -53,7 +38,8 @@ class SettingController extends GetxController {
   }
 
 //edit compte
-  edit_compte(String firstname, String lastname, String email, context) async {
+  Future<void> edit_compte(
+      String firstname, String lastname, String email, context) async {
     var response = await _crud.postRequest(link_edit_compte, {
       "firstname": firstname,
       "lastname": lastname,
@@ -63,45 +49,46 @@ class SettingController extends GetxController {
     if (response['status'] == "success") {
       print("edit_profile succufule");
       CustomAlert.show(
-      context: context,
-      type: AlertType.success,
-      desc: 'Your personal information has been changed successfully',
-      onPressed: () {
-      Navigator.pop(context);
-      });
+          context: context,
+          type: AlertType.success,
+          desc: 'Your personal information has been changed successfully',
+          onPressed: () {
+            Navigator.pop(context);
+          });
     } else {
       print("error in edit text");
     }
   }
 
   //change password
-  changepassword(String oldpassword, String newpassword, context) async {
+  Future<void> changepassword(
+      String oldpassword, String newpassword, context) async {
     var response = await _crud.postRequest(link_edit_password, {
       "user_id": sharedpref.getString("id"),
       "oldpassword": oldpassword,
       "newpassword": newpassword,
     });
-    if (response['status'] == "success") {      
+    if (response['status'] == "success") {
       CustomAlert.show(
-      context: context,
-      type: AlertType.success,
-      desc: 'Password Changed Successfully!',
-      onPressed: () {
-      Navigator.pop(context);
-      });
+          context: context,
+          type: AlertType.success,
+          desc: 'Password Changed Successfully!',
+          onPressed: () {
+            Navigator.pop(context);
+          });
     } else {
       CustomAlert.show(
-      context: context,
-      type: AlertType.error,
-      desc: 'Sorry, May be your password is incorrect',
-      onPressed: () {
-      Navigator.pop(context);
-      });
+          context: context,
+          type: AlertType.error,
+          desc: 'Sorry, May be your password is incorrect',
+          onPressed: () {
+            Navigator.pop(context);
+          });
     }
   }
 
   //Delet_Compte
-Future<void> deletcompte(BuildContext context) async {
+  Future<void> deletcompte(BuildContext context) async {
     var url = Uri.parse(link_delet_compte);
     Map<String, String> data = {
       'id': sharedpref.getString("id") ?? '',
@@ -188,23 +175,20 @@ Future<void> deletcompte(BuildContext context) async {
   // }
 
   //Update profile
-  add_pic_profile(File? _selectedImage,dynamic context) async {
+  Future<void> add_pic_profile(File? selectedImage, dynamic context) async {
     final uri = Uri.parse(link_add_pic_profile);
     var request = http.MultipartRequest('POST', uri);
     request.fields['user_id'] = "${sharedpref.getString("id")}";
-    var pic =
-        await http.MultipartFile.fromPath("profile", _selectedImage!.path);
+    var pic = await http.MultipartFile.fromPath("profile", selectedImage!.path);
     request.files.add(pic);
 
-    if (_selectedImage != null) {
-      var pic =
-          await http.MultipartFile.fromPath("image", _selectedImage!.path);
+    if (selectedImage != null) {
+      var pic = await http.MultipartFile.fromPath("image", selectedImage.path);
       request.files.add(pic);
     }
     try {
       var response = await request.send();
       if (response.statusCode == 200) {
-
         Navigator.pop(context);
 
         print("Image upload successful");
@@ -231,7 +215,7 @@ Future<void> deletcompte(BuildContext context) async {
   }
 
   //Select_Ville_Ecoles
-  Future selectvilleecole(String ecole,String type) async {
+  Future selectvilleecole(String ecole, String type) async {
     var response = await _crud.postRequest(link_select_ville_ecole, {
       "ecole_id": ecole,
       "type": type,

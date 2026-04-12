@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 class StringToArrayExample extends StatefulWidget {
+  const StringToArrayExample({Key? key}) : super(key: key);
+
   @override
   _StringToArrayExampleState createState() => _StringToArrayExampleState();
 }

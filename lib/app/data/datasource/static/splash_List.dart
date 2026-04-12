@@ -1,6 +1,5 @@
 import 'package:taleb/app/config/images/app_images.dart';
 import 'package:taleb/app/data/model/splash_Model.dart';
-import 'package:taleb/app/data/model/splash_Model.dart';
 
 List<Splashmodel> SplashList = [
   Splashmodel(

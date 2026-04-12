@@ -51,7 +51,7 @@ class _PostCardSearchState extends State<PostCardSearch> {
   bool _isExpanded = false;
   late int _isliked = widget.is_liked;
   late int _isfavorit = widget.is_favorit;
-  int _like = 0;
+  final int _like = 0;
   int comment = 0;
   late int nbr_like = widget.numberlike;
   final HomeController controller = Get.put(HomeController());
@@ -68,8 +68,12 @@ class _PostCardSearchState extends State<PostCardSearch> {
   }
 
   void splitString() {
-    String filenamesString = widget.postImage.substring(1, widget.postImage.length - 1); // Remove leading "[" and trailing "]"
-    charArray = filenamesString.split(',').map((filename) => filename.trim().replaceAll('"', '')).toList(); // Split by "," and trim whitespace, remove quotes
+    String filenamesString = widget.postImage.substring(
+        1, widget.postImage.length - 1); // Remove leading "[" and trailing "]"
+    charArray = filenamesString
+        .split(',')
+        .map((filename) => filename.trim().replaceAll('"', ''))
+        .toList(); // Split by "," and trim whitespace, remove quotes
     setState(() {
       _isLoading = false; // Set loading to false once images are split
     });
@@ -97,7 +101,8 @@ class _PostCardSearchState extends State<PostCardSearch> {
                   color: Colors.red,
                   size: 20,
                 ),
-                Text(widget.localisation, style: TextStyle(fontFamily: 'Bitter')),
+                Text(widget.localisation,
+                    style: TextStyle(fontFamily: 'Bitter')),
               ],
             ),
             subtitle: Row(
@@ -107,7 +112,7 @@ class _PostCardSearchState extends State<PostCardSearch> {
                   color: Colors.blue,
                   size: 19,
                 ),
-                Text("${widget.timeAgo}", style: TextStyle(fontFamily: 'Bitter')),
+                Text(widget.timeAgo, style: TextStyle(fontFamily: 'Bitter')),
               ],
             ),
           ),
@@ -195,7 +200,7 @@ class _PostCardSearchState extends State<PostCardSearch> {
           ),
           _isLoading
               ? Center(child: CircularProgressIndicator())
-              : Container(
+              : SizedBox(
                   height: AppConstant.screenHeight * 0.45,
                   child: Column(
                     children: <Widget>[
@@ -205,18 +210,22 @@ class _PostCardSearchState extends State<PostCardSearch> {
                           scrollDirection: Axis.horizontal,
                           itemCount: charArray.length,
                           itemBuilder: (context, index) {
-                            String imageUrl = "$linkserverimages/publication/${charArray[index].trim()}";
-                            print("Loading image: $imageUrl"); // Debug print to check the URL
+                            String imageUrl =
+                                "$linkserverimages/publication/${charArray[index].trim()}";
+                            print(
+                                "Loading image: $imageUrl"); // Debug print to check the URL
                             return Padding(
                               padding: EdgeInsets.all(3),
                               child: GestureDetector(
                                 onTap: () {
-                                  Navigator.of(context).push(MaterialPageRoute<void>(
+                                  Navigator.of(context)
+                                      .push(MaterialPageRoute<void>(
                                     builder: (BuildContext context) {
                                       return Scaffold(
                                         body: Center(
                                           child: PhotoView(
-                                            imageProvider: NetworkImage(imageUrl),
+                                            imageProvider:
+                                                NetworkImage(imageUrl),
                                             backgroundDecoration: BoxDecoration(
                                               color: Colors.black,
                                             ),
@@ -232,18 +241,22 @@ class _PostCardSearchState extends State<PostCardSearch> {
                                     fit: BoxFit.cover,
                                     errorBuilder: (context, error, stackTrace) {
                                       return Center(
-                                        child: CircularProgressIndicator()
-                                      );
+                                          child: CircularProgressIndicator());
                                     },
-                                    loadingBuilder: (context, child, loadingProgress) {
+                                    loadingBuilder:
+                                        (context, child, loadingProgress) {
                                       if (loadingProgress == null) {
                                         return child;
                                       }
                                       return Center(
                                         child: CircularProgressIndicator(
-                                          value: loadingProgress.expectedTotalBytes != null
-                                              ? loadingProgress.cumulativeBytesLoaded /
-                                                  loadingProgress.expectedTotalBytes!
+                                          value: loadingProgress
+                                                      .expectedTotalBytes !=
+                                                  null
+                                              ? loadingProgress
+                                                      .cumulativeBytesLoaded /
+                                                  loadingProgress
+                                                      .expectedTotalBytes!
                                               : null,
                                         ),
                                       );
@@ -263,7 +276,7 @@ class _PostCardSearchState extends State<PostCardSearch> {
                       charArray.length > 1
                           ? DotsIndicator(
                               dotsCount: charArray.length,
-                              position: currentPage,
+                              // position: currentPage,
                               decorator: const DotsDecorator(
                                 activeColor: AppTheme.main_color_1,
                               ),
@@ -272,7 +285,6 @@ class _PostCardSearchState extends State<PostCardSearch> {
                     ],
                   ),
                 ),
-          
           Padding(
             padding: const EdgeInsets.all(10),
             child: Row(
@@ -352,9 +364,8 @@ class _PostCardSearchState extends State<PostCardSearch> {
                           ),
                           onPressed: () {
                             Get.to(() => Commentaire(
-                                  id_publication: "${widget.id_publication}",
-                                )
-                                );
+                                  id_publication: widget.id_publication,
+                                ));
                           },
                         ),
                       ),
@@ -413,11 +424,11 @@ class _PostCardSearchState extends State<PostCardSearch> {
         ],
       ),
     );
-  
   }
 
-    void _launchFacebook() async {
-    const facebookPageUrl = 'https://www.facebook.com'; // Replace 'example' with your Facebook page username or ID
+  void _launchFacebook() async {
+    const facebookPageUrl =
+        'https://www.facebook.com'; // Replace 'example' with your Facebook page username or ID
     if (await canLaunch(facebookPageUrl)) {
       await launch(facebookPageUrl);
     } else {

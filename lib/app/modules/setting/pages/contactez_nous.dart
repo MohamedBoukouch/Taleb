@@ -15,9 +15,9 @@ class ContactezNous extends StatefulWidget {
 }
 
 class _ContactezNousState extends State<ContactezNous> {
-  TextEditingController _nom_controller = TextEditingController();
-  TextEditingController _email_controller = TextEditingController();
-  TextEditingController _message = TextEditingController();
+  final TextEditingController _nom_controller = TextEditingController();
+  final TextEditingController _email_controller = TextEditingController();
+  final TextEditingController _message = TextEditingController();
 
   @override
   void initState() {
@@ -47,10 +47,14 @@ class _ContactezNousState extends State<ContactezNous> {
                 Column(
                   children: [
                     Container(
-                        alignment: Alignment.centerLeft,
-                        padding: EdgeInsets.only(bottom: 15, top: 15),
-                        // child: Text("Nom_Prenom".tr)),
-                        child: Text("Nom_Prenom".tr,style: TextStyle(fontSize: 14,fontFamily: 'Bitter'),),),
+                      alignment: Alignment.centerLeft,
+                      padding: EdgeInsets.only(bottom: 15, top: 15),
+                      // child: Text("Nom_Prenom".tr)),
+                      child: Text(
+                        "Nom_Prenom".tr,
+                        style: TextStyle(fontSize: 14, fontFamily: 'Bitter'),
+                      ),
+                    ),
                     Edittext(
                       Controller: _nom_controller,
                       hint: "Nom_Complete".tr,
@@ -67,7 +71,8 @@ class _ContactezNousState extends State<ContactezNous> {
                     Container(
                       alignment: Alignment.centerLeft,
                       padding: const EdgeInsets.only(bottom: 15, top: 15),
-                      child: Text("Address".tr,style: TextStyle(fontSize: 14,fontFamily: 'Bitter')),
+                      child: Text("Address".tr,
+                          style: TextStyle(fontSize: 14, fontFamily: 'Bitter')),
                     ),
                     Edittext(
                       Controller: _email_controller,
@@ -85,10 +90,8 @@ class _ContactezNousState extends State<ContactezNous> {
                     Container(
                       alignment: Alignment.centerLeft,
                       padding: EdgeInsets.only(bottom: 15, top: 15),
-                      child: Text(
-                        "Message".tr,
-                        style: TextStyle(fontSize: 14,fontFamily: 'Bitter')
-                      ),
+                      child: Text("Message".tr,
+                          style: TextStyle(fontSize: 14, fontFamily: 'Bitter')),
                     ),
                   ],
                 ),
@@ -111,7 +114,8 @@ class _ContactezNousState extends State<ContactezNous> {
                     ),
                     decoration: InputDecoration(
                         hintText: "Message".tr,
-                        hintStyle: const TextStyle(color: Color(0xFF555353),fontFamily: 'Bitter'),
+                        hintStyle: const TextStyle(
+                            color: Color(0xFF555353), fontFamily: 'Bitter'),
                         alignLabelWithHint: true),
                   ),
                 ),

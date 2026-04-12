@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class StyledText extends StatelessWidget {
   final String text;
 
-  StyledText({required this.text});
+  const StyledText({Key? key, required this.text}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -13,30 +13,20 @@ class StyledText extends StatelessWidget {
 
     for (String phrase in phrases) {
       if (phrase.startsWith('titel')) {
-        textSpans.add(_buildTextSpan(
-            phrase.replaceFirst('titel : ', ''),
-            Colors.blue,
-            FontWeight.bold,
-            15.0)); // Adjust the size as needed
+        textSpans.add(_buildTextSpan(phrase.replaceFirst('titel : ', ''),
+            Colors.blue, FontWeight.bold, 15.0)); // Adjust the size as needed
       } else if (phrase.startsWith('task')) {
         textSpans.add(_buildTextSpan(
-            '• ' +
-                phrase.replaceFirst('task : ', ''),
+            '• ${phrase.replaceFirst('task : ', '')}',
             Colors.black,
             FontWeight.normal,
             14.0)); // Adjust the size as needed, '• ' represents bullet point
       } else if (phrase.startsWith('date')) {
-        textSpans.add(_buildTextSpan(
-            phrase.replaceFirst('date : ', ''),
-            Colors.red,
-            FontWeight.bold,
-            15.0));
-      }else {
-        textSpans.add(_buildTextSpan(
-            phrase,
-            Colors.black,
-            FontWeight.normal,
-            15.0));
+        textSpans.add(_buildTextSpan(phrase.replaceFirst('date : ', ''),
+            Colors.red, FontWeight.bold, 15.0));
+      } else {
+        textSpans
+            .add(_buildTextSpan(phrase, Colors.black, FontWeight.normal, 15.0));
       }
     }
 
@@ -51,7 +41,7 @@ class StyledText extends StatelessWidget {
   TextSpan _buildTextSpan(
       String text, Color color, FontWeight fontWeight, double fontSize) {
     return TextSpan(
-      text: text + '.\n',
+      text: '$text.\n',
       style: TextStyle(
         color: color,
         fontWeight: fontWeight,

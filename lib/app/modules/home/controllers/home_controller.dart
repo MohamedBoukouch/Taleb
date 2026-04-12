@@ -10,10 +10,9 @@ import 'package:taleb/app/modules/home/views/home_view.dart';
 import 'package:taleb/main.dart';
 import 'package:http/http.dart' as http;
 
-
 class HomeController extends GetxController {
   //TODO: Implement HomeController
-  Crud _crud = Crud();
+  final Crud _crud = Crud();
   TestData testData = TestData(Get.find());
   RxBool isLoading = true.obs;
 
@@ -31,24 +30,12 @@ class HomeController extends GetxController {
     super.onInit();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
   void increment() => count.value++;
 
   Future Showpub(String type) async {
     // statusRequest = StatusRequest.loading;
-    var response = await _crud.postRequest(linkshowpubli, {
-      "id_user": sharedpref.getString("id"),
-      "type":type
-    });
+    var response = await _crud.postRequest(
+        linkshowpubli, {"id_user": sharedpref.getString("id"), "type": type});
     if (response['status'] == "success") {
       print("success");
       // ListPicturesPub.assignAll(response['data']);
@@ -61,12 +48,12 @@ class HomeController extends GetxController {
 
   //Addcomment
   Future<void> Addcommentaire(
-      String id_user, String id_publication, String text) async {
+      String idUser, String idPublication, String text) async {
     // int number_comt =
     //     int.tryParse(number_comment) ?? 0; // Parsing with error handling
     var response = await _crud.postRequest(linkaddcomment, {
-      "id_user": id_user,
-      "id_publication": id_publication,
+      "id_user": idUser,
+      "id_publication": idPublication,
       // "numbercomment": number_comment,
       "text": text,
     });
@@ -80,9 +67,9 @@ class HomeController extends GetxController {
   }
 
   //Showcomment
-  Showcomment(String id_publication) async {
+  Future<dynamic> Showcomment(String idPublication) async {
     var response = await _crud.postRequest(linkshowcomment, {
-      "id_publication": id_publication,
+      "id_publication": idPublication,
     });
     if (response['status'] == "success") {
       print("show comment successfull");
@@ -93,18 +80,18 @@ class HomeController extends GetxController {
   }
 
   // Detel_comment
-  Deletcomment(String id_comment, String id_publication, String numbercomment,
-      context) async {
-    var nb_comment = int.parse(numbercomment);
-    assert(nb_comment is int);
+  Future<void> Deletcomment(String idComment, String idPublication,
+      String numbercomment, context) async {
+    var nbComment = int.parse(numbercomment);
+    assert(nbComment is int);
 
     var response = await _crud.postRequest(linkdeletcomment, {
-      "id_comment": id_comment,
-      "id_publication": id_publication,
+      "id_comment": idComment,
+      "id_publication": idPublication,
       "numbercomment": numbercomment,
     });
     if (response['status'] == "success") {
-      print("comment delete succeful => ${nb_comment}");
+      print("comment delete succeful => $nbComment");
       // Get.back();
       Get.to(HomeView());
       // Get.off(Commentaire(id_publication: id_publication, number_comment: 17));
@@ -114,16 +101,16 @@ class HomeController extends GetxController {
   }
 
   //AddLike
-  Addlike(String id_publication, String numberlike) async {
+  Future<void> Addlike(String idPublication, String numberlike) async {
     var response = await _crud.postRequest(linkAddlike, {
       "user_id": sharedpref.getString("id"),
-      "publication_id": id_publication,
+      "publication_id": idPublication,
     });
     if (response['status'] == "success") {
       print("you like publiaction");
       var response = await _crud.postRequest(linkLike, {
         "numberlike": numberlike,
-        "id_publication": id_publication,
+        "id_publication": idPublication,
       });
     } else {
       print("error in like ");
@@ -131,16 +118,16 @@ class HomeController extends GetxController {
   }
 
   //DropLike
-  Droplike(String id_publication, String numberlike) async {
+  Future<void> Droplike(String idPublication, String numberlike) async {
     var response = await _crud.postRequest(linkDroplike, {
-      "publication_id": id_publication,
+      "publication_id": idPublication,
       "user_id": sharedpref.getString("id"),
     });
     if (response['status'] == "success") {
       print("u are drop like");
       var response = await _crud.postRequest(linkLike, {
         "numberlike": numberlike,
-        "id_publication": id_publication,
+        "id_publication": idPublication,
       });
     } else {
       print("error in drop like");
@@ -148,10 +135,10 @@ class HomeController extends GetxController {
   }
 
   //Add_favorit
-  Addfavorite(String id_publication) async {
+  Future<void> Addfavorite(String idPublication) async {
     var response = await _crud.postRequest(linkAddfavorit, {
       "user_id": sharedpref.getString("id"),
-      "publication_id": id_publication,
+      "publication_id": idPublication,
     });
     if (response['status'] == "success") {
       print("is your favorit");
@@ -164,9 +151,9 @@ class HomeController extends GetxController {
   }
 
   //Drop_favorit
-  Dropfavorite(String id_publication) async {
+  Future<void> Dropfavorite(String idPublication) async {
     var response = await _crud.postRequest(linkDropfavorit, {
-      "publication_id": id_publication,
+      "publication_id": idPublication,
       "user_id": sharedpref.getString("id"),
     });
     if (response['status'] == "success") {
@@ -182,9 +169,9 @@ class HomeController extends GetxController {
   }
 
   //Search
-  Search(String search_txt) async {
+  Future<dynamic> Search(String searchTxt) async {
     var response = await _crud.postRequest(linksearch, {
-      "search_txt": search_txt,
+      "search_txt": searchTxt,
       "id_user": sharedpref.getString("id"),
     });
     if (response['status'] == "success") {
@@ -249,7 +236,6 @@ class HomeController extends GetxController {
       // update();
       print(response['data']);
       return response['data'];
-      
     } else {
       print("error");
       return null; // Return null or handle error accordingly
@@ -257,7 +243,7 @@ class HomeController extends GetxController {
   }
 
   //update_notification_status
-  update_notification_status() async {
+  Future<void> update_notification_status() async {
     update();
     var response = await _crud.postRequest(link_update_notification_status, {});
     if (response['status'] == "success") {
@@ -270,13 +256,11 @@ class HomeController extends GetxController {
     update();
   }
 
-
   //Sliders
-  
-   FetchSlider() async {
+
+  Future<void> FetchSlider() async {
     // statusRequest = StatusRequest.loading;
-    var response = await _crud.postRequest(fetch_slider_link, {
-    });
+    var response = await _crud.postRequest(fetch_slider_link, {});
     if (response['status'] == "success") {
       print("success");
       ListSliders.assignAll(response['data']);
@@ -289,20 +273,19 @@ class HomeController extends GetxController {
   }
 
   //Message Active
-    activemessages() async {
+  Future<dynamic> activemessages() async {
     update();
     var response = await _crud.getRequest(link_active_message);
     if (response['status'] == "success") {
-      return response['data']; 
+      return response['data'];
     } else {
       print("error");
       return null; // Return null or handle error accordingly
     }
   }
 
-
   //Update Status OF Message
-    update_message_status() async {
+  Future<void> update_message_status() async {
     update();
     var response = await _crud.postRequest(link_update_status_message, {
       "user_id": sharedpref.getString("id"),

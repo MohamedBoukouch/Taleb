@@ -7,23 +7,13 @@ import 'package:taleb/main.dart';
 
 class NotificationController extends GetxController {
   //TODO: Implement NotificationController
-  Crud _crud = Crud();
+  final Crud _crud = Crud();
 
   List<dynamic> ListNotification = [];
   List<dynamic> ListActiveNotification = [];
   // List<dynamic> List_Lenght_Notification = [];
   // List<dynamic> List_notification_active = [];
   final count = 0.obs;
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
 
   void increment() => count.value++;
 
@@ -35,10 +25,10 @@ class NotificationController extends GetxController {
 
   // show_publication
 
-  Future Showpub(String publication_id) async {
+  Future Showpub(String publicationId) async {
     // statusRequest = StatusRequest.loading;
     var response = await _crud.postRequest(link_show_publication, {
-      "publication_id": publication_id,
+      "publication_id": publicationId,
     });
     if (response['status'] == "success") {
       print("success");
@@ -49,7 +39,7 @@ class NotificationController extends GetxController {
   }
 
 //ALL Notifications:
-  allnotifications() async {
+  Future<dynamic> allnotifications() async {
     update();
     var response = await _crud.getRequest(link_all_notifications);
     ListNotification.addAll(response['data']);
@@ -64,11 +54,11 @@ class NotificationController extends GetxController {
   }
 
   //deletnotification
-  Future deletnotification(String id_notification) async {
+  Future deletnotification(String idNotification) async {
     update();
     // statusRequest = StatusRequest.loading;
     var response = await _crud.postRequest(link_delet_notification, {
-      "id": id_notification,
+      "id": idNotification,
     });
     if (response['status'] == "success") {
       print("success");

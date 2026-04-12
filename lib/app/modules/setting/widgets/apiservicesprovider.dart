@@ -9,7 +9,7 @@ class ApiServiceProvider {
     var response = await http.get(Uri.parse(BASE_URL)); // Convert String to Uri
 
     var dir = await getApplicationDocumentsDirectory();
-    File file = new File("${dir.path}/data.pdf");
+    File file = File("${dir.path}/data.pdf");
     await file.writeAsBytes(response.bodyBytes, flush: true); // Use await here
     return file.path;
   }

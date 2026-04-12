@@ -2,19 +2,11 @@ import "package:flutter/material.dart";
 import "package:get/get.dart";
 import "package:taleb/app/config/themes/app_theme.dart";
 import "package:taleb/app/modules/Favorite/views/favorite_view.dart";
-import "package:taleb/app/modules/chat/views/chat_view.dart";
 import "package:taleb/app/modules/concours/views/concours_view.dart";
-import "package:taleb/app/modules/favorite/controllers/favorite_controller.dart";
-import "package:taleb/app/modules/home/controllers/home_controller.dart";
 import "package:taleb/app/modules/home/views/home_view.dart";
-import "package:taleb/app/modules/initial/controllers/init_controller.dart";
-import "package:taleb/app/modules/initial/widgets/notifications.dart";
 import "package:taleb/app/modules/notification/controllers/notification_controller.dart";
-import "package:taleb/app/modules/notification/views/notification_view.dart";
 
-import "package:taleb/app/modules/search/views/search_view.dart";
 import "package:taleb/app/modules/setting/views/setting_view.dart";
-import "package:taleb/main.dart";
 
 class InitialView extends StatefulWidget {
   final int selectedindex;

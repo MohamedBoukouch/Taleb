@@ -5,11 +5,9 @@ import 'package:taleb/main.dart';
 
 class ChatController extends GetxController {
   //TODO: Implement ChatController
-  Crud _crud = Crud();
+  final Crud _crud = Crud();
   final count = 0.obs;
   List<dynamic> ListMessages = [];
-
-
 
   @override
   void onInit() {
@@ -19,36 +17,25 @@ class ChatController extends GetxController {
     super.onInit();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
   void increment() => count.value++;
-
 
 //getimageprofle
 
- String? getProfileImage() {
-  // Iterate through ListMessages
-  for (var message in ListMessages) {
-    // Check if user_to_admin is equal to 1 and it has a profile attribute
-    if (message['user_to_admin'] == 1) {
-      // Return the profile image URL
-      return message['sender']['profile'] as String?;
+  String? getProfileImage() {
+    // Iterate through ListMessages
+    for (var message in ListMessages) {
+      // Check if user_to_admin is equal to 1 and it has a profile attribute
+      if (message['user_to_admin'] == 1) {
+        // Return the profile image URL
+        return message['sender']['profile'] as String?;
+      }
     }
+    // Return null if no profile image found
+    return null;
   }
-  // Return null if no profile image found
-  return null;
-}
 
 //Send_Message
-  sendmessage(String message) async {
+  Future<void> sendmessage(String message) async {
     var response = await _crud.postRequest(link_send_messages, {
       "message": message,
       "expediteur": sharedpref.getString('id'),
@@ -65,7 +52,7 @@ class ChatController extends GetxController {
   }
 
   //show messages
-  showmessage() async {
+  Future<dynamic> showmessage() async {
     var response = await _crud.postRequest(
         link_show_messages, {"expediteur": sharedpref.getString('id')});
     if (response['status'] == "success") {
@@ -78,9 +65,9 @@ class ChatController extends GetxController {
   }
 
   //delet_message
-  delet_message(String id_message) async {
+  Future<void> delet_message(String idMessage) async {
     var response =
-        await _crud.postRequest(link_delet_message, {"id": id_message});
+        await _crud.postRequest(link_delet_message, {"id": idMessage});
     if (response['status'] == "success") {
       print("messages deleted sucssfull");
       // ListMessages.addAll(response['data']);
@@ -91,5 +78,4 @@ class ChatController extends GetxController {
   }
 
   //Active Notification
-
 }

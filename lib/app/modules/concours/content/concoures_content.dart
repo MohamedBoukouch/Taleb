@@ -17,7 +17,12 @@ class ConcoureContent extends StatefulWidget {
   final String ville_id;
   final int ecole_id;
 
-  ConcoureContent({Key? key,required this.niveaux, required this.ville_id, required this.ecole_id}) : super(key: key);
+  const ConcoureContent(
+      {Key? key,
+      required this.niveaux,
+      required this.ville_id,
+      required this.ecole_id})
+      : super(key: key);
 
   @override
   _ConcoureContentState createState() => _ConcoureContentState();
@@ -50,7 +55,8 @@ class _ConcoureContentState extends State<ConcoureContent> {
         leading: ButtonBack(),
       ),
       body: FutureBuilder(
-        future: controller.selectpdf(widget.niveaux, "${widget.ecole_id}", widget.ville_id),
+        future: controller.selectpdf(
+            widget.niveaux, "${widget.ecole_id}", widget.ville_id),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(

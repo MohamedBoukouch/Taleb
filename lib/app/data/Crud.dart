@@ -6,7 +6,7 @@ import 'dart:convert';
 import 'package:taleb/app/data/statusRequest.dart';
 
 class Crud {
-  getRequest(String url) async {
+  Future<dynamic> getRequest(String url) async {
     try {
       var response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {
@@ -20,7 +20,7 @@ class Crud {
     }
   }
 
-  postRequest(String url, Map data) async {
+  Future<dynamic> postRequest(String url, Map data) async {
     try {
       var response = await http.post(Uri.parse(url), body: data);
       if (response.statusCode == 200) {

@@ -39,7 +39,7 @@ class Body extends GetView<SplashControllerImp> {
             SizedBox(
               height: AppConstant.screenHeight * .05,
             ),
-            Container(
+            SizedBox(
               width: double.infinity,
               child: Text(
                 SplashList[i].text!,

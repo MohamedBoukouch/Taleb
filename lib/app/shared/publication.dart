@@ -51,7 +51,7 @@ class _PostCardState extends State<PostCard> {
   bool _isExpanded = false;
   late bool _isliked = widget.is_liked;
   late bool _isfavorit = widget.is_favorit;
-  int _like = 0;
+  final int _like = 0;
   int comment = 0;
   late int nbr_like = widget.numberlike;
   final HomeController controller = Get.put(HomeController());
@@ -68,8 +68,12 @@ class _PostCardState extends State<PostCard> {
   }
 
   void splitString() {
-    String filenamesString = widget.postImage.substring(1, widget.postImage.length - 1); // Remove leading "[" and trailing "]"
-    charArray = filenamesString.split(',').map((filename) => filename.trim()).toList(); // Split by "," and trim whitespace
+    String filenamesString = widget.postImage.substring(
+        1, widget.postImage.length - 1); // Remove leading "[" and trailing "]"
+    charArray = filenamesString
+        .split(',')
+        .map((filename) => filename.trim())
+        .toList(); // Split by "," and trim whitespace
     setState(() {
       _isLoading = false; // Set loading to false once images are split
     });
@@ -97,7 +101,8 @@ class _PostCardState extends State<PostCard> {
                   color: Colors.red,
                   size: 20,
                 ),
-                Text(widget.localisation, style: TextStyle(fontFamily: 'Bitter')),
+                Text(widget.localisation,
+                    style: TextStyle(fontFamily: 'Bitter')),
               ],
             ),
             subtitle: Row(
@@ -107,7 +112,7 @@ class _PostCardState extends State<PostCard> {
                   color: Colors.blue,
                   size: 19,
                 ),
-                Text("${widget.timeAgo}", style: TextStyle(fontFamily: 'Bitter')),
+                Text(widget.timeAgo, style: TextStyle(fontFamily: 'Bitter')),
               ],
             ),
           ),
@@ -195,7 +200,7 @@ class _PostCardState extends State<PostCard> {
           ),
           _isLoading
               ? Center(child: CircularProgressIndicator())
-              : Container(
+              : SizedBox(
                   height: AppConstant.screenHeight * 0.45,
                   child: Column(
                     children: <Widget>[
@@ -205,18 +210,22 @@ class _PostCardState extends State<PostCard> {
                           scrollDirection: Axis.horizontal,
                           itemCount: charArray.length,
                           itemBuilder: (context, index) {
-                            String imageUrl = "$linkserverimages/publication/${charArray[index].trim()}";
-                            print("Loading image: $imageUrl"); // Debug print to check the URL
+                            String imageUrl =
+                                "$linkserverimages/publication/${charArray[index].trim()}";
+                            print(
+                                "Loading image: $imageUrl"); // Debug print to check the URL
                             return Padding(
                               padding: EdgeInsets.all(3),
                               child: GestureDetector(
                                 onTap: () {
-                                  Navigator.of(context).push(MaterialPageRoute<void>(
+                                  Navigator.of(context)
+                                      .push(MaterialPageRoute<void>(
                                     builder: (BuildContext context) {
                                       return Scaffold(
                                         body: Center(
                                           child: PhotoView(
-                                            imageProvider: NetworkImage(imageUrl),
+                                            imageProvider:
+                                                NetworkImage(imageUrl),
                                             backgroundDecoration: BoxDecoration(
                                               color: Colors.black,
                                             ),
@@ -232,18 +241,22 @@ class _PostCardState extends State<PostCard> {
                                     fit: BoxFit.cover,
                                     errorBuilder: (context, error, stackTrace) {
                                       return Center(
-                                        child: CircularProgressIndicator()
-                                      );
+                                          child: CircularProgressIndicator());
                                     },
-                                    loadingBuilder: (context, child, loadingProgress) {
+                                    loadingBuilder:
+                                        (context, child, loadingProgress) {
                                       if (loadingProgress == null) {
                                         return child;
                                       }
                                       return Center(
                                         child: CircularProgressIndicator(
-                                          value: loadingProgress.expectedTotalBytes != null
-                                              ? loadingProgress.cumulativeBytesLoaded /
-                                                  loadingProgress.expectedTotalBytes!
+                                          value: loadingProgress
+                                                      .expectedTotalBytes !=
+                                                  null
+                                              ? loadingProgress
+                                                      .cumulativeBytesLoaded /
+                                                  loadingProgress
+                                                      .expectedTotalBytes!
                                               : null,
                                         ),
                                       );
@@ -263,7 +276,7 @@ class _PostCardState extends State<PostCard> {
                       charArray.length > 1
                           ? DotsIndicator(
                               dotsCount: charArray.length,
-                              position: currentPage,
+                              // position: currentPage,
                               decorator: const DotsDecorator(
                                 activeColor: AppTheme.main_color_1,
                               ),
@@ -272,7 +285,6 @@ class _PostCardState extends State<PostCard> {
                     ],
                   ),
                 ),
-          
           Padding(
             padding: const EdgeInsets.all(10),
             child: Row(
@@ -302,7 +314,9 @@ class _PostCardState extends State<PostCard> {
                                 ),
                           onPressed: () async {
                             setState(() {
-                              _isliked == false ? _isliked = true : _isliked = false;
+                              _isliked == false
+                                  ? _isliked = true
+                                  : _isliked = false;
                               _isliked == false ? nbr_like-- : nbr_like++;
                               // nbr_like++;
                             });
@@ -352,9 +366,8 @@ class _PostCardState extends State<PostCard> {
                           ),
                           onPressed: () {
                             Get.to(() => Commentaire(
-                                  id_publication: "${widget.id_publication}",
-                                )
-                                );
+                                  id_publication: widget.id_publication,
+                                ));
                           },
                         ),
                       ),
@@ -385,7 +398,9 @@ class _PostCardState extends State<PostCard> {
                     onPressed: () async {
                       print(widget.postImage);
                       setState(() {
-                        _isfavorit == false ? _isfavorit = true : _isfavorit = false;
+                        _isfavorit == false
+                            ? _isfavorit = true
+                            : _isfavorit = false;
                       });
                       if (_isfavorit == true) {
                         // setState(()  {
@@ -413,11 +428,11 @@ class _PostCardState extends State<PostCard> {
         ],
       ),
     );
-  
   }
 
-    void _launchFacebook() async {
-    const facebookPageUrl = 'https://www.facebook.com'; // Replace 'example' with your Facebook page username or ID
+  void _launchFacebook() async {
+    const facebookPageUrl =
+        'https://www.facebook.com'; // Replace 'example' with your Facebook page username or ID
     if (await canLaunch(facebookPageUrl)) {
       await launch(facebookPageUrl);
     } else {

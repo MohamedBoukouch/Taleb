@@ -55,7 +55,7 @@ class _CommentFormState extends State<CommentForm> {
         titleTextStyle: const TextStyle(color: Color.fromARGB(255, 82, 80, 80)),
         subtitle: Align(
           alignment: Alignment.centerRight,
-          child: Text('${widget.text}'),
+          child: Text(widget.text),
         ),
         subtitleTextStyle: const TextStyle(
           fontWeight: FontWeight.w800,
@@ -65,7 +65,7 @@ class _CommentFormState extends State<CommentForm> {
           radius: 27,
           backgroundImage: (widget.haveprofile == "0"
               ? AssetImage("assets/profile/Profile_2.png")
-              : NetworkImage("${widget.profile}") as ImageProvider<Object>),
+              : NetworkImage(widget.profile) as ImageProvider<Object>),
         ),
         trailing: Column(
           children: [
@@ -79,8 +79,7 @@ class _CommentFormState extends State<CommentForm> {
                   builder: (context) {
                     return AlertDialog(
                       title: Text("Delete_Comment".tr),
-                      content:  Text(
-                          "Delete_Comment_info".tr),
+                      content: Text("Delete_Comment_info".tr),
                       actions: [
                         AppFunction.cancel(),
                         AppFunction.deletcomment(

@@ -28,7 +28,7 @@ class _NotificationIconState extends State<NotificationIcon> {
           },
           color: Color.fromARGB(214, 112, 111, 111),
         ),
-        controller.List_Active_Notification.length > 0
+        controller.List_Active_Notification.isNotEmpty
             ? Positioned(
                 bottom: 31,
                 right: 13,

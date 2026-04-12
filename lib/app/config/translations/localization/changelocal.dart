@@ -10,7 +10,7 @@ class localeController extends GetxController {
   // Add a variable to store the selected language
   RxString selectedLanguage = "".obs;
 
-  changeLang(String langcode) {
+  void changeLang(String langcode) {
     Locale local = Locale(langcode);
     myservice.sharedPreferences.setString("lang", langcode);
 

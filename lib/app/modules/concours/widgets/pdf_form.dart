@@ -28,7 +28,7 @@ class _PdfFormState extends State<PdfForm> {
         ),
         Center(
           child: Text(
-            "${widget.annee_scolaire}",
+            widget.annee_scolaire,
             style: TextStyle(
                 fontFamily: 'Bitter',
                 fontWeight: FontWeight.bold,

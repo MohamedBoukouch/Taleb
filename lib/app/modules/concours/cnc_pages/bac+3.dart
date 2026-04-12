@@ -5,11 +5,6 @@ import 'package:taleb/app/config/constants/app_constant.dart';
 import 'package:taleb/app/config/images/app_images.dart';
 import 'package:taleb/app/data/const_link.dart';
 import 'package:taleb/app/modules/setting/controllers/setting_controller.dart';
-import 'package:taleb/app/modules/setting/controllers/setting_controller.dart';
-import 'package:taleb/app/modules/setting/controllers/setting_controller.dart';
-import 'package:taleb/app/modules/setting/controllers/setting_controller.dart';
-import 'package:taleb/app/modules/setting/controllers/setting_controller.dart';
-import 'package:taleb/app/modules/setting/controllers/setting_controller.dart';
 import 'package:taleb/app/modules/concours/pages/types_of_one_cnc.dart';
 import 'package:taleb/app/modules/concours/widgets/type_concoure.dart';
 
@@ -58,7 +53,8 @@ class _Bac3State extends State<Bac3> {
                     itemBuilder: (context, index) {
                       return InkWell(
                         onTap: () => Get.to(() => TypeOfOneCnc(
-                            ecole_id: snapshot.data[index]['name'],type:"bac+3")),
+                            ecole_id: snapshot.data[index]['name'],
+                            type: "bac+3")),
                         child: TypeConcoure(
                           url_img:
                               "$linkserverimages/ecoleLogo/${snapshot.data[index]['logo']}",

@@ -39,7 +39,7 @@ class _HomeViewState extends State<HomeView> {
   }
 
   void initialData() async {
-    var res = await chekInternet();
+    var res = await checkInternet();
     print(res);
   }
 
@@ -139,7 +139,7 @@ class _HomeViewState extends State<HomeView> {
             },
             child: Stack(
               children: [
-                Container(
+                SizedBox(
                   width: 25,
                   height: 25,
                   child: Image.asset(
@@ -180,7 +180,7 @@ class _HomeViewState extends State<HomeView> {
             },
             child: Stack(
               children: [
-                Container(
+                SizedBox(
                   width: 25,
                   height: 25,
                   child: Image.asset(
@@ -188,7 +188,8 @@ class _HomeViewState extends State<HomeView> {
                     color: Colors.grey,
                   ),
                 ),
-                if (activemessages == "1") // Check if activemessages is not empty
+                if (activemessages ==
+                    "1") // Check if activemessages is not empty
                   Positioned(
                     right: 0,
                     top: 0,
@@ -228,7 +229,8 @@ class _HomeViewState extends State<HomeView> {
                       ? IconButton(
                           onPressed: () async {
                             if (_searchController.text.isNotEmpty) {
-                              if (!suggestions.contains(_searchController.text)) {
+                              if (!suggestions
+                                  .contains(_searchController.text)) {
                                 suggestions.add(_searchController.text);
                                 saveSuggestions();
                               }
@@ -236,9 +238,11 @@ class _HomeViewState extends State<HomeView> {
                               try {
                                 await controller.Search(_searchController.text);
                                 setState(() {
-                                  isLoading = false; // Stop loading after search completes
+                                  isLoading =
+                                      false; // Stop loading after search completes
                                 });
-                                print("la taile is ${controller.listdata.length}");
+                                print(
+                                    "la taile is ${controller.listdata.length}");
                               } catch (e) {
                                 print("error catch: $e");
                               }
@@ -289,7 +293,7 @@ class _HomeViewState extends State<HomeView> {
                     ? Center(
                         child: CircularProgressIndicator(),
                       )
-                    : controller.listdata.length > 0
+                    : controller.listdata.isNotEmpty
                         ? ListView.builder(
                             shrinkWrap: true,
                             physics: NeverScrollableScrollPhysics(),
@@ -298,39 +302,49 @@ class _HomeViewState extends State<HomeView> {
                               return PostCardSearch(
                                 link: "${controller.listdata[index]['link']}",
                                 is_liked: controller.listdata[index]['liked'],
-                                is_favorit: controller.listdata[index]['favorite'],
-                                numberlike: controller.listdata[index]['numberlike'],
-                                numbercomment: controller.listdata[index]['numbercomment'],
-                                id_publication: "${controller.listdata[index]['id']}",
-                                localisation: " ${controller.listdata[index]['localisation']}",
-                                timeAgo: "  ${controller.listdata[index]['date']}",
+                                is_favorit: controller.listdata[index]
+                                    ['favorite'],
+                                numberlike: controller.listdata[index]
+                                    ['numberlike'],
+                                numbercomment: controller.listdata[index]
+                                    ['numbercomment'],
+                                id_publication:
+                                    "${controller.listdata[index]['id']}",
+                                localisation:
+                                    " ${controller.listdata[index]['localisation']}",
+                                timeAgo:
+                                    "  ${controller.listdata[index]['date']}",
                                 titel: "${controller.listdata[index]['titel']}",
-                                description: "${controller.listdata[index]['description']}",
-                                postImage: "${controller.listdata[index]['file']}",
-                                link_titel: "${controller.listdata[index]['link_titel']}",
+                                description:
+                                    "${controller.listdata[index]['description']}",
+                                postImage:
+                                    "${controller.listdata[index]['file']}",
+                                link_titel:
+                                    "${controller.listdata[index]['link_titel']}",
                               );
                             },
                           )
                         : Center(
                             child: Container(
-                              margin: EdgeInsets.only(top: AppConstant.screenHeight * .06),
+                              margin: EdgeInsets.only(
+                                  top: AppConstant.screenHeight * .06),
                               child: Column(
                                 children: [
                                   Image.asset("assets/icons/Not_Found.png"),
                                   SizedBox(
                                     height: AppConstant.screenHeight * .06,
                                   ),
-                              Text(
-                                "Désolé, la publication que vous recherchez n'existe pas.",
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  fontFamily: 'Bitter',
-                                ),
-                              )
-                            ],
+                                  Text(
+                                    "Désolé, la publication que vous recherchez n'existe pas.",
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                      fontFamily: 'Bitter',
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
           ],
         ),
       ),

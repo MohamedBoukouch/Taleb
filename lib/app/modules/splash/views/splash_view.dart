@@ -1,6 +1,5 @@
 import 'dart:math';
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:taleb/app/config/constants/app_constant.dart';
@@ -185,8 +184,6 @@ class CircleProgressPainter extends CustomPainter {
   bool shouldRepaint(CircleProgressPainter oldDelegate) =>
       progress != oldDelegate.progress;
 }
-
-
 
 // import 'package:flutter/foundation.dart';
 // import 'package:flutter/material.dart';

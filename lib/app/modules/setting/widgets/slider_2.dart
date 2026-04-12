@@ -27,7 +27,10 @@ class _Slider_2State extends State<Slider_2> {
             backgroundColor: AppTheme.blue_color_1,
             child: widget.icon,
           ),
-          title: Text("${widget.titel}",style: TextStyle(fontSize: 14),),
+          title: Text(
+            widget.titel,
+            style: TextStyle(fontSize: 14),
+          ),
           trailing: Icon(Icons.navigate_next_rounded)),
     );
   }

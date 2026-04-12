@@ -28,12 +28,12 @@ class _Slider_1State extends State<Slider_1> {
               "https://th.bing.com/th/id/OIP.6nsKk7mIkSKvYZD_APa8-AHaFk?pid=ImgDet&rs=1"),
         ),
         title: Text(
-          "${widget.nom}",
+          widget.nom,
           style: TextStyle(
               fontFamily: 'Bitter', fontWeight: FontWeight.bold, fontSize: 18),
         ),
         subtitle: Text(
-          "${widget.email}",
+          widget.email,
           style: TextStyle(fontFamily: 'Bitter'),
         ),
       ),

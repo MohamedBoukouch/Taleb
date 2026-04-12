@@ -73,7 +73,7 @@ class _ChatViewState extends State<ChatView> {
                 FocusScope.of(context).unfocus();
 
                 try {
-                  await controller.sendmessage("${_messageController.text}");
+                  await controller.sendmessage(_messageController.text);
                 } catch (e) {
                   print(e);
                 }
@@ -101,9 +101,7 @@ class _ChatViewState extends State<ChatView> {
                     ),
                   );
                 } else if (snapshot.hasError) {
-                  return Center(
-                    child: Text("${snapshot.error}")
-                  );
+                  return Center(child: Text("${snapshot.error}"));
                 } else if (!snapshot.hasData) {
                   return Center(
                     child: Text("No data available"),
@@ -120,17 +118,20 @@ class _ChatViewState extends State<ChatView> {
                           });
                         },
                         child: Container(
-                          padding: EdgeInsets.only(left: 14, right: 14, top: 10, bottom: 10),
+                          padding: EdgeInsets.only(
+                              left: 14, right: 14, top: 10, bottom: 10),
                           child: Align(
-                            alignment: (snapshot.data[index]['user_to_admin'] == 1
-                                ? Alignment.topRight
-                                : Alignment.topLeft),
+                            alignment:
+                                (snapshot.data[index]['user_to_admin'] == 1
+                                    ? Alignment.topRight
+                                    : Alignment.topLeft),
                             child: Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(20),
-                                color: (snapshot.data[index]['user_to_admin'] == 1
-                                    ? Colors.blue[200]
-                                    : Colors.grey.shade200),
+                                color:
+                                    (snapshot.data[index]['user_to_admin'] == 1
+                                        ? Colors.blue[200]
+                                        : Colors.grey.shade200),
                               ),
                               padding: EdgeInsets.all(16),
                               child: Text(

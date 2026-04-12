@@ -32,7 +32,7 @@ class _NotificationFormState extends State<NotificationForm> {
       ),
       child: ListTile(
         title: Text(
-          "${widget.body}",
+          widget.body,
           style: TextStyle(fontFamily: 'Bitter', fontSize: 15),
         ),
         leading: CircleAvatar(
