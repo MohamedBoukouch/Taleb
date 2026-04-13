@@ -1,3 +1,4 @@
+import 'package:taleb/app/data/model/PostMedia.dart';
 import 'package:taleb/app/modules/home/widgets/post_card.dart';
 
 class PostModel {

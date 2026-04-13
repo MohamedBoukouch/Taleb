@@ -1,113 +1,113 @@
-import "package:flutter/material.dart";
-import "package:flutter/services.dart";
-import "package:get/get.dart";
-import "package:google_fonts/google_fonts.dart";
-import "package:taleb/app/modules/home/controllers/home_controller.dart";
-import "package:taleb/app/modules/home/pages/commentaires.dart";
-import "package:taleb/app/modules/home/views/home_view.dart";
-import "package:taleb/app/modules/setting/controllers/setting_controller.dart";
+// import "package:flutter/material.dart";
+// import "package:flutter/services.dart";
+// import "package:get/get.dart";
+// import "package:google_fonts/google_fonts.dart";
+// import "package:taleb/app/modules/home/controllers/home_controller.dart";
+// import "package:taleb/app/modules/home/pages/commentaires.dart";
+// import "package:taleb/app/modules/home/views/home_view.dart";
+// import "package:taleb/app/modules/setting/controllers/setting_controller.dart";
 
-import "../constants/app_constant.dart";
-import "../themes/app_theme.dart";
+// import "../constants/app_constant.dart";
+// import "../themes/app_theme.dart";
 
-final HomeController home_controller = Get.put(HomeController());
-final SettingController compte_controller = Get.put(SettingController());
+// final HomeController home_controller = Get.put(HomeController());
+// final SettingController compte_controller = Get.put(SettingController());
 
-class AppFunction {
-  AppFunction._();
+// class AppFunction {
+//   AppFunction._();
 
-  static void get configureDependencies {
-    SystemChrome.setPreferredOrientations(
-        <DeviceOrientation>[DeviceOrientation.portraitUp]);
-    SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(
-        systemNavigationBarColor: AppTheme.main_color_1,
-        systemNavigationBarDividerColor: AppTheme.main_color_1,
-        systemNavigationBarIconBrightness: Brightness.light,
-        statusBarColor: AppTheme.transparent_color,
-        statusBarIconBrightness: Brightness.dark,
-        statusBarBrightness: Brightness.dark,
-      ),
-    );
-  }
+//   static void get configureDependencies {
+//     SystemChrome.setPreferredOrientations(
+//         <DeviceOrientation>[DeviceOrientation.portraitUp]);
+//     SystemChrome.setSystemUIOverlayStyle(
+//       const SystemUiOverlayStyle(
+//         systemNavigationBarColor: AppTheme.main_color_1,
+//         systemNavigationBarDividerColor: AppTheme.main_color_1,
+//         systemNavigationBarIconBrightness: Brightness.light,
+//         statusBarColor: AppTheme.transparent_color,
+//         statusBarIconBrightness: Brightness.dark,
+//         statusBarBrightness: Brightness.dark,
+//       ),
+//     );
+//   }
 
-  static TextButton cancel() {
-    return TextButton(
-      child: Text(
-        "cancel".tr,
-        style: const TextStyle(
-          color: Colors.red,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-      onPressed: () {
-        Get.back();
-      },
-    );
-  }
+//   static TextButton cancel() {
+//     return TextButton(
+//       child: Text(
+//         "cancel".tr,
+//         style: const TextStyle(
+//           color: Colors.red,
+//           fontWeight: FontWeight.bold,
+//         ),
+//       ),
+//       onPressed: () {
+//         Get.back();
+//       },
+//     );
+//   }
 
-//delet_compte
-  static TextButton delet_compte(cxt) {
-    return TextButton(
-      child: const Text(
-        "Delet",
-        style: TextStyle(
-          color: Colors.red,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-      onPressed: () async {
-        await compte_controller.deletcompte(cxt);
-      },
-    );
-  }
+// //delet_compte
+//   static TextButton delet_compte(cxt) {
+//     return TextButton(
+//       child: const Text(
+//         "Delet",
+//         style: TextStyle(
+//           color: Colors.red,
+//           fontWeight: FontWeight.bold,
+//         ),
+//       ),
+//       onPressed: () async {
+//         await compte_controller.deletcompte(cxt);
+//       },
+//     );
+//   }
 
-//delet comment
-  static TextButton deletcomment(String idComment, String idPublication,
-      String nbrComment, dynamic context) {
-    return TextButton(
-      child: Text(
-        "delete".tr,
-        style: const TextStyle(
-          color: Color.fromARGB(255, 44, 40, 40),
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-      onPressed: () async {
-        await home_controller.Deletcomment(
-            idComment, idPublication, nbrComment, context);
+// //delet comment
+//   static TextButton deletcomment(String idComment, String idPublication,
+//       String nbrComment, dynamic context) {
+//     return TextButton(
+//       child: Text(
+//         "delete".tr,
+//         style: const TextStyle(
+//           color: Color.fromARGB(255, 44, 40, 40),
+//           fontWeight: FontWeight.bold,
+//         ),
+//       ),
+//       onPressed: () async {
+//         await home_controller.Deletcomment(
+//             idComment, idPublication, nbrComment, context);
 
-        Get.to(Commentaire(
-          id_publication: idPublication,
-        ));
-      },
-    );
-  }
+//         Get.to(Commentaire(
+//           id_publication: idPublication,
+//         ));
+//       },
+//     );
+//   }
 
-  static SnackBar snackBar(
-      {required String label, Color color = AppTheme.red_color}) {
-    return SnackBar(
-      content: Text(
-        label,
-        textAlign: TextAlign.center,
-        style: GoogleFonts.poppins(
-          color: AppTheme.text_color_2,
-          fontWeight: FontWeight.bold,
-          letterSpacing: .5,
-        ),
-      ),
-      elevation: 0,
-      backgroundColor: color,
-      padding: const EdgeInsets.all(10),
-      width: AppConstant.screenWidth * .75,
-      shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(Radius.circular(15)),
-      ),
-      showCloseIcon: false,
-      closeIconColor: color,
-      duration: 2500.milliseconds,
-      behavior: SnackBarBehavior.floating,
-      dismissDirection: DismissDirection.down,
-    );
-  }
-}
+//   static SnackBar snackBar(
+//       {required String label, Color color = AppTheme.red_color}) {
+//     return SnackBar(
+//       content: Text(
+//         label,
+//         textAlign: TextAlign.center,
+//         style: GoogleFonts.poppins(
+//           color: AppTheme.text_color_2,
+//           fontWeight: FontWeight.bold,
+//           letterSpacing: .5,
+//         ),
+//       ),
+//       elevation: 0,
+//       backgroundColor: color,
+//       padding: const EdgeInsets.all(10),
+//       width: AppConstant.screenWidth * .75,
+//       shape: const RoundedRectangleBorder(
+//         borderRadius: BorderRadius.all(Radius.circular(15)),
+//       ),
+//       showCloseIcon: false,
+//       closeIconColor: color,
+//       duration: 2500.milliseconds,
+//       behavior: SnackBarBehavior.floating,
+//       dismissDirection: DismissDirection.down,
+//     );
+//   }
+// }

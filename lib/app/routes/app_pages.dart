@@ -48,23 +48,23 @@ class AppPages {
       page: () => const SignupView(),
       binding: SignupBinding(),
     ),
-    GetPage(
-      name: _Paths.INIT,
-      page: () => const InitialView(),
-      binding: InitBinding(),
-    ),
-    GetPage(
-      name: _Paths.FAVORITE,
-      page: () => const FavoriteView(),
-      binding: NotificationBinding(),
-      children: [
-        GetPage(
-          name: _Paths.NOTIFICATION,
-          page: () => NotificationView(),
-          binding: NotificationBinding(),
-        ),
-      ],
-    ),
+    // GetPage(
+    //   name: _Paths.INIT,
+    //   page: () => const InitialView(),
+    //   binding: InitBinding(),
+    // ),
+    // GetPage(
+    //   name: _Paths.FAVORITE,
+    //   page: () => const FavoriteView(),
+    //   binding: NotificationBinding(),
+    //   children: [
+    //     GetPage(
+    //       name: _Paths.NOTIFICATION,
+    //       page: () => NotificationView(),
+    //       binding: NotificationBinding(),
+    //     ),
+    //   ],
+    // ),
     GetPage(
       name: _Paths.SETTING,
       page: () => SettingView(),
@@ -75,10 +75,10 @@ class AppPages {
       page: () => ChatView(),
       binding: ChatBinding(),
     ),
-    GetPage(
-      name: _Paths.CONCOURS,
-      page: () => const ConcoursView(),
-      binding: ConcoursBinding(),
-    ),
+    // GetPage(
+    //   name: _Paths.CONCOURS,
+    //   page: () => const ConcoursView(),
+    //   binding: ConcoursBinding(),
+    // ),
   ];
 }

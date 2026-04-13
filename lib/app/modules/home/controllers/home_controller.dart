@@ -1,302 +1,80 @@
-import 'dart:convert';
-
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:taleb/app/data/Crud.dart';
-import 'package:taleb/app/data/const_link.dart';
-import 'package:taleb/app/data/remot/testdata.dart';
-import 'package:taleb/app/modules/home/views/home_view.dart';
-import 'package:taleb/main.dart';
-import 'package:http/http.dart' as http;
+import 'package:taleb/app/data/Api/post_service.dart';
 
 class HomeController extends GetxController {
-  //TODO: Implement HomeController
-  final Crud _crud = Crud();
-  TestData testData = TestData(Get.find());
-  RxBool isLoading = true.obs;
+  final PostService _service = PostService();
 
-  List<dynamic> listdata = [];
-  List<dynamic> ListSliders = [];
-  List<dynamic> ListActiveNotification = [];
+  final RxList<PostData> posts = <PostData>[].obs;
+  final RxBool isLoading = false.obs;
+  final RxBool hasError = false.obs;
+  final RxString errorMessage = ''.obs;
+  final RxSet<String> likedIds = <String>{}.obs;
 
-  final count = 0.obs;
   @override
   void onInit() {
-    FetchSlider();
-    FirebaseMessaging.instance.subscribeToTopic("users");
-    activenotification();
-    activemessages();
     super.onInit();
+    fetchPosts();
+    // ✅ Safe stubs — no longer call local server
+    _initNotifications();
+    _initMessages();
+    _initSliders();
   }
 
-  void increment() => count.value++;
+  // ── Posts ────────────────────────────────────────────────────────────────
 
-  Future Showpub(String type) async {
-    // statusRequest = StatusRequest.loading;
-    var response = await _crud.postRequest(
-        linkshowpubli, {"id_user": sharedpref.getString("id"), "type": type});
-    if (response['status'] == "success") {
-      print("success");
-      // ListPicturesPub.assignAll(response['data']);
-      // update();
-      return response['data'];
-    } else {
-      print("error");
+  Future<void> fetchPosts() async {
+    isLoading.value = true;
+    hasError.value = false;
+    errorMessage.value = '';
+
+    try {
+      final result = await _service.fetchPosts();
+      posts.assignAll(result);
+    } catch (e) {
+      hasError.value = true;
+      errorMessage.value = e.toString();
+    } finally {
+      isLoading.value = false;
     }
   }
 
-  //Addcomment
-  Future<void> Addcommentaire(
-      String idUser, String idPublication, String text) async {
-    // int number_comt =
-    //     int.tryParse(number_comment) ?? 0; // Parsing with error handling
-    var response = await _crud.postRequest(linkaddcomment, {
-      "id_user": idUser,
-      "id_publication": idPublication,
-      // "numbercomment": number_comment,
-      "text": text,
-    });
-    if (response['status'] == "success") {
-      print("Comment added successfully");
+  Future<void> toggleLike(String postId) async {
+    if (likedIds.contains(postId)) {
+      likedIds.remove(postId);
     } else {
-      print(
-          "Failed to add comment: ${response['message']}"); // Log error message
-    }
-    update(); // Assuming update() is a method to update the UI
-  }
-
-  //Showcomment
-  Future<dynamic> Showcomment(String idPublication) async {
-    var response = await _crud.postRequest(linkshowcomment, {
-      "id_publication": idPublication,
-    });
-    if (response['status'] == "success") {
-      print("show comment successfull");
-      return response['data'];
-    } else {
-      print("signup fail");
+      likedIds.add(postId);
+      await _service.likePost(postId);
     }
   }
 
-  // Detel_comment
-  Future<void> Deletcomment(String idComment, String idPublication,
-      String numbercomment, context) async {
-    var nbComment = int.parse(numbercomment);
-    assert(nbComment is int);
+  bool isLiked(String postId) => likedIds.contains(postId);
 
-    var response = await _crud.postRequest(linkdeletcomment, {
-      "id_comment": idComment,
-      "id_publication": idPublication,
-      "numbercomment": numbercomment,
-    });
-    if (response['status'] == "success") {
-      print("comment delete succeful => $nbComment");
-      // Get.back();
-      Get.to(HomeView());
-      // Get.off(Commentaire(id_publication: id_publication, number_comment: 17));
-    } else {
-      print("Error in delet a comment");
-    }
+  // ── Stubs (replace with real Supabase calls later) ───────────────────────
+
+  void _initNotifications() {
+    // TODO: replace with Supabase query when ready
+    // was calling http://10.0.2.2:8000 — removed
   }
 
-  //AddLike
-  Future<void> Addlike(String idPublication, String numberlike) async {
-    var response = await _crud.postRequest(linkAddlike, {
-      "user_id": sharedpref.getString("id"),
-      "publication_id": idPublication,
-    });
-    if (response['status'] == "success") {
-      print("you like publiaction");
-      var response = await _crud.postRequest(linkLike, {
-        "numberlike": numberlike,
-        "id_publication": idPublication,
-      });
-    } else {
-      print("error in like ");
-    }
+  void _initMessages() {
+    // TODO: replace with Supabase query when ready
   }
 
-  //DropLike
-  Future<void> Droplike(String idPublication, String numberlike) async {
-    var response = await _crud.postRequest(linkDroplike, {
-      "publication_id": idPublication,
-      "user_id": sharedpref.getString("id"),
-    });
-    if (response['status'] == "success") {
-      print("u are drop like");
-      var response = await _crud.postRequest(linkLike, {
-        "numberlike": numberlike,
-        "id_publication": idPublication,
-      });
-    } else {
-      print("error in drop like");
-    }
+  void _initSliders() {
+    // TODO: replace with Supabase query when ready
   }
 
-  //Add_favorit
-  Future<void> Addfavorite(String idPublication) async {
-    var response = await _crud.postRequest(linkAddfavorit, {
-      "user_id": sharedpref.getString("id"),
-      "publication_id": idPublication,
-    });
-    if (response['status'] == "success") {
-      print("is your favorit");
-      // Get.rawSnackbar(
-      //     title: "Notification",
-      //     messageText: Text("You Are add the publication to list of favorit"));
-    } else {
-      print("error in favorit ");
-    }
+  // ── Keep these if other parts of your app call them ──────────────────────
+
+  Future<void> activenotification() async {
+    // Safe no-op until you wire up the real endpoint
   }
 
-  //Drop_favorit
-  Future<void> Dropfavorite(String idPublication) async {
-    var response = await _crud.postRequest(linkDropfavorit, {
-      "publication_id": idPublication,
-      "user_id": sharedpref.getString("id"),
-    });
-    if (response['status'] == "success") {
-      print("is not your favorit");
-      // Get.to(FavoritView());
-      // Get.rawSnackbar(
-      //     title: "Notification",
-      //     messageText:
-      //         Text("You Are Delet the publication to list of favorit"));
-    } else {
-      print("error in favorit");
-    }
+  Future<void> activemessages() async {
+    // Safe no-op until you wire up the real endpoint
   }
-
-  //Search
-  Future<dynamic> Search(String searchTxt) async {
-    var response = await _crud.postRequest(linksearch, {
-      "search_txt": searchTxt,
-      "id_user": sharedpref.getString("id"),
-    });
-    if (response['status'] == "success") {
-      print("Search sucssfule");
-      print(response['data']);
-      listdata.assignAll(response['data']);
-      return response['data'];
-    } else {
-      print("error in search ");
-    }
-  }
-
-// Future<void> Search(String searchText) async {
-//   var url = Uri.parse(linksearch);
-
-//   Map<String, String> queryParams = {
-//     "search_txt": searchText,
-//     "id_user": '17', // Replace with your user ID retrieval logic
-//   };
-
-//   // Build the complete URL with query parameters
-//   url = Uri.https(url.authority, url.path, queryParams);
-
-//   try {
-//     final http.Response response = await http.get(
-//       url,
-//       headers: {
-//         'Content-Type': 'application/json',
-//         // Add any additional headers as needed
-//       },
-//     );
-
-//     if (response.statusCode == 200) {
-//       Map<String, dynamic> responseData = jsonDecode(response.body);
-//       if (responseData['status'] == 'success') {
-//         print("Search successful");
-//         print(responseData['data']);
-
-//         listdata.assignAll(responseData['data']);
-//   //     return response['data'];
-//         // Process responseData['data'] as needed
-//       } else {
-//         print("Error in search: ${responseData['status']}");
-//         // Handle error appropriately, e.g., show error message
-//       }
-//     } else {
-//       print("Error in search: ${response.statusCode}");
-//       // Handle error appropriately, e.g., show error message
-//     }
-//   } catch (e) {
-//     print("Exception during search: $e");
-//     // Handle exception, e.g., show error message
-//   }
-// }
-  //Active_Notification
-  Future activenotification() async {
-    update();
-    var response = await _crud.getRequest(link_notification_active);
-    // ListActiveNotification.addAll(response['data']);
-    // ListNotification.assignAll(response['data']);
-    if (response['status'] == "success") {
-      // update();
-      print(response['data']);
-      return response['data'];
-    } else {
-      print("error");
-      return null; // Return null or handle error accordingly
-    }
-  }
-
-  //update_notification_status
-  Future<void> update_notification_status() async {
-    update();
-    var response = await _crud.postRequest(link_update_notification_status, {});
-    if (response['status'] == "success") {
-      print("success");
-      update();
-    } else {
-      print("error");
-      update();
-    }
-    update();
-  }
-
-  //Sliders
 
   Future<void> FetchSlider() async {
-    // statusRequest = StatusRequest.loading;
-    var response = await _crud.postRequest(fetch_slider_link, {});
-    if (response['status'] == "success") {
-      print("success");
-      ListSliders.assignAll(response['data']);
-      isLoading.value = false;
-      // update();
-      // return response['data'];
-    } else {
-      print("error");
-    }
-  }
-
-  //Message Active
-  Future<dynamic> activemessages() async {
-    update();
-    var response = await _crud.getRequest(link_active_message);
-    if (response['status'] == "success") {
-      return response['data'];
-    } else {
-      print("error");
-      return null; // Return null or handle error accordingly
-    }
-  }
-
-  //Update Status OF Message
-  Future<void> update_message_status() async {
-    update();
-    var response = await _crud.postRequest(link_update_status_message, {
-      "user_id": sharedpref.getString("id"),
-    });
-    if (response['status'] == "success") {
-      print("success");
-      update();
-    } else {
-      print("error");
-      update();
-    }
-    update();
+    // Safe no-op until you wire up the real endpoint
   }
 }
