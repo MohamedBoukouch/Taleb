@@ -58,7 +58,6 @@ class PostCard extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // Avatar placeholder
                     Container(
                       width: 46,
                       height: 46,
@@ -110,30 +109,67 @@ class PostCard extends StatelessWidget {
                         ],
                       ),
                     ),
-                    // Niveau pill
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 10, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: const Color(0xFFEBF3FB),
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Text(
-                        post.niveau,
-                        style: const TextStyle(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w600,
-                          color: Color(0xFF0A66C2),
+
+                    // ✅ BOUTON FAVORI (remplace le container niveau)
+                    Obx(() {
+                      final isFav = controller.isFavorite(post.id);
+                      return GestureDetector(
+                        onTap: () => controller.toggleFavorite(post.id),
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 200),
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 8),
+                          decoration: BoxDecoration(
+                            color: isFav
+                                ? const Color(0xFFFEE2E2)
+                                : const Color(0xFFF3F4F6),
+                            borderRadius: BorderRadius.circular(20),
+                            border: Border.all(
+                              color: isFav
+                                  ? const Color(0xFFEF4444)
+                                  : const Color(0xFFE5E7EB),
+                              width: 1,
+                            ),
+                          ),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              AnimatedSwitcher(
+                                duration: const Duration(milliseconds: 200),
+                                child: Icon(
+                                  isFav
+                                      ? Icons.favorite_rounded
+                                      : Icons.favorite_border_rounded,
+                                  key: ValueKey<bool>(isFav),
+                                  size: 16,
+                                  color: isFav
+                                      ? const Color(0xFFEF4444)
+                                      : const Color(0xFF9CA3AF),
+                                ),
+                              ),
+                              const SizedBox(width: 4),
+                              Text(
+                                isFav ? 'Enregistré' : 'Favori',
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w600,
+                                  color: isFav
+                                      ? const Color(0xFFEF4444)
+                                      : const Color(0xFF6B7280),
+                                ),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ),
+                      );
+                    }),
                   ],
                 ),
               ),
 
               const SizedBox(height: 10),
 
-              // ── DESCRIPTION (LaTeX rendered) ─────────────────
+              // ── DESCRIPTION ──────────────────────────────────
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: _LatexDescription(text: post.description),
@@ -141,8 +177,8 @@ class PostCard extends StatelessWidget {
 
               const SizedBox(height: 10),
 
-              // ── MEDIA ────────────────────────────────────────
-              if (post.media.isNotEmpty) _MediaRow(media: post.media),
+              // ── MEDIA (4:5 ratio, full-screen on tap) ────────
+              if (post.media.isNotEmpty) _MediaSection(media: post.media),
 
               const SizedBox(height: 8),
 
@@ -218,7 +254,7 @@ class PostCard extends StatelessWidget {
   }
 }
 
-// ── LaTeX Description ────────────────────────────────────────────────────────
+// ── LaTeX Description ─────────────────────────────────────────────────────────
 
 class _LatexDescription extends StatefulWidget {
   final String text;
@@ -262,17 +298,17 @@ class _LatexDescriptionState extends State<_LatexDescription> {
   }
 }
 
-// ── Media Row ────────────────────────────────────────────────────────────────
+// ── Media Section (4:5 ratio + full-screen viewer) ────────────────────────────
 
-class _MediaRow extends StatefulWidget {
+class _MediaSection extends StatefulWidget {
   final List<Map<String, String>> media;
-  const _MediaRow({required this.media});
+  const _MediaSection({required this.media});
 
   @override
-  State<_MediaRow> createState() => _MediaRowState();
+  State<_MediaSection> createState() => _MediaSectionState();
 }
 
-class _MediaRowState extends State<_MediaRow> {
+class _MediaSectionState extends State<_MediaSection> {
   int _page = 0;
   late final PageController _pc;
 
@@ -288,21 +324,42 @@ class _MediaRowState extends State<_MediaRow> {
     super.dispose();
   }
 
+  void _openViewer(BuildContext context, int initialIndex) {
+    Navigator.of(context).push(
+      PageRouteBuilder(
+        opaque: false,
+        barrierColor: Colors.black,
+        pageBuilder: (_, __, ___) => _FullScreenViewer(
+          media: widget.media,
+          initialIndex: initialIndex,
+        ),
+        transitionsBuilder: (_, animation, __, child) {
+          return FadeTransition(opacity: animation, child: child);
+        },
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final n = widget.media.length;
     return Column(
       children: [
         AspectRatio(
-          aspectRatio: 16 / 9,
+          aspectRatio: 4 / 4,
           child: n == 1
-              ? _buildImage(widget.media.first['url'] ?? '')
+              ? GestureDetector(
+                  onTap: () => _openViewer(context, 0),
+                  child: _buildImage(widget.media.first['url'] ?? ''),
+                )
               : PageView.builder(
                   controller: _pc,
                   itemCount: n,
                   onPageChanged: (i) => setState(() => _page = i),
-                  itemBuilder: (_, i) =>
-                      _buildImage(widget.media[i]['url'] ?? ''),
+                  itemBuilder: (_, i) => GestureDetector(
+                    onTap: () => _openViewer(context, i),
+                    child: _buildImage(widget.media[i]['url'] ?? ''),
+                  ),
                 ),
         ),
         if (n > 1)
@@ -357,6 +414,201 @@ class _MediaRowState extends State<_MediaRow> {
   }
 }
 
+// ── Full-Screen Viewer ────────────────────────────────────────────────────────
+
+class _FullScreenViewer extends StatefulWidget {
+  final List<Map<String, String>> media;
+  final int initialIndex;
+
+  const _FullScreenViewer({
+    required this.media,
+    required this.initialIndex,
+  });
+
+  @override
+  State<_FullScreenViewer> createState() => _FullScreenViewerState();
+}
+
+class _FullScreenViewerState extends State<_FullScreenViewer> {
+  late int _current;
+  late final PageController _pc;
+
+  @override
+  void initState() {
+    super.initState();
+    _current = widget.initialIndex;
+    _pc = PageController(initialPage: widget.initialIndex);
+  }
+
+  @override
+  void dispose() {
+    _pc.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final n = widget.media.length;
+    return Scaffold(
+      backgroundColor: Colors.black,
+      body: Stack(
+        children: [
+          PageView.builder(
+            controller: _pc,
+            itemCount: n,
+            onPageChanged: (i) => setState(() => _current = i),
+            itemBuilder: (_, i) {
+              final url = widget.media[i]['url'] ?? '';
+              return InteractiveViewer(
+                minScale: 0.8,
+                maxScale: 5.0,
+                child: Center(
+                  child: CachedNetworkImage(
+                    imageUrl: url,
+                    fit: BoxFit.contain,
+                    placeholder: (_, __) => const Center(
+                      child: CircularProgressIndicator(
+                        color: Colors.white,
+                        strokeWidth: 2,
+                      ),
+                    ),
+                    errorWidget: (_, __, ___) => const Icon(
+                      Icons.broken_image_outlined,
+                      color: Colors.white54,
+                      size: 48,
+                    ),
+                  ),
+                ),
+              );
+            },
+          ),
+          SafeArea(
+            child: Align(
+              alignment: Alignment.topRight,
+              child: Padding(
+                padding: const EdgeInsets.all(12),
+                child: GestureDetector(
+                  onTap: () => Navigator.of(context).pop(),
+                  child: Container(
+                    width: 36,
+                    height: 36,
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.55),
+                      shape: BoxShape.circle,
+                    ),
+                    child: const Icon(
+                      Icons.close_rounded,
+                      color: Colors.white,
+                      size: 20,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          if (n > 1)
+            SafeArea(
+              child: Align(
+                alignment: Alignment.topCenter,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 16),
+                  child: Container(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(0.50),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Text(
+                      '${_current + 1} / $n',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          if (n == 1 || _current == 0) const _ZoomHint(),
+        ],
+      ),
+    );
+  }
+}
+
+// ── Zoom Hint ────────────────────────────────────────────────────────────────
+
+class _ZoomHint extends StatefulWidget {
+  const _ZoomHint();
+
+  @override
+  State<_ZoomHint> createState() => _ZoomHintState();
+}
+
+class _ZoomHintState extends State<_ZoomHint>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _ctrl;
+  late final Animation<double> _opacity;
+
+  @override
+  void initState() {
+    super.initState();
+    _ctrl = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 600),
+    );
+    _opacity = Tween<double>(begin: 1, end: 0).animate(
+      CurvedAnimation(parent: _ctrl, curve: Curves.easeOut),
+    );
+    Future.delayed(const Duration(milliseconds: 1800), () {
+      if (mounted) _ctrl.forward();
+    });
+  }
+
+  @override
+  void dispose() {
+    _ctrl.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.bottomCenter,
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 32),
+        child: FadeTransition(
+          opacity: _opacity,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
+            decoration: BoxDecoration(
+              color: Colors.black.withOpacity(0.50),
+              borderRadius: BorderRadius.circular(20),
+            ),
+            child: const Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.zoom_in_rounded, color: Colors.white, size: 16),
+                SizedBox(width: 6),
+                Text(
+                  'Pincez pour zoomer',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 12,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 // ── Action Button ─────────────────────────────────────────────────────────────
 
 class _ActionBtn extends StatelessWidget {
@@ -395,9 +647,14 @@ class _ActionBtn extends StatelessWidget {
                 child: Icon(icon, size: 20, color: color),
               ),
               const SizedBox(width: 6),
-              Text(label,
-                  style: TextStyle(
-                      fontSize: 13, fontWeight: FontWeight.w600, color: color)),
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                  color: color,
+                ),
+              ),
             ],
           ),
         ),

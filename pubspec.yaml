@@ -45,6 +45,9 @@ dependencies:
   shared_preferences: ^2.5.5
   video_player: ^2.11.1
   supabase_flutter: ^2.12.2
+  flutter_math_fork: ^0.7.4
+  flutter_tex: ^5.2.7
+  shimmer: ^3.0.0
 
   # syncfusion_flutter_pdfviewer: ^24.2.3
   # syncfusion_flutter_pdfviewer: ^24.2.3

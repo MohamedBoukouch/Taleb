@@ -1,4 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"> 
+    
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:label="taleb"
         android:name="${applicationName}"
@@ -19,13 +21,22 @@
               android:name="io.flutter.embedding.android.NormalTheme"
               android:resource="@style/NormalTheme"
               />
+              
+              <!-- LAUNCHER (app start) -->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+             <!-- 🔥 DEEP LINK (Google OAuth callback) -->
+            <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="com.taleb.app" android:host="login-callback" />
+
+                <data
+                    android:scheme="com.taleb.app"
+                    android:host="login-callback" />
             </intent-filter>
 
         </activity>

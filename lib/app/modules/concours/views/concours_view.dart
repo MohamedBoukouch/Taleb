@@ -1,177 +1,84 @@
-// import 'package:flutter/material.dart';
-// import 'package:get/get.dart';
-// import 'package:taleb/app/config/constants/app_constant.dart';
-// import 'package:taleb/app/config/themes/app_theme.dart';
-// import 'package:taleb/app/modules/initial/views/init_view.dart';
-// import 'package:taleb/app/modules/concours/cnc_pages/authers.dart';
-// import 'package:taleb/app/modules/concours/cnc_pages/bac+2.dart';
-// import 'package:taleb/app/modules/concours/cnc_pages/bac+3.dart';
-// import 'package:taleb/app/modules/concours/cnc_pages/bac.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:taleb/app/modules/concours/controllers/concours_controller.dart';
+import 'package:taleb/app/modules/concours/widgets/concours_widgets.dart';
 
-// import '../../../shared/back.dart';
+class ConcoursView extends StatelessWidget {
+  const ConcoursView({Key? key}) : super(key: key);
 
-// class ConcoursView extends StatefulWidget {
-//   const ConcoursView({Key? key}) : super(key: key);
+  @override
+  Widget build(BuildContext context) {
+    final controller = Get.put(ConcoursController());
+    final isDark = Theme.of(context).brightness == Brightness.dark;
 
-//   @override
-//   State<ConcoursView> createState() => _ConcoursViewState();
-// }
+    return Scaffold(
+      backgroundColor:
+          isDark ? const Color(0xFF0F1117) : const Color(0xFFF4F6FB),
+      body: SafeArea(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Search Bar
+            ConcoursSearchBar(controller: controller, isDark: isDark),
 
-// class _ConcoursViewState extends State<ConcoursView> {
-//   int ctr = 0;
+            // Niveau Filter
+            NiveauChips(controller: controller, isDark: isDark),
 
-//   Widget container() {
-//     return Container(
-//         // Your container content goes here
-//         );
-//   }
+            // Domaine Filter (Spécialité)
+            DomaineChips(controller: controller, isDark: isDark),
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return InitialView(
-//       selectedindex: 1,
-//       appbar: AppBar(
-//         title: Text(
-//           'councoures'.tr,
-//           style: TextStyle(fontFamily: 'Bitter'),
-//         ),
-//         leading: ButtonBack(),
-//         // centerTitle: true,
-//       ),
-//       body: Container(
-//         padding: EdgeInsets.only(left: 10, right: 10, top: 20),
-//         child: Column(
-//           children: [
-//             Container(
-//               padding: EdgeInsets.only(left: AppConstant.screenWidth * .05),
-//               child: Row(
-//                 mainAxisSize: MainAxisSize.max,
-//                 children: [
-//                   Expanded(
-//                     child: InkWell(
-//                       onTap: () {
-//                         setState(() {
-//                           ctr = 0;
-//                         });
-//                       },
-//                       child: Container(
-//                         width: 10,
-//                         height: 40,
-//                         decoration: BoxDecoration(
-//                             color: ctr == 0 ? AppTheme.main_color_1 : null,
-//                             borderRadius: BorderRadius.circular(10)),
-//                         child: Center(
-//                           child: Text(
-//                             "Bac",
-//                             style: TextStyle(
-//                                 fontSize: 17,
-//                                 color: ctr == 0 ? Colors.white : Colors.black,
-//                                 fontFamily: 'Bitter'),
-//                           ),
-//                         ),
-//                       ),
-//                     ),
-//                   ),
-//                   const SizedBox(
-//                     width: 10,
-//                   ),
-//                   Expanded(
-//                     child: InkWell(
-//                       onTap: () {
-//                         setState(() {
-//                           ctr = 1;
-//                         });
-//                       },
-//                       child: Container(
-//                         width: 10,
-//                         height: 40,
-//                         decoration: BoxDecoration(
-//                             color: ctr == 1 ? AppTheme.main_color_1 : null,
-//                             borderRadius: BorderRadius.circular(10)),
-//                         child: Center(
-//                           child: Text(
-//                             "BAC+2",
-//                             style: TextStyle(
-//                                 fontSize: 17,
-//                                 color: ctr == 1 ? Colors.white : Colors.black,
-//                                 fontFamily: 'Bitter'),
-//                           ),
-//                         ),
-//                       ),
-//                     ),
-//                   ),
-//                   const SizedBox(
-//                     width: 10,
-//                   ),
-//                   Expanded(
-//                     child: InkWell(
-//                       onTap: () {
-//                         setState(() {
-//                           ctr = 2;
-//                         });
-//                       },
-//                       child: Container(
-//                         width: 10,
-//                         height: 40,
-//                         decoration: BoxDecoration(
-//                             color: ctr == 2 ? AppTheme.main_color_1 : null,
-//                             borderRadius: BorderRadius.circular(10)),
-//                         child: Center(
-//                           child: Text(
-//                             "BAC+3",
-//                             style: TextStyle(
-//                                 fontSize: 17,
-//                                 color: ctr == 2 ? Colors.white : Colors.black,
-//                                 fontFamily: 'Bitter'),
-//                           ),
-//                         ),
-//                       ),
-//                     ),
-//                   ),
-//                   const SizedBox(
-//                     width: 10,
-//                   ),
-//                   Expanded(
-//                     child: InkWell(
-//                       onTap: () {
-//                         setState(() {
-//                           ctr = 3;
-//                         });
-//                       },
-//                       child: Container(
-//                         width: 10,
-//                         height: 40,
-//                         decoration: BoxDecoration(
-//                             color: ctr == 3 ? AppTheme.main_color_1 : null,
-//                             borderRadius: BorderRadius.circular(10)),
-//                         child: Center(
-//                           child: Text(
-//                             "Autre",
-//                             style: TextStyle(
-//                                 fontSize: 17,
-//                                 color: ctr == 3 ? Colors.white : Colors.black,
-//                                 fontFamily: 'Bitter'),
-//                           ),
-//                         ),
-//                       ),
-//                     ),
-//                   ),
-//                 ],
-//               ),
-//             ),
-//             SizedBox(
-//               height: 20,
-//             ),
-//             ctr == 0
-//                 ? Bac()
-//                 : ctr == 1
-//                     ? Bac2()
-//                     : ctr == 2
-//                         ? Bac3()
-//                         : Authers()
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
+            // Type Filter
+            TypeFilters(controller: controller, isDark: isDark),
+
+            // Result Count
+            ResultCount(controller: controller, isDark: isDark),
+
+            // List
+            Expanded(
+              child: Obx(() {
+                if (controller.isLoading.value) {
+                  return ConcoursLoading(isDark: isDark);
+                }
+
+                if (controller.hasError.value) {
+                  return ConcoursError(controller: controller, isDark: isDark);
+                }
+
+                if (controller.concours.isEmpty) {
+                  return ConcoursEmpty(isDark: isDark);
+                }
+
+                return RefreshIndicator(
+                  color: const Color(0xFF6366F1),
+                  onRefresh: controller.fetchConcours,
+                  child: ListView.builder(
+                    padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
+                    itemCount: controller.concours.length,
+                    itemBuilder: (context, i) {
+                      return TweenAnimationBuilder<double>(
+                        tween: Tween(begin: 0, end: 1),
+                        duration: Duration(milliseconds: 300 + i * 60),
+                        curve: Curves.easeOutCubic,
+                        builder: (_, v, child) => Opacity(
+                          opacity: v,
+                          child: Transform.translate(
+                            offset: Offset(0, 20 * (1 - v)),
+                            child: child,
+                          ),
+                        ),
+                        child: ConcoursCard(
+                          concours: controller.concours[i],
+                          isDark: isDark,
+                        ),
+                      );
+                    },
+                  ),
+                );
+              }),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

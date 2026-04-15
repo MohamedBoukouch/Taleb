@@ -1,8 +1,11 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:taleb/app/data/Api/post_service.dart';
+import 'package:taleb/app/data/Api/favorite_service.dart'; // Nouveau
 
 class HomeController extends GetxController {
-  final PostService _service = PostService();
+  final PostService _postService = PostService();
+  final FavoriteService _favoriteService = FavoriteService(); // Nouveau
 
   final RxList<PostData> posts = <PostData>[].obs;
   final RxBool isLoading = false.obs;
@@ -10,11 +13,14 @@ class HomeController extends GetxController {
   final RxString errorMessage = ''.obs;
   final RxSet<String> likedIds = <String>{}.obs;
 
+  // ✅ NOUVEAU: Set pour stocker les IDs des posts favoris
+  final RxSet<String> favoriteIds = <String>{}.obs;
+
   @override
   void onInit() {
     super.onInit();
     fetchPosts();
-    // ✅ Safe stubs — no longer call local server
+    fetchUserFavorites(); // ✅ Charger les favoris au démarrage
     _initNotifications();
     _initMessages();
     _initSliders();
@@ -28,7 +34,7 @@ class HomeController extends GetxController {
     errorMessage.value = '';
 
     try {
-      final result = await _service.fetchPosts();
+      final result = await _postService.fetchPosts();
       posts.assignAll(result);
     } catch (e) {
       hasError.value = true;
@@ -38,43 +44,87 @@ class HomeController extends GetxController {
     }
   }
 
+  // ── Likes ────────────────────────────────────────────────────────────────
+
   Future<void> toggleLike(String postId) async {
     if (likedIds.contains(postId)) {
       likedIds.remove(postId);
     } else {
       likedIds.add(postId);
-      await _service.likePost(postId);
+      await _postService.likePost(postId);
     }
   }
 
   bool isLiked(String postId) => likedIds.contains(postId);
 
-  // ── Stubs (replace with real Supabase calls later) ───────────────────────
+  // ── FAVORIS (NOUVEAU) ────────────────────────────────────────────────────
 
-  void _initNotifications() {
-    // TODO: replace with Supabase query when ready
-    // was calling http://10.0.2.2:8000 — removed
+  /// Charge les favoris de l'utilisateur connecté
+  Future<void> fetchUserFavorites() async {
+    try {
+      final favorites = await _favoriteService.fetchFavorites();
+      // Extraire les post_id des favoris
+      favoriteIds.assignAll(
+        favorites.map((f) => f.postId).toSet(),
+      );
+    } catch (e) {
+      debugPrint('Error loading favorites: $e');
+    }
   }
 
-  void _initMessages() {
-    // TODO: replace with Supabase query when ready
+  /// Vérifie si un post est dans les favoris
+  bool isFavorite(String postId) => favoriteIds.contains(postId);
+
+  /// Ajoute/Retire un post des favoris
+  Future<void> toggleFavorite(String postId) async {
+    try {
+      if (isFavorite(postId)) {
+        // Retirer des favoris
+        await _favoriteService.removeFavoriteByPostId(postId);
+        favoriteIds.remove(postId);
+
+        Get.snackbar(
+          'Retiré',
+          'Supprimé des favoris',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.black87,
+          colorText: Colors.white,
+          duration: const Duration(seconds: 1),
+          margin: const EdgeInsets.all(12),
+        );
+      } else {
+        // Ajouter aux favoris
+        await _favoriteService.addFavorite(postId);
+        favoriteIds.add(postId);
+
+        Get.snackbar(
+          'Ajouté',
+          'Sauvegardé dans vos favoris',
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: const Color(0xFF6366F1),
+          colorText: Colors.white,
+          duration: const Duration(seconds: 1),
+          margin: const EdgeInsets.all(12),
+        );
+      }
+    } catch (e) {
+      Get.snackbar(
+        'Erreur',
+        'Impossible de modifier les favoris',
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red.shade700,
+        colorText: Colors.white,
+      );
+    }
   }
 
-  void _initSliders() {
-    // TODO: replace with Supabase query when ready
-  }
+  // ── Stubs ────────────────────────────────────────────────────────────────
 
-  // ── Keep these if other parts of your app call them ──────────────────────
+  void _initNotifications() {}
+  void _initMessages() {}
+  void _initSliders() {}
 
-  Future<void> activenotification() async {
-    // Safe no-op until you wire up the real endpoint
-  }
-
-  Future<void> activemessages() async {
-    // Safe no-op until you wire up the real endpoint
-  }
-
-  Future<void> FetchSlider() async {
-    // Safe no-op until you wire up the real endpoint
-  }
+  Future<void> activenotification() async {}
+  Future<void> activemessages() async {}
+  Future<void> FetchSlider() async {}
 }

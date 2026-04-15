@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:taleb/app/modules/concours/views/concours_view.dart';
+import 'package:taleb/app/modules/favorite/views/favorite_view.dart';
 import 'package:taleb/app/modules/home/controllers/home_controller.dart';
 import 'package:taleb/app/modules/home/widgets/post_card.dart';
 import 'package:taleb/app/modules/notification/views/notification_view.dart';
@@ -43,7 +45,7 @@ class _HomeViewState extends State<HomeView> {
           BottomNavigationBarItem(
               icon: Icon(Icons.emoji_events_rounded), label: 'Concours'),
           BottomNavigationBarItem(
-              icon: Icon(Icons.leaderboard_rounded), label: 'Classement'),
+              icon: Icon(Icons.leaderboard_rounded), label: 'Favoris'),
           BottomNavigationBarItem(
               icon: Icon(Icons.person_rounded), label: 'Profil'),
         ],
@@ -56,9 +58,9 @@ class _HomeViewState extends State<HomeView> {
       case 0:
         return _buildFeed();
       case 1:
-        return _buildPlaceholder();
+        return ConcoursView();
       case 2:
-        return _buildPlaceholder();
+        return FavoriteView();
       case 3:
         return const SettingView();
       default:
