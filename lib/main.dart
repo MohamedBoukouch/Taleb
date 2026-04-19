@@ -7,6 +7,7 @@ import 'package:taleb/app/config/services/services.dart';
 import 'package:taleb/app/config/translations/localization/changelocal.dart';
 import 'package:taleb/app/config/translations/localization/my_translation.dart';
 import 'package:taleb/app/data/binding/initialbinding.dart';
+import 'package:taleb/app/modules/favorite/controllers/favorite_controller.dart';
 import 'package:taleb/app/modules/login/views/login_view.dart';
 import 'package:taleb/firebase_options.dart';
 import 'app/routes/app_pages.dart';
@@ -15,7 +16,7 @@ late SharedPreferences sharedpref;
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  Get.put(FavoriteController(), permanent: true);
   await initialServices();
   sharedpref = await SharedPreferences.getInstance();
   localeController controller = Get.put(localeController());

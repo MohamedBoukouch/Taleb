@@ -1,106 +1,131 @@
 import 'package:flutter/material.dart';
 
-enum ConcoursType { public, private, international, regional }
+// ✅ Fixed: enum values match your actual DB data ('Cycle', 'Master', etc.)
+enum ConcoursType {
+  cycle,
+  master,
+  licence,
+  doctorat,
+  other;
+
+  static ConcoursType fromString(String? value) {
+    if (value == null) return ConcoursType.other;
+    switch (value.toLowerCase()) {
+      case 'cycle':
+        return ConcoursType.cycle;
+      case 'master':
+        return ConcoursType.master;
+      case 'licence':
+        return ConcoursType.licence;
+      case 'doctorat':
+        return ConcoursType.doctorat;
+      default:
+        return ConcoursType.other;
+    }
+  }
+
+  String get displayName {
+    switch (this) {
+      case ConcoursType.cycle:
+        return 'Cycle';
+      case ConcoursType.master:
+        return 'Master';
+      case ConcoursType.licence:
+        return 'Licence';
+      case ConcoursType.doctorat:
+        return 'Doctorat';
+      case ConcoursType.other:
+        return 'Autre';
+    }
+  }
+}
 
 class Concours {
-  final String id;
+  final String? id;
   final String title;
-  final String? organisme;
   final String niveau;
   final ConcoursType type;
   final String domaine;
-  final DateTime? deadline;
-  final String? wilaya;
-  final int? postes;
   final String url;
+  final DateTime? examDate;
   final DateTime createdAt;
-  final bool isFavorite;
 
-  const Concours({
-    required this.id,
+  Concours({
+    this.id,
     required this.title,
-    this.organisme,
     required this.niveau,
     required this.type,
     required this.domaine,
-    this.deadline,
-    this.wilaya,
-    this.postes,
     required this.url,
+    this.examDate,
     required this.createdAt,
-    this.isFavorite = false,
   });
 
   factory Concours.fromJson(Map<String, dynamic> json) {
-    // Parse type
-    ConcoursType parseType(String? t) {
-      switch (t?.toLowerCase()) {
-        case 'private':
-          return ConcoursType.private;
-        case 'international':
-          return ConcoursType.international;
-        case 'regional':
-          return ConcoursType.regional;
-        case 'public':
-        default:
-          return ConcoursType.public;
-      }
-    }
-
-    // Parse deadline (si tu ajoutes ce champ plus tard dans Supabase)
-    DateTime? parseDeadline(dynamic d) {
-      if (d == null) return null;
-      if (d is String) {
-        try {
-          return DateTime.parse(d);
-        } catch (_) {
-          return null;
-        }
-      }
-      return null;
-    }
-
     return Concours(
-      id: json['id'] as String,
+      id: json['id'] as String?,
       title: json['title'] as String? ?? '',
-      organisme: json['organisme'] as String?,
-      niveau: (json['niveau'] as String? ?? 'bac').toLowerCase(),
-      type: parseType(json['type'] as String?),
-      domaine: (json['domaine'] as String? ?? 'général').toLowerCase(),
-      deadline: parseDeadline(json['deadline']),
-      wilaya: json['wilaya'] as String?,
-      postes: json['postes'] as int?,
+      niveau: json['niveau'] as String? ?? '',
+      // ✅ Fixed: use fromString to safely parse type
+      type: ConcoursType.fromString(json['type'] as String?),
+      // ✅ Fixed: domaine can be null in your DB
+      domaine: json['domaine'] as String? ?? 'Non spécifié',
       url: json['url'] as String? ?? '',
-      createdAt: DateTime.tryParse(json['created_at'] as String? ?? '') ??
-          DateTime.now(),
+      examDate: json['exam_date'] != null
+          ? DateTime.tryParse(json['exam_date'] as String)
+          : null,
+      // ✅ Fixed: created_at field name (snake_case from Supabase)
+      createdAt: json['created_at'] != null
+          ? DateTime.tryParse(json['created_at'] as String) ?? DateTime.now()
+          : DateTime.now(),
     );
   }
 
-  // Helper pour couleur par domaine
-  Color get domaineColor {
-    final colors = {
-      'informatique': const Color(0xFF1565C0),
-      'médecine': const Color(0xFF1A6B4A),
-      'finance': const Color(0xFF00695C),
-      'éducation': const Color(0xFF6A1B9A),
-      'agriculture': const Color(0xFF558B2F),
-      'génie civil': const Color(0xFF5D4037),
-      'électricité': const Color(0xFFF57C00),
-      'mécanique': const Color(0xFF455A64),
-      'droit': const Color(0xFFAD1457),
-      'commerce': const Color(0xFF00838F),
+  Map<String, dynamic> toJson() {
+    return {
+      'title': title,
+      'niveau': niveau,
+      'type': type.name,
+      'domaine': domaine,
+      'url': url,
+      'exam_date': examDate?.toIso8601String(),
     };
-    return colors[domaine.toLowerCase()] ?? const Color(0xFF6366F1);
   }
 
+  // ✅ Color based on domaine
+  Color get domaineColor {
+    switch (domaine.toLowerCase()) {
+      case 'informatique':
+        return const Color(0xFF6366F1);
+      case 'médecine':
+        return const Color(0xFFEF4444);
+      case 'finance':
+        return const Color(0xFFF59E0B);
+      case 'éducation':
+        return const Color(0xFF10B981);
+      case 'agriculture':
+        return const Color(0xFF84CC16);
+      case 'génie civil':
+        return const Color(0xFF8B5CF6);
+      case 'électricité':
+        return const Color(0xFFF97316);
+      case 'mécanique':
+        return const Color(0xFF06B6D4);
+      case 'droit':
+        return const Color(0xFFEC4899);
+      case 'commerce':
+        return const Color(0xFF14B8A6);
+      default:
+        return const Color(0xFF6B7280);
+    }
+  }
+
+  // ✅ Logo initial from title
   String get logoInitial {
-    if (title.isEmpty) return '?';
-    final words = title.split(' ');
+    final words = title.trim().split(' ');
     if (words.length >= 2) {
       return '${words[0][0]}${words[1][0]}'.toUpperCase();
     }
-    return title.substring(0, min(2, title.length)).toUpperCase();
+    return title.isNotEmpty ? title.substring(0, 2).toUpperCase() : '??';
   }
-
-  static int min(int a, int b) => a < b ? a : b;
 }

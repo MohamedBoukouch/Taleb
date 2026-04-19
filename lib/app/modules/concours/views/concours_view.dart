@@ -2,14 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:taleb/app/modules/concours/controllers/concours_controller.dart';
 import 'package:taleb/app/modules/concours/widgets/concours_widgets.dart';
+import 'package:taleb/app/modules/favorite/controllers/favorite_controller.dart';
 
 class ConcoursView extends StatelessWidget {
   const ConcoursView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    // ✅ Use Get.find if registered via binding, Get.put otherwise
     final controller = Get.put(ConcoursController());
     final isDark = Theme.of(context).brightness == Brightness.dark;
+
+    // Register FavoriteController if not already registered
+    if (!Get.isRegistered<FavoriteController>()) {
+      Get.put(FavoriteController());
+    }
 
     return Scaffold(
       backgroundColor:
@@ -18,58 +25,42 @@ class ConcoursView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Search Bar
             ConcoursSearchBar(controller: controller, isDark: isDark),
-
-            // Niveau Filter
             NiveauChips(controller: controller, isDark: isDark),
-
-            // Domaine Filter (Spécialité)
             DomaineChips(controller: controller, isDark: isDark),
-
-            // Type Filter
             TypeFilters(controller: controller, isDark: isDark),
-
-            // Result Count
             ResultCount(controller: controller, isDark: isDark),
-
-            // List
             Expanded(
               child: Obx(() {
-                if (controller.isLoading.value) {
+                if (controller.isLoading.value &&
+                    controller.concoursList.isEmpty) {
                   return ConcoursLoading(isDark: isDark);
                 }
 
                 if (controller.hasError.value) {
-                  return ConcoursError(controller: controller, isDark: isDark);
+                  return ConcoursError(
+                    controller: controller,
+                    isDark: isDark,
+                    onRetry: controller.fetchConcours,
+                  );
                 }
 
-                if (controller.concours.isEmpty) {
+                if (controller.concoursList.isEmpty) {
                   return ConcoursEmpty(isDark: isDark);
                 }
 
                 return RefreshIndicator(
                   color: const Color(0xFF6366F1),
-                  onRefresh: controller.fetchConcours,
+                  onRefresh: controller.refresh,
                   child: ListView.builder(
                     padding: const EdgeInsets.fromLTRB(20, 0, 20, 24),
-                    itemCount: controller.concours.length,
+                    itemCount: controller.concoursList.length,
                     itemBuilder: (context, i) {
-                      return TweenAnimationBuilder<double>(
-                        tween: Tween(begin: 0, end: 1),
-                        duration: Duration(milliseconds: 300 + i * 60),
-                        curve: Curves.easeOutCubic,
-                        builder: (_, v, child) => Opacity(
-                          opacity: v,
-                          child: Transform.translate(
-                            offset: Offset(0, 20 * (1 - v)),
-                            child: child,
-                          ),
-                        ),
-                        child: ConcoursCard(
-                          concours: controller.concours[i],
-                          isDark: isDark,
-                        ),
+                      final concours = controller.concoursList[i];
+                      return AnimatedConcoursCard(
+                        concours: concours,
+                        isDark: isDark,
+                        index: i,
                       );
                     },
                   ),
@@ -78,6 +69,40 @@ class ConcoursView extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class AnimatedConcoursCard extends StatelessWidget {
+  final dynamic concours;
+  final bool isDark;
+  final int index;
+
+  const AnimatedConcoursCard({
+    Key? key,
+    required this.concours,
+    required this.isDark,
+    required this.index,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0, end: 1),
+      // ✅ Cap animation delay so it doesn't get too slow for long lists
+      duration: Duration(milliseconds: 250 + (index.clamp(0, 10) * 50)),
+      curve: Curves.easeOutCubic,
+      builder: (_, v, child) => Opacity(
+        opacity: v,
+        child: Transform.translate(
+          offset: Offset(0, 20 * (1 - v)),
+          child: child,
+        ),
+      ),
+      child: ConcoursCard(
+        concours: concours,
+        isDark: isDark,
       ),
     );
   }

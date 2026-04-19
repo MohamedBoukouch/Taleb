@@ -4,11 +4,12 @@ import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:taleb/app/config/function/latex_parser.dart';
 import 'package:taleb/app/data/Api/post_service.dart';
+import 'package:taleb/app/modules/favorite/controllers/favorite_controller.dart';
 import 'package:taleb/app/modules/home/controllers/home_controller.dart';
 
 class PostCard extends StatelessWidget {
   final PostData post;
-  final HomeController controller = Get.find();
+  final HomeController homeController = Get.find();
 
   PostCard({Key? key, required this.post}) : super(key: key);
 
@@ -45,6 +46,11 @@ class PostCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Get or create FavoriteController
+    final favCtrl = Get.isRegistered<FavoriteController>()
+        ? Get.find<FavoriteController>()
+        : Get.put(FavoriteController());
+
     return Column(
       children: [
         Container(
@@ -52,7 +58,7 @@ class PostCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // ── HEADER ──────────────────────────────────────
+              // HEADER
               Padding(
                 padding: const EdgeInsets.fromLTRB(16, 14, 16, 0),
                 child: Row(
@@ -72,7 +78,7 @@ class PostCard extends StatelessWidget {
                             color: Colors.white, size: 22),
                       ),
                     ),
-                    const SizedBox(width: 10),
+                    const SizedBox(width: 12),
                     Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -110,66 +116,58 @@ class PostCard extends StatelessWidget {
                       ),
                     ),
 
-                    // ✅ BOUTON FAVORI (remplace le container niveau)
-                    Obx(() {
-                      final isFav = controller.isFavorite(post.id);
-                      return GestureDetector(
-                        onTap: () => controller.toggleFavorite(post.id),
-                        child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 200),
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 8),
-                          decoration: BoxDecoration(
-                            color: isFav
-                                ? const Color(0xFFFEE2E2)
-                                : const Color(0xFFF3F4F6),
-                            borderRadius: BorderRadius.circular(20),
-                            border: Border.all(
-                              color: isFav
-                                  ? const Color(0xFFEF4444)
-                                  : const Color(0xFFE5E7EB),
-                              width: 1,
+                    // FAVORITE BUTTON - Concours Style
+
+                    Obx(
+                      () {
+                        final isFav = favCtrl.isFavorited(post.id,
+                            type: 'post'); // ✅ type param
+
+                        return GestureDetector(
+                          // ✅ Single source of truth — only FavoriteController
+                          onTap: () => favCtrl.toggleFavorite(post.id, 'post'),
+                          child: TweenAnimationBuilder<double>(
+                            tween: Tween(begin: 1.0, end: isFav ? 1.2 : 1.0),
+                            duration: const Duration(milliseconds: 200),
+                            curve: Curves.elasticOut,
+                            builder: (_, scale, child) =>
+                                Transform.scale(scale: scale, child: child),
+                            child: AnimatedContainer(
+                              duration: const Duration(milliseconds: 250),
+                              width: 36,
+                              height: 36,
+                              decoration: BoxDecoration(
+                                color: isFav
+                                    ? const Color(0xFFEF4444).withOpacity(0.1)
+                                    : const Color(0xFFF9FAFB),
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(
+                                  color: isFav
+                                      ? const Color(0xFFEF4444).withOpacity(0.5)
+                                      : const Color(0xFFE5E7EB),
+                                ),
+                              ),
+                              child: Icon(
+                                isFav
+                                    ? Icons.favorite_rounded
+                                    : Icons.favorite_border_rounded,
+                                size: 18,
+                                color: isFav
+                                    ? const Color(0xFFEF4444)
+                                    : const Color(0xFFCBD5E1),
+                              ),
                             ),
                           ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              AnimatedSwitcher(
-                                duration: const Duration(milliseconds: 200),
-                                child: Icon(
-                                  isFav
-                                      ? Icons.favorite_rounded
-                                      : Icons.favorite_border_rounded,
-                                  key: ValueKey<bool>(isFav),
-                                  size: 16,
-                                  color: isFav
-                                      ? const Color(0xFFEF4444)
-                                      : const Color(0xFF9CA3AF),
-                                ),
-                              ),
-                              const SizedBox(width: 4),
-                              Text(
-                                isFav ? 'Enregistré' : 'Favori',
-                                style: TextStyle(
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w600,
-                                  color: isFav
-                                      ? const Color(0xFFEF4444)
-                                      : const Color(0xFF6B7280),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    }),
+                        );
+                      },
+                    ),
                   ],
                 ),
               ),
 
               const SizedBox(height: 10),
 
-              // ── DESCRIPTION ──────────────────────────────────
+              // DESCRIPTION
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: _LatexDescription(text: post.description),
@@ -177,14 +175,14 @@ class PostCard extends StatelessWidget {
 
               const SizedBox(height: 10),
 
-              // ── MEDIA (4:5 ratio, full-screen on tap) ────────
+              // MEDIA
               if (post.media.isNotEmpty) _MediaSection(media: post.media),
 
               const SizedBox(height: 8),
 
-              // ── LIKE COUNT ───────────────────────────────────
+              // LIKE COUNT
               Obx(() {
-                final liked = controller.isLiked(post.id);
+                final liked = homeController.isLiked(post.id);
                 final total = post.likesCount + (liked ? 1 : 0);
                 if (total == 0) return const SizedBox.shrink();
                 return Padding(
@@ -215,21 +213,21 @@ class PostCard extends StatelessWidget {
                 child: Divider(height: 16, color: Color(0xFFE8E8E8)),
               ),
 
-              // ── ACTIONS ──────────────────────────────────────
+              // ACTIONS
               Padding(
                 padding: const EdgeInsets.only(left: 8, right: 8, bottom: 6),
                 child: Row(
                   children: [
                     Expanded(
                       child: Obx(() {
-                        final liked = controller.isLiked(post.id);
+                        final liked = homeController.isLiked(post.id);
                         return _ActionBtn(
                           icon: liked
                               ? Icons.thumb_up_rounded
                               : Icons.thumb_up_alt_outlined,
                           label: "J'aime",
                           active: liked,
-                          onTap: () => controller.toggleLike(post.id),
+                          onTap: () => homeController.toggleLike(post.id),
                         );
                       }),
                     ),
@@ -254,8 +252,7 @@ class PostCard extends StatelessWidget {
   }
 }
 
-// ── LaTeX Description ─────────────────────────────────────────────────────────
-
+// LATEX DESCRIPTION
 class _LatexDescription extends StatefulWidget {
   final String text;
   const _LatexDescription({required this.text});
@@ -298,8 +295,7 @@ class _LatexDescriptionState extends State<_LatexDescription> {
   }
 }
 
-// ── Media Section (4:5 ratio + full-screen viewer) ────────────────────────────
-
+// MEDIA SECTION
 class _MediaSection extends StatefulWidget {
   final List<Map<String, String>> media;
   const _MediaSection({required this.media});
@@ -398,9 +394,7 @@ class _MediaSectionState extends State<_MediaSection> {
         color: const Color(0xFFF0F0F0),
         child: const Center(
           child: CircularProgressIndicator(
-            strokeWidth: 2,
-            color: Color(0xFF0A66C2),
-          ),
+              strokeWidth: 2, color: Color(0xFF0A66C2)),
         ),
       ),
       errorWidget: (_, __, ___) => const ColoredBox(
@@ -414,16 +408,12 @@ class _MediaSectionState extends State<_MediaSection> {
   }
 }
 
-// ── Full-Screen Viewer ────────────────────────────────────────────────────────
-
+// FULL SCREEN VIEWER
 class _FullScreenViewer extends StatefulWidget {
   final List<Map<String, String>> media;
   final int initialIndex;
 
-  const _FullScreenViewer({
-    required this.media,
-    required this.initialIndex,
-  });
+  const _FullScreenViewer({required this.media, required this.initialIndex});
 
   @override
   State<_FullScreenViewer> createState() => _FullScreenViewerState();
@@ -468,9 +458,7 @@ class _FullScreenViewerState extends State<_FullScreenViewer> {
                     fit: BoxFit.contain,
                     placeholder: (_, __) => const Center(
                       child: CircularProgressIndicator(
-                        color: Colors.white,
-                        strokeWidth: 2,
-                      ),
+                          color: Colors.white, strokeWidth: 2),
                     ),
                     errorWidget: (_, __, ___) => const Icon(
                       Icons.broken_image_outlined,
@@ -496,11 +484,8 @@ class _FullScreenViewerState extends State<_FullScreenViewer> {
                       color: Colors.black.withOpacity(0.55),
                       shape: BoxShape.circle,
                     ),
-                    child: const Icon(
-                      Icons.close_rounded,
-                      color: Colors.white,
-                      size: 20,
-                    ),
+                    child: const Icon(Icons.close_rounded,
+                        color: Colors.white, size: 20),
                   ),
                 ),
               ),
@@ -531,86 +516,13 @@ class _FullScreenViewerState extends State<_FullScreenViewer> {
                 ),
               ),
             ),
-          if (n == 1 || _current == 0) const _ZoomHint(),
         ],
       ),
     );
   }
 }
 
-// ── Zoom Hint ────────────────────────────────────────────────────────────────
-
-class _ZoomHint extends StatefulWidget {
-  const _ZoomHint();
-
-  @override
-  State<_ZoomHint> createState() => _ZoomHintState();
-}
-
-class _ZoomHintState extends State<_ZoomHint>
-    with SingleTickerProviderStateMixin {
-  late final AnimationController _ctrl;
-  late final Animation<double> _opacity;
-
-  @override
-  void initState() {
-    super.initState();
-    _ctrl = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 600),
-    );
-    _opacity = Tween<double>(begin: 1, end: 0).animate(
-      CurvedAnimation(parent: _ctrl, curve: Curves.easeOut),
-    );
-    Future.delayed(const Duration(milliseconds: 1800), () {
-      if (mounted) _ctrl.forward();
-    });
-  }
-
-  @override
-  void dispose() {
-    _ctrl.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.bottomCenter,
-      child: Padding(
-        padding: const EdgeInsets.only(bottom: 32),
-        child: FadeTransition(
-          opacity: _opacity,
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
-            decoration: BoxDecoration(
-              color: Colors.black.withOpacity(0.50),
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: const Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Icon(Icons.zoom_in_rounded, color: Colors.white, size: 16),
-                SizedBox(width: 6),
-                Text(
-                  'Pincez pour zoomer',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-// ── Action Button ─────────────────────────────────────────────────────────────
-
+// ACTION BUTTON
 class _ActionBtn extends StatelessWidget {
   final IconData icon;
   final String label;

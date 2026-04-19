@@ -1,267 +1,141 @@
 import 'dart:convert';
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:quickalert/models/quickalert_type.dart';
-import 'package:quickalert/widgets/quickalert_dialog.dart';
-import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
-import 'package:taleb/app/config/constants/app_constant.dart';
-import 'package:taleb/app/config/function/functions.dart';
-import 'package:taleb/app/data/Crud.dart';
-import 'package:taleb/app/data/const_link.dart';
 import 'package:taleb/app/modules/login/views/login_view.dart';
-import 'package:taleb/app/shared/CustomAlert.dart';
-import 'package:taleb/main.dart';
 import 'package:http/http.dart' as http;
 
 class SettingController extends GetxController {
-  //TODO: Implement SettingController
-
-  final Crud _crud = Crud();
   final count = 0.obs;
-
   void increment() => count.value++;
-  List<dynamic> ListEcole = [];
 
-  //Profil
-  Future<dynamic> profil() async {
-    var response = await _crud.postRequest(link_profile, {
-      "id_user": sharedpref.getString("id"),
-    });
-    if (response['status'] == "success") {
-      print("Search sucssfule");
-      return response['data'];
-    } else {
-      print("error in search ");
-    }
+  // Observable user data from Supabase
+  var userId = ''.obs;
+  var userEmail = ''.obs;
+  var userFirstName = ''.obs;
+  var userLastName = ''.obs;
+  var userFullName = ''.obs;
+  var isLoading = true.obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    fetchUserData();
   }
 
-//edit compte
-  Future<void> edit_compte(
-      String firstname, String lastname, String email, context) async {
-    var response = await _crud.postRequest(link_edit_compte, {
-      "firstname": firstname,
-      "lastname": lastname,
-      "email": email,
-      "user_id": sharedpref.getString("id"),
-    });
-    if (response['status'] == "success") {
-      print("edit_profile succufule");
-      CustomAlert.show(
-          context: context,
-          type: AlertType.success,
-          desc: 'Your personal information has been changed successfully',
-          onPressed: () {
-            Navigator.pop(context);
-          });
-    } else {
-      print("error in edit text");
-    }
-  }
-
-  //change password
-  Future<void> changepassword(
-      String oldpassword, String newpassword, context) async {
-    var response = await _crud.postRequest(link_edit_password, {
-      "user_id": sharedpref.getString("id"),
-      "oldpassword": oldpassword,
-      "newpassword": newpassword,
-    });
-    if (response['status'] == "success") {
-      CustomAlert.show(
-          context: context,
-          type: AlertType.success,
-          desc: 'Password Changed Successfully!',
-          onPressed: () {
-            Navigator.pop(context);
-          });
-    } else {
-      CustomAlert.show(
-          context: context,
-          type: AlertType.error,
-          desc: 'Sorry, May be your password is incorrect',
-          onPressed: () {
-            Navigator.pop(context);
-          });
-    }
-  }
-
-  //Delet_Compte
-  Future<void> deletcompte(BuildContext context) async {
-    var url = Uri.parse(link_delet_compte);
-    Map<String, String> data = {
-      'id': sharedpref.getString("id") ?? '',
-    };
-    Map<String, String> headers = {
-      'Content-Type': 'application/json',
-      // Add any additional headers as needed
-    };
-
+  // Fetch user data directly from Supabase Auth
+  Future<void> fetchUserData() async {
     try {
-      final http.Response response = await http.delete(
-        url,
-        headers: headers,
-        body: jsonEncode(data),
-      );
+      isLoading.value = true;
+      final user = Supabase.instance.client.auth.currentUser;
 
-      if (response.statusCode == 200) {
-        Get.off(LoginView());
-      } else {
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: Image.asset(
-              "assets/icons/warning_icon.png",
-              width: MediaQuery.of(context).size.width * 0.2,
-            ),
-            content: const Text("Failed to delete account"),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: Text('OK'),
-              ),
-            ],
-          ),
-        );
+      if (user != null) {
+        userId.value = user.id;
+        userEmail.value = user.email ?? '';
+        userFirstName.value = user.userMetadata?['first_name'] ?? '';
+        userLastName.value = user.userMetadata?['last_name'] ?? '';
+
+        // For Google login, try to get name from full_name
+        if (userFirstName.value.isEmpty && userLastName.value.isEmpty) {
+          final fullName = user.userMetadata?['full_name'] ?? '';
+          if (fullName.isNotEmpty) {
+            final names = fullName.toString().split(' ');
+            userFirstName.value = names.first;
+            userLastName.value = names.skip(1).join(' ');
+          }
+        }
+
+        userFullName.value =
+            '${userFirstName.value} ${userLastName.value}'.trim();
       }
     } catch (e) {
-      print("Exception during account deletion: $e");
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: Image.asset(
-            "assets/icons/warning_icon.png",
-            width: MediaQuery.of(context).size.width * 0.2,
-          ),
-          content: const Text("An error occurred"),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text('OK'),
-            ),
-          ],
+      print('Error fetching user data: $e');
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  // UPDATE PASSWORD - Dynamic with current password verification
+  Future<bool> updatePassword({
+    required String currentPassword,
+    required String newPassword,
+  }) async {
+    try {
+      // First verify current password by attempting to sign in
+      final response = await Supabase.instance.client.auth.signInWithPassword(
+        email: userEmail.value,
+        password: currentPassword,
+      );
+
+      if (response.user == null) {
+        throw Exception('Current password is incorrect');
+      }
+
+      // Update password
+      await Supabase.instance.client.auth.updateUser(
+        UserAttributes(password: newPassword),
+      );
+
+      return true;
+    } catch (e) {
+      print('Error updating password: $e');
+      rethrow;
+    }
+  }
+
+  // UPDATE PROFILE - Dynamic first/last name
+  Future<bool> updateProfile({
+    required String firstName,
+    required String lastName,
+  }) async {
+    try {
+      final response = await Supabase.instance.client.auth.updateUser(
+        UserAttributes(
+          data: {
+            'first_name': firstName,
+            'last_name': lastName,
+          },
         ),
       );
-    }
-  }
-  // deletcompte(context) async {
-  //   var response = await _crud.postRequest(link_delet_compte, {
-  //     "id": sharedpref.getString("id"),
-  //   });
-  //   if (response['status'] == "success") {
-  //     print("edit_password sucssfule");
-  //     Get.off(LoginView());
-  //   } else {
-  //     print("error in edit password ");
-  //     showDialog(
-  //         context: context,
-  //         builder: (context) {
-  //           return AlertDialog(
-  //               title: Image.asset(
-  //                 "assets/icons/wairning_icon.png",
-  //                 width: AppConstant.screenWidth * .02,
-  //               ),
-  //               content: const Text("Your password is incorrect"),
-  //               actions: [
-  //                 AppFunction.cancel(),
-  //               ]);
-  //         });
-  //   }
-  // }
 
-  //Update profile
-  Future<void> add_pic_profile(File? selectedImage, dynamic context) async {
-    final uri = Uri.parse(link_add_pic_profile);
-    var request = http.MultipartRequest('POST', uri);
-    request.fields['user_id'] = "${sharedpref.getString("id")}";
-    var pic = await http.MultipartFile.fromPath("profile", selectedImage!.path);
-    request.files.add(pic);
-
-    if (selectedImage != null) {
-      var pic = await http.MultipartFile.fromPath("image", selectedImage.path);
-      request.files.add(pic);
-    }
-    try {
-      var response = await request.send();
-      if (response.statusCode == 200) {
-        Navigator.pop(context);
-
-        print("Image upload successful");
-      } else {
-        print("Error in uploading image. Status code: ${response.statusCode}");
+      if (response.user != null) {
+        // Update local observables
+        userFirstName.value = firstName;
+        userLastName.value = lastName;
+        userFullName.value = '$firstName $lastName'.trim();
+        return true;
       }
-    } catch (error) {
-      print("Error sending image request: $error");
-    }
-
-    Get.back();
-  }
-
-  //Select_Ecoles
-  Future selectecole(String type) async {
-    var response = await _crud.postRequest(link_select_ecole, {
-      "type": type,
-    });
-    if (response['status'] == "success") {
-      return response['data'];
-    } else {
-      print("error");
+      return false;
+    } catch (e) {
+      print('Error updating profile: $e');
+      rethrow;
     }
   }
 
-  //Select_Ville_Ecoles
-  Future selectvilleecole(String ecole, String type) async {
-    var response = await _crud.postRequest(link_select_ville_ecole, {
-      "ecole_id": ecole,
-      "type": type,
-    });
-    if (response['status'] == "success") {
-      return response['data'];
-    } else {
-      print("error");
-    }
+  // Refresh user data
+  Future<void> refreshUserData() async {
+    await fetchUserData();
   }
 
-  //Select_Pdf
-  Future selectpdf(String niveau, String ecole, String ville) async {
-    var response = await _crud.postRequest(link_select_pdfs, {
-      "niveau": niveau,
-      "ecole_id": ecole,
-      "ville_id": ville,
-    });
-    if (response['status'] == "success") {
-      return response['data'];
-    } else {
-      print("error");
-    }
-  }
-
-// ------------------ New Codes ------------------
-
+  // LOGOUT
   Future<void> logout() async {
     try {
-      // 1. Logout from Supabase
       await Supabase.instance.client.auth.signOut();
-
-      // 2. Clear SharedPreferences
       final prefs = await SharedPreferences.getInstance();
       await prefs.clear();
 
-      // 3. Redirect to Login and remove all routes
+      userId.value = '';
+      userEmail.value = '';
+      userFirstName.value = '';
+      userLastName.value = '';
+      userFullName.value = '';
+
       Get.offAll(() => const LoginView());
     } catch (e) {
-      Get.snackbar(
-        "Error",
-        "Logout failed",
-        snackPosition: SnackPosition.BOTTOM,
-      );
+      Get.snackbar("Error", "Logout failed",
+          snackPosition: SnackPosition.BOTTOM);
     }
   }
 }

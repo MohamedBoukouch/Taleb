@@ -1,13 +1,15 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:taleb/app/data/Api/concours_service.dart';
+import 'package:taleb/app/data/api/concours_service.dart' hide ConcoursService;
 import 'package:taleb/app/data/model/concours_model.dart';
 
 class ConcoursController extends GetxController {
   final ConcoursService _service = ConcoursService();
 
   // Observable states
-  final RxList<Concours> concours = <Concours>[].obs;
+  final RxList<Concours> concoursList = <Concours>[].obs;
   final RxBool isLoading = false.obs;
   final RxBool hasError = false.obs;
   final RxString errorMessage = ''.obs;
@@ -18,10 +20,9 @@ class ConcoursController extends GetxController {
   final Rx<ConcoursType?> selectedType = Rx<ConcoursType?>(null);
   final RxString selectedDomaine = 'Tous'.obs;
 
-  // Lists for filters
+  // ✅ niveaux must match DB values (case-insensitive via ilike, but display matters)
   final List<String> niveaux = [
     'Tous',
-    'Bac',
     'Bac+2',
     'Bac+3',
     'Bac+4',
@@ -42,19 +43,37 @@ class ConcoursController extends GetxController {
     'Commerce',
   ];
 
+  // ✅ Type options matching your actual DB values
+  final List<ConcoursType?> typeOptions = [
+    null, // = Tous
+    ConcoursType.cycle,
+    ConcoursType.master,
+    ConcoursType.licence,
+    ConcoursType.doctorat,
+  ];
+
   @override
   void onInit() {
     super.onInit();
     fetchConcours();
 
-    // Auto-refresh when filters change
-    ever(searchQuery, (_) => fetchConcours());
+    // ✅ Debounce only for search text
+    debounce(
+      searchQuery,
+      (_) => fetchConcours(),
+      time: const Duration(milliseconds: 500),
+    );
+
+    // ✅ Immediate reaction for filter changes
     ever(selectedNiveau, (_) => fetchConcours());
     ever(selectedType, (_) => fetchConcours());
     ever(selectedDomaine, (_) => fetchConcours());
   }
 
   Future<void> fetchConcours() async {
+    // ✅ Prevent simultaneous calls
+    if (isLoading.value) return;
+
     try {
       isLoading.value = true;
       hasError.value = false;
@@ -62,22 +81,33 @@ class ConcoursController extends GetxController {
 
       final result = await _service.fetchConcours(
         search: searchQuery.value.isEmpty ? null : searchQuery.value,
-        niveau: selectedNiveau.value,
+        niveau: selectedNiveau.value == 'Tous' ? null : selectedNiveau.value,
         type: selectedType.value,
-        domaine: selectedDomaine.value,
+        domaine: selectedDomaine.value == 'Tous' ? null : selectedDomaine.value,
       );
 
-      concours.value = result;
+      concoursList.assignAll(result);
     } catch (e) {
       hasError.value = true;
-      errorMessage.value = e.toString();
-      debugPrint('Error fetching concours: $e');
+      errorMessage.value = _friendlyError(e.toString());
+      debugPrint('ConcoursController error: $e');
     } finally {
       isLoading.value = false;
     }
   }
 
-  void setSearch(String value) => searchQuery.value = value;
+  String _friendlyError(String raw) {
+    if (raw.contains('Unauthorized')) {
+      return 'Erreur d\'authentification. Vérifiez votre clé API.';
+    } else if (raw.contains('Network')) {
+      return 'Pas de connexion internet.';
+    } else if (raw.contains('Table not found')) {
+      return 'Table introuvable dans la base de données.';
+    }
+    return 'Une erreur est survenue. Réessayez.';
+  }
+
+  void setSearch(String value) => searchQuery.value = value.trim();
   void setNiveau(String value) => selectedNiveau.value = value;
   void setType(ConcoursType? value) => selectedType.value = value;
   void setDomaine(String value) => selectedDomaine.value = value;
@@ -87,5 +117,8 @@ class ConcoursController extends GetxController {
     selectedNiveau.value = 'Tous';
     selectedType.value = null;
     selectedDomaine.value = 'Tous';
+    // No need to call fetchConcours() — `ever` listeners will trigger it
   }
+
+  Future<void> refresh() => fetchConcours();
 }
